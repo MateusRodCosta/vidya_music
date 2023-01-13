@@ -41,6 +41,7 @@ android {
         }
     }
     compileSdkVersion  33
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -71,13 +72,24 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            ndk {
+                debugSymbolLevel = 'FULL'
+            }
+            manifestPlaceholders = [appName: "Vidya Music"]
         }
         debug {
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
+            manifestPlaceholders = [appName: "Vidya Music (Debug)"]
         }
     }
-    namespace 'com.mateusrodcosta.apps.vidyamusic'
+
+    // Workaround possible bug on Android 6.0
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 flutter {
