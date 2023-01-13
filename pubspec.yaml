@@ -1,5 +1,5 @@
 name: vidya_music
-description: A new Flutter project.
+description: A Flutter player for the Vidya Intarweb Playlist (VIP Aersia).
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: '>=2.18.5 <3.0.0'
@@ -36,7 +36,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
   http: ^0.13.5
-  stack: ^0.2.1
   scrollable_positioned_list: ^0.3.5
   flutter_bloc: ^8.1.1
   bloc: ^8.1.0
