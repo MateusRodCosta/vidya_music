@@ -16,6 +16,7 @@ Future<void> main() async {
     androidNotificationChannelDescription:
         'Vidya Music Audio playback controls',
     androidNotificationOngoing: true,
+    androidNotificationIcon: "drawable/ic_launcher_foreground",
   );
   runApp(const MyApp());
 }
