@@ -5,14 +5,18 @@ import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/roster_cubit.dart';
 import 'package:vidya_music/view/track_item.dart';
 
-class RosterList extends StatelessWidget {
-  RosterList({super.key});
+class RosterList extends StatefulWidget {
+  const RosterList({super.key});
 
+  @override
+  State<RosterList> createState() => _RosterListState();
+}
+
+class _RosterListState extends State<RosterList> {
   int? scrollPosition;
 
   void scrollToTrack(int? index) {
-    if (index == null) return;
-    if (index == scrollPosition) return;
+    if (index == null || index == scrollPosition) return;
     scrollPosition = index;
 
     itemScrollController.scrollTo(

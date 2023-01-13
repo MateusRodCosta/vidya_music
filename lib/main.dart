@@ -56,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: [
-          const Player(),
+        children: const [
+          Player(),
           Expanded(child: RosterList()),
         ],
       ),

@@ -10,9 +10,8 @@ class TrackItem extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Material(
       color: Theme.of(context).cardColor,
-      margin: const EdgeInsets.all(0),
       child: InkWell(
         onTap: () {
           final apcubit =

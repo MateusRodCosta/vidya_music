@@ -1,20 +1,20 @@
 part of 'audio_player_cubit.dart';
 
 class AudioPlayerState extends Equatable {
-  Roster? roster;
+  final Roster? roster;
 
-  AudioPlayer? player;
-  bool? playing;
+  final AudioPlayer? player;
+  final bool? playing;
 
-  Track? currentTrack;
+  final Track? currentTrack;
 
-  Duration? trackDuration;
-  Duration? trackBuffered;
-  Duration? trackPosition;
+  final Duration? trackDuration;
+  final Duration? trackBuffered;
+  final Duration? trackPosition;
 
-  int? currentTrackIndex;
+  final int? currentTrackIndex;
 
-  AudioPlayerState({
+  const AudioPlayerState({
     this.roster,
     this.player,
     this.playing,

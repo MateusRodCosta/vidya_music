@@ -9,59 +9,56 @@ class Player extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final apCubit = BlocProvider.of<AudioPlayerCubit>(context, listen: false);
-    return Container(
-      child: BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-          builder: (context, aps) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              aps.currentTrack == null
-                  ? Text('No track',
-                      style: Theme.of(context).textTheme.bodyLarge)
-                  : Column(
-                      children: [
-                        Text(
-                          '${aps.currentTrack!.game} - ${aps.currentTrack!.title}',
+    return BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
+        builder: (context, aps) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            aps.currentTrack == null
+                ? Text('No track', style: Theme.of(context).textTheme.bodyLarge)
+                : Column(
+                    children: [
+                      Text(
+                        '${aps.currentTrack!.game} - ${aps.currentTrack!.title}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                          'Composer: ${aps.currentTrack!.comp.isEmpty ? '-' : aps.currentTrack!.comp}',
                           style: Theme.of(context).textTheme.bodyLarge,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                            'Composer: ${aps.currentTrack!.comp.isEmpty ? '-' : aps.currentTrack!.comp}',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center),
-                      ],
-                    ),
-              ProgressBar(
-                progress: aps.trackPosition ?? const Duration(seconds: 0),
-                total: aps.trackDuration ?? const Duration(seconds: 0),
-                buffered: aps.trackBuffered ?? const Duration(seconds: 0),
-                onSeek: apCubit.seek,
-                timeLabelLocation: TimeLabelLocation.sides,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: apCubit.playPrevious,
-                      icon: const Icon(Icons.skip_previous)),
-                  IconButton(
-                    onPressed: () {
-                      (aps.playing ?? false) ? apCubit.pause() : apCubit.play();
-                    },
-                    icon: (aps.playing ?? false)
-                        ? const Icon(Icons.pause)
-                        : const Icon(Icons.play_arrow),
+                          textAlign: TextAlign.center),
+                    ],
                   ),
-                  IconButton(
-                      onPressed: apCubit.playNext,
-                      icon: const Icon(Icons.skip_next)),
-                ],
-              ),
-            ],
-          ),
-        );
-      }),
-    );
+            ProgressBar(
+              progress: aps.trackPosition ?? const Duration(seconds: 0),
+              total: aps.trackDuration ?? const Duration(seconds: 0),
+              buffered: aps.trackBuffered ?? const Duration(seconds: 0),
+              onSeek: apCubit.seek,
+              timeLabelLocation: TimeLabelLocation.sides,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: apCubit.playPrevious,
+                    icon: const Icon(Icons.skip_previous)),
+                IconButton(
+                  onPressed: () {
+                    (aps.playing ?? false) ? apCubit.pause() : apCubit.play();
+                  },
+                  icon: (aps.playing ?? false)
+                      ? const Icon(Icons.pause)
+                      : const Icon(Icons.play_arrow),
+                ),
+                IconButton(
+                    onPressed: apCubit.playNext,
+                    icon: const Icon(Icons.skip_next)),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

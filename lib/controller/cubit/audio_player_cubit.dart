@@ -4,14 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:stack/stack.dart';
 import 'package:vidya_music/model/roster.dart';
 import 'package:vidya_music/model/track.dart';
 
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
-  AudioPlayerCubit() : super(AudioPlayerState());
+  AudioPlayerCubit() : super(const AudioPlayerState());
 
   void initializePlayer(Roster roster) {
     final audiops = state.copyWith(
