@@ -48,8 +48,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         tag: MediaItem(
           id: '$trackIndex',
           title: track.title,
-          album: track.game,
-          artist: track.comp,
+          artist: track.game,
         ),
       ),
       preload: true,

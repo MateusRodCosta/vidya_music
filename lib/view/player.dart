@@ -27,7 +27,7 @@ class Player extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                            'Composer: ${aps.currentTrack?.comp ?? 'No track'}',
+                            'Composer: ${aps.currentTrack!.comp.isEmpty ? '-' : aps.currentTrack!.comp}',
                             style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center),
                       ],
