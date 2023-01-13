@@ -4,8 +4,7 @@
    <uses-permission android:name="android.permission.WAKE_LOCK"/>
    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
    <application
-        android:label="vidya_music"
-        android:name="${applicationName}"
+        android:label="Vidya Music"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name="com.ryanheise.audioservice.AudioServiceActivity"
