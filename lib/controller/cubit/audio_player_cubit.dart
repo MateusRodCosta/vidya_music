@@ -25,7 +25,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
     audiops.player?.bufferedPositionStream.listen(_onBufferedPositionChanged);
 
-    audiops.player?.playerStateStream.listen(_onPlayerStateChanged);
+    audiops.player?.playingStream.listen(_onPlayingChanged);
+
+    audiops.player?.processingStateStream.listen(_onProcessingStateChanged);
 
     emit(audiops);
 
@@ -117,10 +119,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     emit(state.copyWith(trackBuffered: d));
   }
 
-  void _onPlayerStateChanged(PlayerState s) {
-    emit(state.copyWith(playerState: s));
+  void _onPlayingChanged(bool p) {
+    emit(state.copyWith(playing: p));
+  }
 
-    if (s.processingState == ProcessingState.completed) {
+  void _onProcessingStateChanged(ProcessingState ps) {
+    if (ps == ProcessingState.completed) {
       playRandomTrack();
     }
   }

@@ -4,7 +4,7 @@ class AudioPlayerState extends Equatable {
   Roster? roster;
 
   AudioPlayer? player;
-  PlayerState? playerState;
+  bool? playing;
 
   Track? currentTrack;
 
@@ -17,7 +17,7 @@ class AudioPlayerState extends Equatable {
   AudioPlayerState({
     this.roster,
     this.player,
-    this.playerState,
+    this.playing,
     this.currentTrack,
     this.trackDuration,
     this.trackBuffered,
@@ -28,7 +28,7 @@ class AudioPlayerState extends Equatable {
   AudioPlayerState copyWith({
     Roster? roster,
     AudioPlayer? player,
-    PlayerState? playerState,
+    bool? playing,
     Track? currentTrack,
     Duration? trackDuration,
     Duration? trackBuffered,
@@ -38,7 +38,7 @@ class AudioPlayerState extends Equatable {
       AudioPlayerState(
         roster: roster ?? this.roster,
         player: player ?? this.player,
-        playerState: playerState ?? this.playerState,
+        playing: playing ?? this.playing,
         currentTrack: currentTrack ?? this.currentTrack,
         trackDuration: trackDuration ?? this.trackDuration,
         trackBuffered: trackBuffered ?? this.trackBuffered,
@@ -50,7 +50,7 @@ class AudioPlayerState extends Equatable {
   List<Object?> get props => [
         roster,
         player,
-        playerState,
+        playing,
         currentTrack,
         trackDuration,
         trackBuffered,

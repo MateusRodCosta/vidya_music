@@ -47,11 +47,9 @@ class Player extends StatelessWidget {
                       icon: const Icon(Icons.skip_previous)),
                   IconButton(
                     onPressed: () {
-                      (aps.playerState?.playing ?? false)
-                          ? apCubit.pause()
-                          : apCubit.play();
+                      (aps.playing ?? false) ? apCubit.pause() : apCubit.play();
                     },
-                    icon: (aps.playerState?.playing ?? false)
+                    icon: (aps.playing ?? false)
                         ? const Icon(Icons.pause)
                         : const Icon(Icons.play_arrow),
                   ),
