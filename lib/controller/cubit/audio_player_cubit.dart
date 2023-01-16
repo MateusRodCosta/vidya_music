@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -12,21 +13,32 @@ part 'audio_player_state.dart';
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioPlayerCubit() : super(const AudioPlayerState());
 
+  StreamSubscription<Duration?>? onDurationSubscription;
+  StreamSubscription<Duration>? onPositionSubscription;
+  StreamSubscription<Duration>? onBufferedPositionSubscription;
+  StreamSubscription<bool>? onPlayingSubscription;
+  StreamSubscription<ProcessingState>? onProcessingStateSubscription;
+
   void initializePlayer(Roster roster) {
     final audiops = state.copyWith(
       roster: roster,
       player: AudioPlayer(),
     );
 
-    audiops.player?.durationStream.listen(_onDurationChanged);
+    onDurationSubscription =
+        audiops.player?.durationStream.listen(_onDurationChanged);
 
-    audiops.player?.positionStream.listen(_onPositionChanged);
+    onPositionSubscription =
+        audiops.player?.positionStream.listen(_onPositionChanged);
 
-    audiops.player?.bufferedPositionStream.listen(_onBufferedPositionChanged);
+    onBufferedPositionSubscription = audiops.player?.bufferedPositionStream
+        .listen(_onBufferedPositionChanged);
 
-    audiops.player?.playingStream.listen(_onPlayingChanged);
+    onPlayingSubscription =
+        audiops.player?.playingStream.listen(_onPlayingChanged);
 
-    audiops.player?.processingStateStream.listen(_onProcessingStateChanged);
+    onProcessingStateSubscription =
+        audiops.player?.processingStateStream.listen(_onProcessingStateChanged);
 
     emit(audiops);
 
@@ -126,5 +138,17 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     if (ps == ProcessingState.completed) {
       playRandomTrack();
     }
+  }
+
+  @override
+  Future<void> close() {
+    state.player?.dispose();
+    onDurationSubscription?.cancel();
+    onPositionSubscription?.cancel();
+    onBufferedPositionSubscription?.cancel();
+    onPlayingSubscription?.cancel();
+    onProcessingStateSubscription?.cancel();
+
+    return super.close();
   }
 }
