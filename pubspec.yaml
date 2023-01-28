@@ -1,5 +1,5 @@
 name: vidya_music
-description: A Flutter player for the Vidya Intarweb Playlist (VIP Aersia).
+description: A player for the Vidya Intarweb Playlist (aka VIP Aersia)
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

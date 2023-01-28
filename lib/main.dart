@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       const SizedBox(height: 8),
                       const Text(
-                          'A player for the VIP Aersia playlist (aka Vidya Intarweb Playlist)'),
+                          'A player for the Vidya Intarweb Playlist (aka VIP Aersia)'),
                       const SizedBox(height: 8),
                       GestureDetector(
                         child: Text('Vidya Intarweb Playlist by Cats777',
