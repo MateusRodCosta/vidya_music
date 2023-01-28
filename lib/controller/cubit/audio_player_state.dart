@@ -1,9 +1,6 @@
 part of 'audio_player_cubit.dart';
 
 class AudioPlayerState extends Equatable {
-  final Roster? roster;
-
-  final AudioPlayer? player;
   final bool? playing;
 
   final Track? currentTrack;
@@ -15,8 +12,6 @@ class AudioPlayerState extends Equatable {
   final int? currentTrackIndex;
 
   const AudioPlayerState({
-    this.roster,
-    this.player,
     this.playing,
     this.currentTrack,
     this.trackDuration,
@@ -26,8 +21,6 @@ class AudioPlayerState extends Equatable {
   });
 
   AudioPlayerState copyWith({
-    Roster? roster,
-    AudioPlayer? player,
     bool? playing,
     Track? currentTrack,
     Duration? trackDuration,
@@ -36,8 +29,6 @@ class AudioPlayerState extends Equatable {
     int? currentTrackIndex,
   }) =>
       AudioPlayerState(
-        roster: roster ?? this.roster,
-        player: player ?? this.player,
         playing: playing ?? this.playing,
         currentTrack: currentTrack ?? this.currentTrack,
         trackDuration: trackDuration ?? this.trackDuration,
@@ -48,8 +39,6 @@ class AudioPlayerState extends Equatable {
 
   @override
   List<Object?> get props => [
-        roster,
-        player,
         playing,
         currentTrack,
         trackDuration,
