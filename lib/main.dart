@@ -10,6 +10,7 @@ import 'package:vidya_music/view/player.dart';
 import 'package:vidya_music/view/roster_list.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> main() async {
   await JustAudioBackground.init(
@@ -60,11 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
+                PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
                 showAboutDialog(
                     context: context,
-                    applicationName: "Vydia Music",
-                    applicationVersion: "0.0.1",
+                    applicationName: packageInfo.appName,
+                    applicationVersion: packageInfo.version,
                     applicationLegalese:
                         "Licensed under AGPLv3+, developed by MateusRodCosta",
                     children: [
