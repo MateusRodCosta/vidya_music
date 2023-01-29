@@ -24,6 +24,10 @@ class Player extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyLarge,
                         textAlign: TextAlign.center,
                       ),
+                      if (aps.currentTrack!.arr != null)
+                        Text('Arranger: ${aps.currentTrack!.arr}',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            textAlign: TextAlign.center),
                       Text(
                           'Composer: ${aps.currentTrack!.comp.isEmpty ? '-' : aps.currentTrack!.comp}',
                           style: Theme.of(context).textTheme.bodyLarge,

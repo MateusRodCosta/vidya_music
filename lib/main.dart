@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -7,6 +8,9 @@ import 'package:vidya_music/theme/color_schemes.g.dart';
 
 import 'package:vidya_music/view/player.dart';
 import 'package:vidya_music/view/roster_list.dart';
+
+import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> main() async {
   await JustAudioBackground.init(
@@ -55,6 +59,61 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+                showAboutDialog(
+                    context: context,
+                    applicationName: packageInfo.appName,
+                    applicationVersion: packageInfo.version,
+                    applicationLegalese:
+                        "Licensed under AGPLv3+, developed by MateusRodCosta",
+                    children: [
+                      const SizedBox(height: 8),
+                      const Text(
+                          'A player for the Vidya Intarweb Playlist (aka VIP Aersia)'),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        child: Text('Vidya Intarweb Playlist by Cats777',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary)),
+                        onTap: () {
+                          launchUrl(Uri.parse('https://www.vipvgm.net/'),
+                              mode: LaunchMode.externalApplication);
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      const Text('All Tracks © & ℗ Their Respective Owners'),
+                      const SizedBox(height: 8),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Source code is available at ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            TextSpan(
+                              text:
+                                  'https://github.com/MateusRodCosta/vidya_music',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  launchUrl(
+                                      Uri.parse(
+                                          'https://github.com/MateusRodCosta/vidya_music'),
+                                      mode: LaunchMode.externalApplication);
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]);
+              },
+              icon: const Icon(Icons.help_outline))
+        ],
       ),
       body: Column(
         children: const [

@@ -51,9 +51,13 @@ class _RosterListState extends State<RosterList> {
               itemBuilder: (context, i) {
                 return TrackItem(track: ros.tracks[i], index: i);
               },
-              separatorBuilder: (context, i) => const Divider(
-                height: 1,
-                thickness: 1.0,
+              separatorBuilder: (context, i) => const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Divider(
+                  height: 1.0,
+                  thickness: 0.0,
+                  color: Colors.grey,
+                ),
               ),
               itemScrollController: itemScrollController,
               itemPositionsListener: itemPositionsListener,
