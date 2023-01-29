@@ -83,7 +83,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void playRandomTrack() {
-    final numTracks = roster.tracks.length ?? 0;
+    final numTracks = roster.tracks.length;
 
     final next = Random.secure().nextInt(numTracks);
 
@@ -95,7 +95,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void playPrevious() {
-    final numTracks = roster.tracks.length ?? 0;
+    final numTracks = roster.tracks.length;
 
     if (state.currentTrackIndex == null) return;
     final prev = (state.currentTrackIndex! - 1).clamp(0, numTracks);
@@ -104,7 +104,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void playNext() {
-    final numTracks = roster.tracks.length ?? 0;
+    final numTracks = roster.tracks.length;
 
     if (state.currentTrackIndex == null) return;
     final prev = (state.currentTrackIndex! + 1).clamp(0, numTracks);
