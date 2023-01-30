@@ -4,7 +4,7 @@ class Roster {
   String changelog;
   String url;
   String ext;
-  int newId;
+  int? newId;
   List<Track> tracks;
 
   Roster(this.changelog, this.url, this.ext, this.newId, this.tracks);
@@ -18,3 +18,5 @@ class Roster {
             .map((t) => Track.fromJson(t))
             .toList();
 }
+
+enum RosterPlaylist { vip, mellow, exiled }

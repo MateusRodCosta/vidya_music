@@ -36,13 +36,13 @@ class _RosterListState extends State<RosterList> {
       },
       child: BlocBuilder<RosterCubit, RosterState>(
         builder: (context, roster) {
-          if (roster is RosterLoading) {
+          if (roster is RosterStateLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (roster is RosterSuccess) {
+          if (roster is RosterStateSuccess) {
             final ros = roster.roster;
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
                 .initializePlayer(ros);
@@ -70,8 +70,8 @@ class _RosterListState extends State<RosterList> {
                 const Text("Couldn't fetch tracks"),
                 ElevatedButton(
                     child: const Text('Try again'),
-                    onPressed: () {
-                      BlocProvider.of<RosterCubit>(context, listen: false)
+                    onPressed: () async {
+                      await BlocProvider.of<RosterCubit>(context, listen: false)
                           .fetchRoster();
                     }),
               ],

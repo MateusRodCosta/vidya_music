@@ -7,6 +7,7 @@ import 'package:vidya_music/controller/cubit/roster_cubit.dart';
 import 'package:vidya_music/theme/color_schemes.g.dart';
 
 import 'package:vidya_music/view/player.dart';
+import 'package:vidya_music/view/roster_dropdown.dart';
 import 'package:vidya_music/view/roster_list.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -58,7 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Row(
+          children: [
+            Text('${widget.title} - '),
+            RosterDropdown(),
+          ],
+        ),
         actions: [
           IconButton(
               onPressed: () async {
