@@ -21,7 +21,9 @@ class TrackItem extends StatelessWidget {
         child: Container(
           constraints: const BoxConstraints(minHeight: 48.0),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: MediaQuery.of(context).size.width >= 600
+                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
+                : const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text('${track.game} - ${track.title}'),
