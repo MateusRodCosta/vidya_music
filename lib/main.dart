@@ -55,6 +55,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late String appName;
+  late String appVersion;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+      appName = packageInfo.appName;
+      appVersion = packageInfo.version;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,12 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
               onPressed: () async {
-                PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
                 showAboutDialog(
                     context: context,
-                    applicationName: packageInfo.appName,
-                    applicationVersion: packageInfo.version,
+                    applicationName: appName,
+                    applicationVersion: appVersion,
                     applicationLegalese:
                         "Licensed under AGPLv3+, developed by MateusRodCosta",
                     children: [
