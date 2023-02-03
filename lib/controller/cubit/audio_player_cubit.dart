@@ -45,9 +45,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void playTrack(Track track, [int? trackIndex]) async {
-    final url = _findTrackUrl(track);
-    if (url == null) return;
-    final uri = Uri.parse(url);
+    final uri = _findTrackUri(track);
 
     emit(state.copyWith(currentTrack: track, currentTrackIndex: trackIndex));
 
@@ -65,9 +63,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     await player.play();
   }
 
-  String? _findTrackUrl(Track track) {
-    final url = '${roster.url}/${track.file}.${roster.ext}';
-    return url;
+  Uri _findTrackUri(Track track) {
+    final url = '${roster.url}${track.file}.${roster.ext}';
+
+    final uri = Uri.parse(url);
+
+    return uri;
   }
 
   void pause() async {

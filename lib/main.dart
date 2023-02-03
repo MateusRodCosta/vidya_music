@@ -7,6 +7,7 @@ import 'package:vidya_music/controller/cubit/roster_cubit.dart';
 import 'package:vidya_music/theme/color_schemes.g.dart';
 
 import 'package:vidya_music/view/player.dart';
+import 'package:vidya_music/view/roster_dropdown.dart';
 import 'package:vidya_music/view/roster_list.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -54,20 +55,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late String appName;
+  late String appVersion;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+      appName = packageInfo.appName;
+      appVersion = packageInfo.version;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Row(
+          children: [
+            Text('${widget.title} - '),
+            const RosterDropdown(),
+          ],
+        ),
         actions: [
           IconButton(
               onPressed: () async {
-                PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
                 showAboutDialog(
                     context: context,
-                    applicationName: packageInfo.appName,
-                    applicationVersion: packageInfo.version,
+                    applicationName: appName,
+                    applicationVersion: appVersion,
                     applicationLegalese:
                         "Licensed under AGPLv3+, developed by MateusRodCosta",
                     children: [

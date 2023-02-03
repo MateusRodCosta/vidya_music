@@ -6,28 +6,30 @@ abstract class RosterState extends Equatable {
   List<Object?> get props => [];
 }
 
-class RosterInitial extends RosterState {
+class RosterStateInitial extends RosterState {
   @override
   List<Object?> get props => [];
 }
 
-class RosterLoading extends RosterState {
+class RosterStateLoading extends RosterState {
+  RosterStateLoading(this.selectedRoster);
+
+  final RosterPlaylist selectedRoster;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [selectedRoster];
 }
 
-class RosterSuccess extends RosterState {
-  RosterSuccess(this.roster);
+class RosterStateSuccess extends RosterState {
+  RosterStateSuccess(this.roster);
 
   final Roster roster;
 
   @override
-  List<Object?> get props => [
-        roster,
-      ];
+  List<Object?> get props => [roster];
 }
 
-class RosterError extends RosterState {
+class RosterStateError extends RosterState {
   @override
   List<Object?> get props => [];
 }

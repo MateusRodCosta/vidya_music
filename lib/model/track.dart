@@ -1,5 +1,5 @@
 class Track {
-  int id;
+  int? id;
   String game;
   String title;
   String comp;
