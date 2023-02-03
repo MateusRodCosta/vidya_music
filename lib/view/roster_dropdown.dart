@@ -18,19 +18,27 @@ class _RosterDropdownState extends State<RosterDropdown> {
       if (rs is RosterStateLoading) {
         currentRoster = rs.selectedRoster;
       }
-      return DropdownButton<RosterPlaylist>(
-        value: currentRoster ?? RosterPlaylist.vip,
-        items: const [
-          DropdownMenuItem(value: RosterPlaylist.vip, child: Text('VIP')),
-          DropdownMenuItem(
-            value: RosterPlaylist.mellow,
-            child: Text('Mellow'),
-          ),
-          DropdownMenuItem(value: RosterPlaylist.exiled, child: Text('Exiled')),
-        ],
-        onChanged: (rp) async {
-          await BlocProvider.of<RosterCubit>(context).setRoster(rp);
-        },
+      return DropdownButtonHideUnderline(
+        child: DropdownButton<RosterPlaylist>(
+          value: currentRoster ?? RosterPlaylist.vip,
+          items: const [
+            DropdownMenuItem(
+              value: RosterPlaylist.vip,
+              child: Text('VIP'),
+            ),
+            DropdownMenuItem(
+              value: RosterPlaylist.mellow,
+              child: Text('Mellow'),
+            ),
+            DropdownMenuItem(
+              value: RosterPlaylist.exiled,
+              child: Text('Exiled'),
+            ),
+          ],
+          onChanged: (rp) async {
+            await BlocProvider.of<RosterCubit>(context).setRoster(rp);
+          },
+        ),
       );
     });
   }

@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Row(
           children: [
             Text('${widget.title} - '),
-            RosterDropdown(),
+            const RosterDropdown(),
           ],
         ),
         actions: [
