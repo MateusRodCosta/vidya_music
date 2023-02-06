@@ -45,7 +45,7 @@ class _RosterListState extends State<RosterList> {
           if (roster is RosterStateSuccess) {
             final ros = roster.roster;
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
-                .initializePlayer(ros);
+                .initializePlayer(roster.selectedRoster, ros);
             return ScrollablePositionedList.separated(
               itemCount: ros.tracks.length,
               itemBuilder: (context, i) {

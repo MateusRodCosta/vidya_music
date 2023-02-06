@@ -1,8 +1,8 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 
 class Player extends StatelessWidget {
   const Player({super.key});

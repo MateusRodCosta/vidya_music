@@ -13,10 +13,10 @@ class TrackItem extends StatelessWidget {
     return Material(
       color: Theme.of(context).cardColor,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           final apcubit =
               BlocProvider.of<AudioPlayerCubit>(context, listen: false);
-          apcubit.playTrack(track, index);
+          await apcubit.playTrack(track, index);
         },
         child: Container(
           constraints: const BoxConstraints(minHeight: 48.0),
