@@ -18,6 +18,9 @@ class _RosterDropdownState extends State<RosterDropdown> {
       if (rs is RosterStateLoading) {
         currentRoster = rs.selectedRoster;
       }
+      if (rs is RosterStateSuccess) {
+        currentRoster = rs.selectedRoster;
+      }
       return DropdownButtonHideUnderline(
         child: DropdownButton<RosterPlaylist>(
           value: currentRoster ?? RosterPlaylist.vip,
@@ -25,6 +28,10 @@ class _RosterDropdownState extends State<RosterDropdown> {
             DropdownMenuItem(
               value: RosterPlaylist.vip,
               child: Text('VIP'),
+            ),
+            DropdownMenuItem(
+              value: RosterPlaylist.source,
+              child: Text('Source'),
             ),
             DropdownMenuItem(
               value: RosterPlaylist.mellow,
