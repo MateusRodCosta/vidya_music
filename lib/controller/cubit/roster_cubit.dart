@@ -27,8 +27,9 @@ class RosterCubit extends Cubit<RosterState> {
       emit(RosterStateLoading(_selectedRoster));
       final r = await http.read(Uri.parse(url));
       final js = jsonDecode(r);
-      final roster = Roster.fromJson(js);
-      emit(RosterStateSuccess(roster));
+      final roster = Roster.fromJson(js,
+          isSource: _selectedRoster == RosterPlaylist.source);
+      emit(RosterStateSuccess(_selectedRoster, roster));
     } catch (e) {
       emit(RosterStateError());
     }

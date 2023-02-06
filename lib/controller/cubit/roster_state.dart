@@ -21,12 +21,13 @@ class RosterStateLoading extends RosterState {
 }
 
 class RosterStateSuccess extends RosterState {
-  RosterStateSuccess(this.roster);
+  RosterStateSuccess(this.selectedRoster, this.roster);
 
+  final RosterPlaylist selectedRoster;
   final Roster roster;
 
   @override
-  List<Object?> get props => [roster];
+  List<Object?> get props => [selectedRoster, roster];
 }
 
 class RosterStateError extends RosterState {

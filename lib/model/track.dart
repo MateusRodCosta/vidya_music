@@ -8,11 +8,11 @@ class Track {
 
   Track(this.id, this.game, this.title, this.comp, this.arr, this.file);
 
-  Track.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+  Track.fromJson(Map<String, dynamic> json, {bool isSource = false})
+      : id = !isSource ? json['id'] : (json['s_id'] ?? json['id']),
         game = json['game'],
-        title = json['title'],
+        title = !isSource ? json['title'] : (json['s_title'] ?? json['title']),
         comp = json['comp'],
-        arr = json['arr'],
-        file = json['file'];
+        arr = !isSource ? json['arr'] : null,
+        file = !isSource ? json['file'] : (json['s_file'] ?? json['file']);
 }
