@@ -1,0 +1,3 @@
+* Added support for Mellow and Exiled playlists
+* Tweaked padding for large width devices
+* Track name is now a scrolling text

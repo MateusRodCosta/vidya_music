@@ -1,0 +1,5 @@
+Ouça várias músicas de videogame incríveis dos seus jogos favoritos direto do seu dispositivo.
+
+A playlist original está disponível em <a href="https://www.vipvgm.net/">https://www.vipvgm.net/</a>. Todas as Faixas © & ℗ Seus Respectivos Donos.
+
+O app é desenvolvido com Flutter e licenciado sob AGPLv3+. O código-fonte está disponível em <a href="https://github.com/MateusRodCosta/vidya_music">https://github.com/MateusRodCosta/vidya_music</a>.

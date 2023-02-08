@@ -1,0 +1,3 @@
+* Adicionado suporte às playlists Mellow (Suave) e Exiled (Exilado)
+* Ajustado espaçamento em dispositivos de largura grande
+* Nome da faixa agora é um texto que rola pela tela
