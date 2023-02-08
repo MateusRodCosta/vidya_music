@@ -1,0 +1,4 @@
+* Adicionados botões de voltar para anterior faixa e pular para próxima faixa na notificação
+* Playlist Source foi adicionada
+* Versão mínima do Android suportada agora é Nougat (7.x)
+* Novo ícone do aplicativo

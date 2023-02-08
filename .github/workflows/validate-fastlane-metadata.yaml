@@ -1,0 +1,9 @@
+on: [pull_request]
+jobs:
+  validate-fastlane:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2
+        with:
+          usePlayStoreLocales: true # optional

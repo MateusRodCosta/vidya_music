@@ -1,0 +1,3 @@
+* Realizados ajustes no ícone do app
+* Atualizado tema Material
+* Adicionado matadados Fastlane

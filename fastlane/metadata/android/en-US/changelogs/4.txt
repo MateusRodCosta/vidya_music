@@ -1,0 +1,4 @@
+* Added About button with info about app, the playlist and the source code
+* Improvements to the code around managing the audio player and related state
+* Tweaks to Roster appearance
+* Add support for showing track arranger
