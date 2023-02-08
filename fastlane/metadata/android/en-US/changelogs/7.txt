@@ -1,0 +1,3 @@
+* Tweaked app icon
+* Updated Material 3 theme
+* Added Fastlane metadata
