@@ -1,0 +1,4 @@
+[submodule "flutter-sdk"]
+	path = flutter-sdk
+	url = https://github.com/flutter/flutter.git
+	branch = stable
