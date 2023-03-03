@@ -59,7 +59,7 @@ android {
     defaultConfig {
         applicationId "com.mateusrodcosta.apps.vidyamusic"
         minSdkVersion 24
-        targetSdkVersion  32
+        targetSdkVersion  33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
