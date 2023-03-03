@@ -154,7 +154,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void _onCurrentIndex(int? index) {
-    final currentTrack = _playlistTracks[index!];
+    if (index == null) return;
+    final currentTrack = _playlistTracks[index];
     emit(state.copyWith(
         currentTrackIndex: currentTrack.item1,
         currentTrack: currentTrack.item2));
