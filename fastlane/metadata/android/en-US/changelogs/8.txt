@@ -1,0 +1,5 @@
+- Fixed a bug where the track info wouldn't update on main screen (sorry for the delay!)
+- Added support for Android 13 (tragetSdkVersion 33)
+- Updated dependencies
+- Added support for Android 13 Themed Icons
+- Tweaks to player notification icon
