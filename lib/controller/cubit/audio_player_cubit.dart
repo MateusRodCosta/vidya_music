@@ -21,7 +21,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late StreamSubscription<Duration> onPositionSubscription;
   late StreamSubscription<Duration> onBufferedPositionSubscription;
   late StreamSubscription<bool> onPlayingSubscription;
-  late StreamSubscription<ProcessingState> onProcessingStateSubscription;
   late StreamSubscription<int?> onCurrentIndexSubscription;
 
   late RosterPlaylist _selectedRoster;
@@ -42,9 +41,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         _player.bufferedPositionStream.listen(_onBufferedPositionChanged);
 
     onPlayingSubscription = _player.playingStream.listen(_onPlayingChanged);
-
-    onProcessingStateSubscription =
-        _player.processingStateStream.listen(_onProcessingStateChanged);
 
     onCurrentIndexSubscription =
         _player.currentIndexStream.listen(_onCurrentIndex);
@@ -157,17 +153,13 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     emit(state.copyWith(playing: p));
   }
 
-  void _onProcessingStateChanged(ProcessingState ps) {
-    if (_player.currentIndex == null) return;
-    if (ps == ProcessingState.ready) {
-      final currentTrackIndex = _playlistTracks[_player.currentIndex!];
-      emit(state.copyWith(
-          currentTrackIndex: currentTrackIndex.item1,
-          currentTrack: currentTrackIndex.item2));
-    }
-  }
-
   void _onCurrentIndex(int? index) {
+    if (index == null) return;
+    final currentTrack = _playlistTracks[index];
+    emit(state.copyWith(
+        currentTrackIndex: currentTrack.item1,
+        currentTrack: currentTrack.item2));
+
     if (!_player.hasNext) {
       final t = selectRandomTrack();
 
@@ -185,7 +177,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     await onPositionSubscription.cancel();
     await onBufferedPositionSubscription.cancel();
     await onPlayingSubscription.cancel();
-    await onProcessingStateSubscription.cancel();
     await onCurrentIndexSubscription.cancel();
 
     return super.close();

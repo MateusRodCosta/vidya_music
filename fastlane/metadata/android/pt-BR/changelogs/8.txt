@@ -1,0 +1,5 @@
+* Corrigido um bug em que a informação da faixa não é atualizada na página principal (desculpem a demora!)
+* Adicionado suporte ao Android 13 (targetSdkVersion 33)
+* Dependências atualizadas
+* Adicionado suporte a funcionalidade de ícone com temas do Android 13
+* Ajustes no ícone da notificação do player
