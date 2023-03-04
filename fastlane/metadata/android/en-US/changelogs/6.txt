@@ -1,4 +1,4 @@
-* Added buttons to seek to [previous and seek to next tracks to notification
+* Added buttons to seek to previous and seek to next tracks to notification
 * Added the Source playlist
-* Minimum supported Android is now Nougat (7.x)
+* Minimum supported Android version is now Nougat (7.x)
 * New app icon

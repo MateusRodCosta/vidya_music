@@ -1,4 +1,4 @@
-* Adicionado botão Sobre com informações sobre o app, a playlist e o código fonte
+* Adicionado botão "Sobre" com informações sobre o app, a playlist e o código fonte
 * Melhorias no código do player de aúdio e gerenciamento de seu estado
 * Retoques na aparência da lista de faixas
 * Adicionado suporte a mostrar o arranjador da faixa
