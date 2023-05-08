@@ -1,6 +1,6 @@
 Mudanças na versão 1.1.1:
-* Corrigido o bug em que o ícone da notificação do player aparece como um quadrado ao invés do ícone da aplicação
-* Realizado ajuste na cor de fundo da tela de lançamento
+* Corrigido o ícone da notificação aparecer como um quadrado
+* Ajustes na cor de fundo da tela de lançamento
 * Atualização de dependências
 
 Mudanças da versão 1.1.0:
