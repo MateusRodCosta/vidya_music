@@ -43,7 +43,7 @@ dependencies:
   audio_video_progress_bar: ^1.0.1
   url_launcher: ^6.1.11
   package_info_plus: ^4.0.0
-  text_scroll: ^0.2.0
+  text_scroll: ^0.1.2
   tuple: ^2.0.1
 
 

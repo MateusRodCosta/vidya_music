@@ -25,11 +25,11 @@ class Player extends StatelessWidget {
                       TextScroll(
                         '${aps.currentTrack!.game} - ${aps.currentTrack!.title}',
                         style: Theme.of(context).textTheme.bodyLarge,
-                        intervalSpaces: 6,
-                        velocity:
-                            const Velocity(pixelsPerSecond: Offset(60, 0)),
+                        delayBefore: const Duration(seconds: 3),
                         pauseBetween: const Duration(seconds: 1),
-                        delayBefore: const Duration(seconds: 1),
+                        velocity:
+                            const Velocity(pixelsPerSecond: Offset(40, 0)),
+                        intervalSpaces: 10,
                       ),
                       if (aps.currentTrack!.arr != null)
                         Text('Arranger: ${aps.currentTrack!.arr}',
