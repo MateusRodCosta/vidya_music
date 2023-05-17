@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/roster_cubit.dart';
+import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/theme/color_schemes.g.dart';
 
 import 'package:vidya_music/view/player.dart';
@@ -34,13 +35,18 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => RosterCubit()),
         BlocProvider(create: (context) => AudioPlayerCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
       ],
-      child: MaterialApp(
-        title: 'Vidya Music',
-        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        home: const MyHomePage(title: 'Vidya Music'),
-      ),
+      child: BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
+        return MaterialApp(
+          title: 'Vidya Music',
+          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+          darkTheme:
+              ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+          themeMode: state.themeMode,
+          home: const MyHomePage(title: 'Vidya Music'),
+        );
+      }),
     );
   }
 }
@@ -78,6 +84,28 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Text('${widget.title} - '),
             const RosterDropdown(),
+            BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
+              return DropdownButton<ThemeMode>(
+                  value: BlocProvider.of<ThemeCubit>(context).state.themeMode,
+                  items: const [
+                    DropdownMenuItem(
+                      value: ThemeMode.system,
+                      child: Text('System'),
+                    ),
+                    DropdownMenuItem(
+                      value: ThemeMode.light,
+                      child: Text('Light'),
+                    ),
+                    DropdownMenuItem(
+                      value: ThemeMode.dark,
+                      child: Text('Dark'),
+                    ),
+                  ],
+                  onChanged: (tm) {
+                    BlocProvider.of<ThemeCubit>(context, listen: false)
+                        .setThemeMode(tm ?? ThemeMode.system);
+                  });
+            }),
           ],
         ),
         actions: [
@@ -134,8 +162,8 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.help_outline))
         ],
       ),
-      body: Column(
-        children: const [
+      body: const Column(
+        children: [
           Player(),
           Expanded(child: RosterList()),
         ],

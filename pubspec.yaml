@@ -45,6 +45,7 @@ dependencies:
   package_info_plus: ^4.0.0
   text_scroll: ^0.1.2
   tuple: ^2.0.1
+  shared_preferences: ^2.1.1
 
 
 dev_dependencies:
