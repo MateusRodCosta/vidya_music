@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
@@ -47,6 +48,10 @@ class _RosterListState extends State<RosterList> {
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
                 .initializePlayer(roster.selectedRoster, ros);
             return ScrollablePositionedList.separated(
+              padding: Provider.of<bool>(context)
+                  ? EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom)
+                  : null,
               itemCount: ros.tracks.length,
               itemBuilder: (context, i) {
                 return TrackItem(track: ros.tracks[i], index: i);
@@ -54,7 +59,9 @@ class _RosterListState extends State<RosterList> {
               separatorBuilder: (context, i) => Divider(
                 height: 1.0,
                 thickness: 0.0,
-                color: Colors.grey[300],
+                color: Theme.of(context).dividerColor,
+                indent: 8,
+                endIndent: 8,
               ),
               itemScrollController: itemScrollController,
               itemPositionsListener: itemPositionsListener,

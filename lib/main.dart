@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/theme/color_schemes.g.dart';
+import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/app_drawer.dart';
 
 import 'package:vidya_music/view/player.dart';
@@ -22,7 +25,22 @@ Future<void> main() async {
     androidNotificationOngoing: true,
     androidNotificationIcon: "drawable/ic_player_notification",
   );
-  runApp(const MyApp());
+
+  final enableEdgeToEdge = await supportsEdgeToEdge();
+
+  if (enableEdgeToEdge) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+    ));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
+  runApp(
+    Provider<bool>.value(
+      value: enableEdgeToEdge,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

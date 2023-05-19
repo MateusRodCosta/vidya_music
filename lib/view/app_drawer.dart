@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
 
@@ -38,43 +39,46 @@ class _AppDrawerState extends State<AppDrawer> {
           availablePlaylists = rs.availablePlaylists;
         }
         return Drawer(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    const DrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                      ),
-                      child: Text(
-                        'Vidya Music',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                    if (availablePlaylists != null)
-                      ...availablePlaylists!
-                          .map((p) => _buildPlaylistTile(
-                              context, p, p == currentPlaylist))
-                          .toList(),
-                    Divider(
-                      height: 1.0,
-                      thickness: 0.0,
-                      color: Colors.grey[300],
-                    ),
-                    _buildThemeTiles(),
-                  ],
+          child: ListView(
+            padding: Provider.of<bool>(context)
+                ? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom)
+                : null,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: const Text(
+                  'Vidya Music',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
-              _buildAboutTile(context),
+              if (availablePlaylists != null)
+                ...availablePlaylists!
+                    .map((p) =>
+                        _buildPlaylistTile(context, p, p == currentPlaylist))
+                    .toList(),
+              _buildDivider(),
+              _buildThemeTiles(),
+              _buildDivider(),
+              _buildAboutTile(),
             ],
           ),
         );
       },
+    );
+  }
+
+  Divider _buildDivider() {
+    return Divider(
+      height: 1.0,
+      thickness: 0.0,
+      color: Theme.of(context).dividerColor,
+      indent: 16,
+      endIndent: 16,
     );
   }
 
@@ -128,7 +132,7 @@ class _AppDrawerState extends State<AppDrawer> {
     });
   }
 
-  ListTile _buildAboutTile(BuildContext context) {
+  ListTile _buildAboutTile() {
     return ListTile(
       leading: const Icon(Icons.help_outline),
       title: const Text('About'),
