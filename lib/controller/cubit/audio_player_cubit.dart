@@ -13,11 +13,13 @@ import 'package:vidya_music/model/track.dart';
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
-  final _player = AudioPlayerSingleton.instance;
+  late AudioPlayer _player;
 
   late Roster _roster;
 
-  AudioPlayerCubit() : super(const AudioPlayerState());
+  AudioPlayerCubit() : super(const AudioPlayerState()) {
+    _initializePlayer();
+  }
 
   late StreamSubscription<Duration?> onDurationSubscription;
   late StreamSubscription<Duration> onPositionSubscription;
@@ -25,14 +27,13 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late StreamSubscription<bool> onPlayingSubscription;
   late StreamSubscription<int?> onCurrentIndexSubscription;
 
-  late Playlist _selectedRoster;
+  late Playlist _selectedPlaylist;
 
   late List<(int, Track)> _playlistTracks;
   late ConcatenatingAudioSource _playlist;
 
-  Future<void> initializePlayer(Playlist selectedRoster, Roster roster) async {
-    _roster = roster;
-    _selectedRoster = selectedRoster;
+  void _initializePlayer() {
+    _player = AudioPlayerSingleton.instance;
 
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
 
@@ -45,11 +46,16 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
     onCurrentIndexSubscription =
         _player.currentIndexStream.listen(_onCurrentIndex);
-
-    await _initializePlaylist();
   }
 
-  Future<void> _initializePlaylist() async {
+  Future<void> setPlaylist(Playlist selectedPlaylist, Roster roster) async {
+    _selectedPlaylist = selectedPlaylist;
+    _roster = roster;
+
+    await _generatePlayerPlaylist();
+  }
+
+  Future<void> _generatePlayerPlaylist() async {
     final l = <(int, Track)>[];
     for (int i = 0; i < 3; i++) {
       final t = selectRandomTrack();
@@ -77,7 +83,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioSource _trackToAudioSource(int id, Track track) {
     return AudioSource.uri(_findTrackUri(track),
         tag: MediaItem(
-          id: '${_selectedRoster.name}_$id',
+          id: '${_selectedPlaylist.name}_$id',
           title: track.title,
           artist: track.game,
         ));
@@ -112,7 +118,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   Uri _findTrackUri(Track track) {
     final url =
-        '${_roster.url}${_selectedRoster.isSource ? _selectedRoster.additionalPath : ''}${track.file}.${_roster.ext}';
+        '${_roster.url}${_selectedPlaylist.isSource ? _selectedPlaylist.additionalPath : ''}${track.file}.${_roster.ext}';
 
     final uri = Uri.parse(url);
 

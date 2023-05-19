@@ -42,11 +42,10 @@ class _RosterListState extends State<RosterList> {
               child: CircularProgressIndicator(),
             );
           }
-
           if (roster is PlaylistStateSuccess) {
             final ros = roster.roster;
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
-                .initializePlayer(roster.selectedRoster, ros);
+                .setPlaylist(roster.selectedRoster, ros);
             return ScrollablePositionedList.separated(
               padding: Provider.of<bool>(context)
                   ? EdgeInsets.only(
