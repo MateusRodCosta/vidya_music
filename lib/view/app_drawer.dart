@@ -3,30 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vidya_music/controller/services/package_info_singleton.dart';
 
 import '../controller/cubit/playlist_cubit.dart';
 import '../controller/cubit/theme_cubit.dart';
 import '../model/playlist.dart';
 
 class AppDrawer extends StatefulWidget {
-  const AppDrawer({super.key});
+  const AppDrawer({super.key, this.packageInfo});
+
+  final PackageInfo? packageInfo;
 
   @override
   State<AppDrawer> createState() => _AppDrawerState();
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  PackageInfo? packageInfo;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      packageInfo = await PackageInfo.fromPlatform();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Playlist? currentPlaylist;
@@ -52,13 +44,13 @@ class _AppDrawerState extends State<AppDrawer> {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
-                    DrawerHeader(
-                      decoration: const BoxDecoration(
+                    const DrawerHeader(
+                      decoration: BoxDecoration(
                         color: Colors.blue,
                       ),
                       child: Text(
-                        packageInfo?.appName ?? '',
-                        style: const TextStyle(
+                        'Vidya Music',
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
                         ),
@@ -78,7 +70,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   ],
                 ),
               ),
-              _buildAboutButton(context),
+              _buildAboutTile(context),
             ],
           ),
         );
@@ -136,61 +128,62 @@ class _AppDrawerState extends State<AppDrawer> {
     });
   }
 
-  ListTile _buildAboutButton(BuildContext context) {
+  ListTile _buildAboutTile(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.help_outline),
       title: const Text('About'),
-      onTap: packageInfo == null
-          ? null
-          : () async {
-              showAboutDialog(
-                  context: context,
-                  applicationName: packageInfo!.appName,
-                  applicationVersion: packageInfo!.version,
-                  applicationLegalese:
-                      "Licensed under AGPLv3+, developed by MateusRodCosta",
+      onTap: () async {
+        final packageInfo = await PackageInfoSingleton.instance;
+
+        if (!mounted) return;
+
+        showAboutDialog(
+            context: context,
+            applicationName: packageInfo.appName,
+            applicationVersion: packageInfo.version,
+            applicationLegalese:
+                "Licensed under AGPLv3+, developed by MateusRodCosta",
+            children: [
+              const SizedBox(height: 8),
+              const Text(
+                  'A player for the Vidya Intarweb Playlist (aka VIP Aersia)'),
+              const SizedBox(height: 8),
+              GestureDetector(
+                child: Text('Vidya Intarweb Playlist by Cats777',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary)),
+                onTap: () {
+                  launchUrl(Uri.parse('https://www.vipvgm.net/'),
+                      mode: LaunchMode.externalApplication);
+                },
+              ),
+              const SizedBox(height: 8),
+              const Text('All Tracks © & ℗ Their Respective Owners'),
+              const SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
                   children: [
-                    const SizedBox(height: 8),
-                    const Text(
-                        'A player for the Vidya Intarweb Playlist (aka VIP Aersia)'),
-                    const SizedBox(height: 8),
-                    GestureDetector(
-                      child: Text('Vidya Intarweb Playlist by Cats777',
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary)),
-                      onTap: () {
-                        launchUrl(Uri.parse('https://www.vipvgm.net/'),
-                            mode: LaunchMode.externalApplication);
-                      },
+                    const TextSpan(
+                      text: 'Source code is available at ',
+                      style: TextStyle(color: Colors.black),
                     ),
-                    const SizedBox(height: 8),
-                    const Text('All Tracks © & ℗ Their Respective Owners'),
-                    const SizedBox(height: 8),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'Source code is available at ',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          TextSpan(
-                            text:
-                                'https://github.com/MateusRodCosta/vidya_music',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                launchUrl(
-                                    Uri.parse(
-                                        'https://github.com/MateusRodCosta/vidya_music'),
-                                    mode: LaunchMode.externalApplication);
-                              },
-                          ),
-                        ],
-                      ),
+                    TextSpan(
+                      text: 'https://github.com/MateusRodCosta/vidya_music',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          launchUrl(
+                              Uri.parse(
+                                  'https://github.com/MateusRodCosta/vidya_music'),
+                              mode: LaunchMode.externalApplication);
+                        },
                     ),
-                  ]);
-            },
+                  ],
+                ),
+              ),
+            ]);
+      },
     );
   }
 }
