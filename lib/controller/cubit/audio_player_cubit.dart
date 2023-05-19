@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:tuple/tuple.dart';
+import 'package:vidya_music/controller/services/audio_player_singleton.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
 import 'package:vidya_music/model/track.dart';
@@ -13,7 +14,8 @@ import 'package:vidya_music/model/track.dart';
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
-  final _player = AudioPlayer();
+  final _player = AudioPlayerSingleton.instance;
+
   late Roster _roster;
 
   AudioPlayerCubit() : super(const AudioPlayerState());
