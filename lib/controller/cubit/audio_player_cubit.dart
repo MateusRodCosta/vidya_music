@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:tuple/tuple.dart';
 import 'package:vidya_music/controller/services/audio_player_singleton.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
@@ -28,7 +27,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   late Playlist _selectedRoster;
 
-  late List<Tuple2<int, Track>> _playlistTracks;
+  late List<(int, Track)> _playlistTracks;
   late ConcatenatingAudioSource _playlist;
 
   Future<void> initializePlayer(Playlist selectedRoster, Roster roster) async {
@@ -51,13 +50,13 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   Future<void> _initializePlaylist() async {
-    final l = <Tuple2<int, Track>>[];
+    final l = <(int, Track)>[];
     for (int i = 0; i < 3; i++) {
       final t = selectRandomTrack();
       l.add(t);
     }
 
-    final pl = l.map((t) => _trackToAudioSource(t.item1, t.item2)).toList();
+    final pl = l.map((t) => _trackToAudioSource(t.$1, t.$2)).toList();
 
     _playlistTracks = l;
 
@@ -87,17 +86,16 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> playTrack(Track track, int trackIndex) async {
     final current = _player.currentIndex!;
 
-    final playlistTracks = List<Tuple2<int, Track>>.from(_playlistTracks);
+    final playlistTracks = List<(int, Track)>.from(_playlistTracks);
     playlistTracks.removeRange(current + 1, playlistTracks.length);
-    final t = Tuple2(trackIndex, track);
+    final t = (trackIndex, track);
     final tExtra = selectRandomTrack();
 
     playlistTracks.add(t);
     playlistTracks.add(tExtra);
 
-    final tracks = playlistTracks
-        .map((t) => _trackToAudioSource(t.item1, t.item2))
-        .toList();
+    final tracks =
+        playlistTracks.map((t) => _trackToAudioSource(t.$1, t.$2)).toList();
 
     final playli = ConcatenatingAudioSource(
       useLazyPreparation: true,
@@ -121,12 +119,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     return uri;
   }
 
-  Tuple2<int, Track> selectRandomTrack() {
+  (int, Track) selectRandomTrack() {
     final numTracks = _roster.tracks.length;
 
     final r = Random.secure().nextInt(numTracks);
 
-    return Tuple2(r, _roster.tracks[r]);
+    return (r, _roster.tracks[r]);
   }
 
   Future<void> play() async => await _player.play();
@@ -159,14 +157,13 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     if (index == null) return;
     final currentTrack = _playlistTracks[index];
     emit(state.copyWith(
-        currentTrackIndex: currentTrack.item1,
-        currentTrack: currentTrack.item2));
+        currentTrackIndex: currentTrack.$1, currentTrack: currentTrack.$2));
 
     if (!_player.hasNext) {
       final t = selectRandomTrack();
 
       _playlistTracks.add(t);
-      _playlist.add(_trackToAudioSource(t.item1, t.item2));
+      _playlist.add(_trackToAudioSource(t.$1, t.$2));
     }
   }
 
