@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/controller/cubit/roster_cubit.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/theme/color_schemes.g.dart';
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => RosterCubit()),
+        BlocProvider(create: (context) => PlaylistCubit()),
         BlocProvider(create: (context) => AudioPlayerCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
       ],

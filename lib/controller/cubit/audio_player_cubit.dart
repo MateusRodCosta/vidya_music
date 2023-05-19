@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:tuple/tuple.dart';
+import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
 import 'package:vidya_music/model/track.dart';
 
@@ -23,13 +24,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late StreamSubscription<bool> onPlayingSubscription;
   late StreamSubscription<int?> onCurrentIndexSubscription;
 
-  late RosterPlaylist _selectedRoster;
+  late Playlist _selectedRoster;
 
   late List<Tuple2<int, Track>> _playlistTracks;
   late ConcatenatingAudioSource _playlist;
 
-  Future<void> initializePlayer(
-      RosterPlaylist selectedRoster, Roster roster) async {
+  Future<void> initializePlayer(Playlist selectedRoster, Roster roster) async {
     _roster = roster;
     _selectedRoster = selectedRoster;
 
@@ -112,7 +112,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   Uri _findTrackUri(Track track) {
     final url =
-        '${_roster.url}${_selectedRoster == RosterPlaylist.source ? 'source/' : ''}${track.file}.${_roster.ext}';
+        '${_roster.url}${_selectedRoster.isSource ? _selectedRoster.additionalPath : ''}${track.file}.${_roster.ext}';
 
     final uri = Uri.parse(url);
 

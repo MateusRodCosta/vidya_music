@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/controller/cubit/roster_cubit.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/view/track_item.dart';
 
 class RosterList extends StatefulWidget {
@@ -34,15 +34,15 @@ class _RosterListState extends State<RosterList> {
       listener: (context, aps) {
         scrollToTrack(aps.currentTrackIndex);
       },
-      child: BlocBuilder<RosterCubit, RosterState>(
+      child: BlocBuilder<PlaylistCubit, PlaylistState>(
         builder: (context, roster) {
-          if (roster is RosterStateLoading) {
+          if (roster is PlaylistStateLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (roster is RosterStateSuccess) {
+          if (roster is PlaylistStateSuccess) {
             final ros = roster.roster;
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
                 .initializePlayer(roster.selectedRoster, ros);
@@ -68,7 +68,8 @@ class _RosterListState extends State<RosterList> {
                 ElevatedButton(
                     child: const Text('Try again'),
                     onPressed: () async {
-                      await BlocProvider.of<RosterCubit>(context, listen: false)
+                      await BlocProvider.of<PlaylistCubit>(context,
+                              listen: false)
                           .fetchRoster();
                     }),
               ],

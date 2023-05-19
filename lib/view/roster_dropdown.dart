@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vidya_music/controller/cubit/roster_cubit.dart';
-import 'package:vidya_music/model/roster.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+
+import '../model/playlist.dart';
 
 class RosterDropdown extends StatefulWidget {
   const RosterDropdown({super.key});
@@ -11,39 +12,35 @@ class RosterDropdown extends StatefulWidget {
 }
 
 class _RosterDropdownState extends State<RosterDropdown> {
-  RosterPlaylist? currentRoster;
+  Playlist? currentRoster;
+  List<Playlist>? availablePlaylists;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RosterCubit, RosterState>(builder: (context, rs) {
-      if (rs is RosterStateLoading) {
+    return BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, rs) {
+      if (rs is PlaylistStateLoading) {
         currentRoster = rs.selectedRoster;
+        availablePlaylists = rs.availablePlaylists;
       }
-      if (rs is RosterStateSuccess) {
+      if (rs is PlaylistStateSuccess) {
         currentRoster = rs.selectedRoster;
+        availablePlaylists = rs.availablePlaylists;
+      }
+      if (rs is PlaylistStateError) {
+        availablePlaylists = rs.availablePlaylists;
       }
       return DropdownButtonHideUnderline(
-        child: DropdownButton<RosterPlaylist>(
-          value: currentRoster ?? RosterPlaylist.vip,
-          items: const [
-            DropdownMenuItem(
-              value: RosterPlaylist.vip,
-              child: Text('VIP'),
-            ),
-            DropdownMenuItem(
-              value: RosterPlaylist.source,
-              child: Text('Source'),
-            ),
-            DropdownMenuItem(
-              value: RosterPlaylist.mellow,
-              child: Text('Mellow'),
-            ),
-            DropdownMenuItem(
-              value: RosterPlaylist.exiled,
-              child: Text('Exiled'),
-            ),
-          ],
-          onChanged: (rp) async {
-            await BlocProvider.of<RosterCubit>(context).setRoster(rp);
+        child: DropdownButton<Playlist>(
+          value: currentRoster,
+          items: availablePlaylists
+              ?.map(
+                (p) => DropdownMenuItem(
+                  value: p,
+                  child: Text(p.name),
+                ),
+              )
+              .toList(),
+          onChanged: (playlist) async {
+            await BlocProvider.of<PlaylistCubit>(context).setPlaylist(playlist);
           },
         ),
       );

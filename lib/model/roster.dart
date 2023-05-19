@@ -18,5 +18,3 @@ class Roster {
             .map((t) => Track.fromJson(t, isSource: isSource))
             .toList();
 }
-
-enum RosterPlaylist { vip, source, mellow, exiled }
