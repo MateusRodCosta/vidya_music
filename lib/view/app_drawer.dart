@@ -44,22 +44,10 @@ class _AppDrawerState extends State<AppDrawer> {
                 ? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom)
                 : null,
             children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: const Text(
-                  'Vidya Music',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
+              _buildDrawerHeader(),
               if (availablePlaylists != null)
                 ...availablePlaylists!
-                    .map((p) =>
-                        _buildPlaylistTile(context, p, p == currentPlaylist))
+                    .map((p) => _buildPlaylistTile(p, p == currentPlaylist))
                     .toList(),
               _buildDivider(),
               _buildThemeTiles(),
@@ -72,6 +60,41 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
+  DrawerHeader _buildDrawerHeader() {
+    return DrawerHeader(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Image.asset(
+                  Theme.of(context).brightness == Brightness.light
+                      ? 'assets/icon/app_icon.png'
+                      : 'assets/icon/app_icon_monochrome.png',
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : null,
+                ),
+              ),
+            ),
+            const Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                'Vidya Music',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+          ],
+        ));
+  }
+
   Divider _buildDivider() {
     return Divider(
       height: 1.0,
@@ -82,8 +105,7 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  ListTile _buildPlaylistTile(
-      BuildContext context, Playlist playlist, bool isSelected) {
+  ListTile _buildPlaylistTile(Playlist playlist, bool isSelected) {
     return ListTile(
       leading: const Icon(Icons.music_note),
       title: Text(playlist.name),
