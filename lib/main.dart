@@ -3,17 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
-import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/controller/cubit/theme_cubit.dart';
-import 'package:vidya_music/theme/color_schemes.g.dart';
-import 'package:vidya_music/utils/utils.dart';
-import 'package:vidya_music/view/app_drawer.dart';
 
-import 'package:vidya_music/view/player.dart';
-import 'package:vidya_music/view/roster_list.dart';
-
-import 'model/playlist.dart';
+import 'controller/cubit/audio_player_cubit.dart';
+import 'controller/cubit/playlist_cubit.dart';
+import 'controller/cubit/theme_cubit.dart';
+import 'theme/color_schemes.g.dart';
+import 'utils/utils.dart';
+import 'view/pages/main_page.dart';
 
 Future<void> main() async {
   await JustAudioBackground.init(
@@ -60,62 +56,9 @@ class MyApp extends StatelessWidget {
           darkTheme:
               ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
           themeMode: state.themeMode,
-          home: const MyHomePage(title: 'Vidya Music'),
+          home: const MainPage(title: 'Vidya Music'),
         );
       }),
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: _buildTitle(),
-      ),
-      endDrawer: const AppDrawer(),
-      body: const Column(
-        children: [
-          Player(),
-          Expanded(child: RosterList()),
-        ],
-      ),
-    );
-  }
-
-  BlocBuilder<PlaylistCubit, PlaylistState> _buildTitle() {
-    Playlist? currentPlaylist;
-
-    return BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, rs) {
-      if (rs is PlaylistStateLoading) {
-        currentPlaylist = rs.selectedRoster;
-      }
-      if (rs is PlaylistStateSuccess) {
-        currentPlaylist = rs.selectedRoster;
-      }
-      return InkWell(
-        onTap: () {
-          Scaffold.of(context).openEndDrawer();
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-                '${widget.title}${currentPlaylist != null ? ' - ${currentPlaylist!.name}' : ''}'),
-            const Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      );
-    });
   }
 }
