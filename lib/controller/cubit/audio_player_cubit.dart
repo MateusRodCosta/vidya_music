@@ -29,7 +29,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   late Playlist _selectedPlaylist;
 
-  late List<(int, Track)> _playlistTracks;
   late ConcatenatingAudioSource _playlist;
 
   void _initializePlayer() {
@@ -52,68 +51,37 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     _selectedPlaylist = selectedPlaylist;
     _roster = roster;
 
-    await _generatePlayerPlaylist();
+    await _initializePlaylist();
   }
 
-  Future<void> _generatePlayerPlaylist() async {
-    final l = <(int, Track)>[];
-    for (int i = 0; i < 3; i++) {
-      final t = selectRandomTrack();
-      l.add(t);
-    }
+  Future<void> _initializePlaylist() async {
+    final tracks = _roster.tracks.map((t) => _trackToAudioSource(t)).toList();
 
-    final pl = l.map((t) => _trackToAudioSource(t.$1, t.$2)).toList();
-
-    _playlistTracks = l;
-
-    final playli = ConcatenatingAudioSource(
+    _playlist = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
-      children: pl,
+      children: tracks,
     );
 
-    _playlist = playli;
-
+    final initialIndex = _selectRandomTrack();
     await _player.setAudioSource(_playlist,
-        initialIndex: 0, initialPosition: Duration.zero);
+        initialIndex: initialIndex, initialPosition: Duration.zero);
 
+    await _player.setShuffleModeEnabled(true);
     await _player.play();
   }
 
-  AudioSource _trackToAudioSource(int id, Track track) {
+  AudioSource _trackToAudioSource(Track track) {
     return AudioSource.uri(_findTrackUri(track),
         tag: MediaItem(
-          id: '${_selectedPlaylist.name}_$id',
+          id: '${_selectedPlaylist.name}_${track.id}',
           title: track.title,
           artist: track.game,
         ));
   }
 
   Future<void> playTrack(Track track, int trackIndex) async {
-    final current = _player.currentIndex!;
-
-    final playlistTracks = List<(int, Track)>.from(_playlistTracks);
-    playlistTracks.removeRange(current + 1, playlistTracks.length);
-    final t = (trackIndex, track);
-    final tExtra = selectRandomTrack();
-
-    playlistTracks.add(t);
-    playlistTracks.add(tExtra);
-
-    final tracks =
-        playlistTracks.map((t) => _trackToAudioSource(t.$1, t.$2)).toList();
-
-    final playli = ConcatenatingAudioSource(
-      useLazyPreparation: true,
-      shuffleOrder: DefaultShuffleOrder(),
-      children: tracks,
-    );
-
-    _playlistTracks = playlistTracks;
-    _playlist = playli;
-
-    await _player.setAudioSource(_playlist,
-        initialIndex: current + 1, initialPosition: Duration.zero);
+    await _player.seek(Duration.zero, index: trackIndex);
   }
 
   Uri _findTrackUri(Track track) {
@@ -125,12 +93,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     return uri;
   }
 
-  (int, Track) selectRandomTrack() {
+  int _selectRandomTrack() {
     final numTracks = _roster.tracks.length;
 
     final r = Random.secure().nextInt(numTracks);
 
-    return (r, _roster.tracks[r]);
+    return r;
   }
 
   Future<void> play() async => await _player.play();
@@ -161,16 +129,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   void _onCurrentIndex(int? index) {
     if (index == null) return;
-    final currentTrack = _playlistTracks[index];
+
     emit(state.copyWith(
-        currentTrackIndex: currentTrack.$1, currentTrack: currentTrack.$2));
-
-    if (!_player.hasNext) {
-      final t = selectRandomTrack();
-
-      _playlistTracks.add(t);
-      _playlist.add(_trackToAudioSource(t.$1, t.$2));
-    }
+        currentTrackIndex: index, currentTrack: _roster.tracks[index]));
   }
 
   @override
