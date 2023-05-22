@@ -189,9 +189,11 @@ class _AppDrawerState extends State<AppDrawer> {
               RichText(
                 text: TextSpan(
                   children: [
-                    const TextSpan(
+                    TextSpan(
                       text: 'Source code is available at ',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
                     ),
                     TextSpan(
                       text: 'https://github.com/MateusRodCosta/vidya_music',
