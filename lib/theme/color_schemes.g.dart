@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 
+/*
+  Generated with the Material 3 Theme Builder
+  (https://m3.material.io/theme-builder#/custom)
+
+  Colors used:
+
+  Primary: #021848
+  Secondary: #95bbff
+  Tetiary: #ff7100
+*/
+
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF3D5AA9),
   onPrimary: Color(0xFFFFFFFF),
   primaryContainer: Color(0xFFDBE1FF),
   onPrimaryContainer: Color(0xFF00174A),
-  secondary: Color(0xFF9D4300),
+  secondary: Color(0xFF295EA7),
   onSecondary: Color(0xFFFFFFFF),
-  secondaryContainer: Color(0xFFFFDBCA),
-  onSecondaryContainer: Color(0xFF341100),
-  tertiary: Color(0xFF2A5EA7),
+  secondaryContainer: Color(0xFFD6E3FF),
+  onSecondaryContainer: Color(0xFF001B3E),
+  tertiary: Color(0xFF9D4300),
   onTertiary: Color(0xFFFFFFFF),
-  tertiaryContainer: Color(0xFFD6E3FF),
-  onTertiaryContainer: Color(0xFF001B3E),
+  tertiaryContainer: Color(0xFFFFDBCA),
+  onTertiaryContainer: Color(0xFF341100),
   error: Color(0xFFBA1A1A),
   errorContainer: Color(0xFFFFDAD6),
   onError: Color(0xFFFFFFFF),
@@ -40,14 +51,14 @@ const darkColorScheme = ColorScheme(
   onPrimary: Color(0xFF002A76),
   primaryContainer: Color(0xFF224290),
   onPrimaryContainer: Color(0xFFDBE1FF),
-  secondary: Color(0xFFFFB690),
-  onSecondary: Color(0xFF552100),
-  secondaryContainer: Color(0xFF783200),
-  onSecondaryContainer: Color(0xFFFFDBCA),
-  tertiary: Color(0xFFAAC7FF),
-  onTertiary: Color(0xFF002F64),
-  tertiaryContainer: Color(0xFF00458D),
-  onTertiaryContainer: Color(0xFFD6E3FF),
+  secondary: Color(0xFFAAC7FF),
+  onSecondary: Color(0xFF002F64),
+  secondaryContainer: Color(0xFF00468D),
+  onSecondaryContainer: Color(0xFFD6E3FF),
+  tertiary: Color(0xFFFFB690),
+  onTertiary: Color(0xFF552100),
+  tertiaryContainer: Color(0xFF783200),
+  onTertiaryContainer: Color(0xFFFFDBCA),
   error: Color(0xFFFFB4AB),
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
