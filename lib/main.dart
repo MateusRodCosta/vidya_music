@@ -107,8 +107,14 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: () {
           Scaffold.of(context).openEndDrawer();
         },
-        child: Text(
-            '${widget.title}${currentPlaylist != null ? ' - ${currentPlaylist!.name}' : ''}'),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+                '${widget.title}${currentPlaylist != null ? ' - ${currentPlaylist!.name}' : ''}'),
+            const Icon(Icons.arrow_drop_down),
+          ],
+        ),
       );
     });
   }
