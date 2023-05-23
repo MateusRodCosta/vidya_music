@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:vidya_music/controller/services/package_info_singleton.dart';
 
 import '../controller/cubit/playlist_cubit.dart';
 import '../controller/cubit/theme_cubit.dart';
+import '../controller/services/package_info_singleton.dart';
 import '../model/playlist.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -68,17 +68,15 @@ class _AppDrawerState extends State<AppDrawer> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Image.asset(
-                  Theme.of(context).brightness == Brightness.light
-                      ? 'assets/icon/app_icon.png'
-                      : 'assets/icon/app_icon_monochrome.png',
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : null,
-                ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Image.asset(
+                Theme.of(context).brightness == Brightness.light
+                    ? 'assets/icon/app_icon.png'
+                    : 'assets/icon/app_icon_monochrome.png',
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : null,
               ),
             ),
             const Align(
