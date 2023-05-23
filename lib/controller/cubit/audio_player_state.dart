@@ -2,6 +2,8 @@ part of 'audio_player_cubit.dart';
 
 class AudioPlayerState extends Equatable {
   final bool? playing;
+  final bool? isShuffle;
+  final bool? isLoopTrack;
 
   final Track? currentTrack;
 
@@ -13,6 +15,8 @@ class AudioPlayerState extends Equatable {
 
   const AudioPlayerState({
     this.playing,
+    this.isShuffle,
+    this.isLoopTrack,
     this.currentTrack,
     this.trackDuration,
     this.trackBuffered,
@@ -22,6 +26,8 @@ class AudioPlayerState extends Equatable {
 
   AudioPlayerState copyWith({
     bool? playing,
+    bool? isShuffle,
+    bool? isLoopTrack,
     Track? currentTrack,
     Duration? trackDuration,
     Duration? trackBuffered,
@@ -30,6 +36,8 @@ class AudioPlayerState extends Equatable {
   }) =>
       AudioPlayerState(
         playing: playing ?? this.playing,
+        isShuffle: isShuffle ?? this.isShuffle,
+        isLoopTrack: isLoopTrack ?? this.isLoopTrack,
         currentTrack: currentTrack ?? this.currentTrack,
         trackDuration: trackDuration ?? this.trackDuration,
         trackBuffered: trackBuffered ?? this.trackBuffered,
@@ -40,6 +48,8 @@ class AudioPlayerState extends Equatable {
   @override
   List<Object?> get props => [
         playing,
+        isShuffle,
+        isLoopTrack,
         currentTrack,
         trackDuration,
         trackBuffered,

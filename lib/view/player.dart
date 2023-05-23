@@ -13,24 +13,24 @@ class Player extends StatelessWidget {
   Widget build(BuildContext context) {
     final apCubit = BlocProvider.of<AudioPlayerCubit>(context, listen: false);
     return BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-        builder: (context, aps) {
+        builder: (context, apState) {
       return Padding(
         padding: MediaQuery.of(context).size.width >= 600
             ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
             : const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: Column(
           children: [
-            aps.currentTrack == null
+            apState.currentTrack == null
                 ? Text('No track', style: Theme.of(context).textTheme.bodyLarge)
-                : _buildTrackInfo(context, aps.currentTrack!),
+                : _buildTrackInfo(context, apState.currentTrack!),
             ProgressBar(
-              progress: aps.trackPosition ?? const Duration(seconds: 0),
-              total: aps.trackDuration ?? const Duration(seconds: 0),
-              buffered: aps.trackBuffered ?? const Duration(seconds: 0),
+              progress: apState.trackPosition ?? const Duration(seconds: 0),
+              total: apState.trackDuration ?? const Duration(seconds: 0),
+              buffered: apState.trackBuffered ?? const Duration(seconds: 0),
               onSeek: apCubit.seek,
               timeLabelLocation: TimeLabelLocation.sides,
             ),
-            _buildControls(apCubit, aps),
+            _buildControls(context, apCubit, apState),
           ],
         ),
       );
@@ -59,23 +59,40 @@ class Player extends StatelessWidget {
     );
   }
 
-  Row _buildControls(AudioPlayerCubit apCubit, AudioPlayerState aps) {
+  Row _buildControls(BuildContext context, AudioPlayerCubit apCubit,
+      AudioPlayerState apState) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-            onPressed: apCubit.playPrevious,
+            onPressed: () => apCubit.setShuffle(!(apState.isShuffle ?? true)),
+            icon: Icon(
+              Icons.shuffle,
+              color: (apState.isShuffle ?? true)
+                  ? Theme.of(context).colorScheme.primary
+                  : null,
+            )),
+        IconButton(
+            onPressed: () => apCubit.playPrevious(),
             icon: const Icon(Icons.skip_previous)),
         IconButton(
-          onPressed: () {
-            (aps.playing ?? false) ? apCubit.pause() : apCubit.play();
-          },
-          icon: (aps.playing ?? false)
+          onPressed: () =>
+              (apState.playing ?? false) ? apCubit.pause() : apCubit.play(),
+          icon: (apState.playing ?? false)
               ? const Icon(Icons.pause)
               : const Icon(Icons.play_arrow),
         ),
         IconButton(
-            onPressed: apCubit.playNext, icon: const Icon(Icons.skip_next)),
+          onPressed: () => apCubit.playNext(),
+          icon: const Icon(Icons.skip_next),
+        ),
+        IconButton(
+            onPressed: () =>
+                apCubit.setLoopTrack(!(apState.isLoopTrack ?? false)),
+            icon: (apState.isLoopTrack ?? false)
+                ? Icon(Icons.repeat_one,
+                    color: Theme.of(context).colorScheme.primary)
+                : const Icon(Icons.repeat)),
       ],
     );
   }

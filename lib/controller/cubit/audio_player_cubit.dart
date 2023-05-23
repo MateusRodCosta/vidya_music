@@ -67,8 +67,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     await _player.setAudioSource(_playlist,
         initialIndex: initialIndex, initialPosition: Duration.zero);
 
-    await _player.setShuffleModeEnabled(true);
+    final initialShuffle = state.isShuffle ?? true;
+    await _player.setShuffleModeEnabled(initialShuffle);
     await _player.play();
+
+    emit(state.copyWith(isShuffle: initialShuffle));
   }
 
   AudioSource _trackToAudioSource(Track track) {
@@ -110,6 +113,16 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> playPrevious() async => await _player.seekToPrevious();
 
   Future<void> playNext() async => await _player.seekToNext();
+
+  Future<void> setShuffle(bool shuffleMode) async {
+    await _player.setShuffleModeEnabled(shuffleMode);
+    emit(state.copyWith(isShuffle: shuffleMode));
+  }
+
+  Future<void> setLoopTrack(bool loopTrack) async {
+    await _player.setLoopMode(loopTrack ? LoopMode.one : LoopMode.off);
+    emit(state.copyWith(isLoopTrack: loopTrack));
+  }
 
   void _onDurationChanged(Duration? d) {
     emit(state.copyWith(trackDuration: d));
