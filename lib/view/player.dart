@@ -2,7 +2,9 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+
+import '../controller/cubit/audio_player_cubit.dart';
+import '../model/track.dart';
 
 class Player extends StatelessWidget {
   const Player({super.key});
@@ -20,27 +22,7 @@ class Player extends StatelessWidget {
           children: [
             aps.currentTrack == null
                 ? Text('No track', style: Theme.of(context).textTheme.bodyLarge)
-                : Column(
-                    children: [
-                      TextScroll(
-                        '${aps.currentTrack!.game} - ${aps.currentTrack!.title}',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        delayBefore: const Duration(seconds: 3),
-                        pauseBetween: const Duration(seconds: 1),
-                        velocity:
-                            const Velocity(pixelsPerSecond: Offset(40, 0)),
-                        intervalSpaces: 10,
-                      ),
-                      if (aps.currentTrack!.arr != null)
-                        Text('Arranger: ${aps.currentTrack!.arr}',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center),
-                      Text(
-                          'Composer: ${aps.currentTrack!.comp.isEmpty ? '-' : aps.currentTrack!.comp}',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          textAlign: TextAlign.center),
-                    ],
-                  ),
+                : _buildTrackInfo(context, aps.currentTrack!),
             ProgressBar(
               progress: aps.trackPosition ?? const Duration(seconds: 0),
               total: aps.trackDuration ?? const Duration(seconds: 0),
@@ -48,28 +30,53 @@ class Player extends StatelessWidget {
               onSeek: apCubit.seek,
               timeLabelLocation: TimeLabelLocation.sides,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: apCubit.playPrevious,
-                    icon: const Icon(Icons.skip_previous)),
-                IconButton(
-                  onPressed: () {
-                    (aps.playing ?? false) ? apCubit.pause() : apCubit.play();
-                  },
-                  icon: (aps.playing ?? false)
-                      ? const Icon(Icons.pause)
-                      : const Icon(Icons.play_arrow),
-                ),
-                IconButton(
-                    onPressed: apCubit.playNext,
-                    icon: const Icon(Icons.skip_next)),
-              ],
-            ),
+            _buildControls(apCubit, aps),
           ],
         ),
       );
     });
+  }
+
+  Column _buildTrackInfo(BuildContext context, Track currentTrack) {
+    return Column(
+      children: [
+        TextScroll(
+          '${currentTrack.game} - ${currentTrack.title}',
+          style: Theme.of(context).textTheme.bodyLarge,
+          delayBefore: const Duration(seconds: 3),
+          pauseBetween: const Duration(seconds: 1),
+          velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+          intervalSpaces: 10,
+        ),
+        if (currentTrack.arr != null)
+          Text('Arranger: ${currentTrack.arr}',
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center),
+        Text('Composer: ${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
+            style: Theme.of(context).textTheme.bodyLarge,
+            textAlign: TextAlign.center),
+      ],
+    );
+  }
+
+  Row _buildControls(AudioPlayerCubit apCubit, AudioPlayerState aps) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+            onPressed: apCubit.playPrevious,
+            icon: const Icon(Icons.skip_previous)),
+        IconButton(
+          onPressed: () {
+            (aps.playing ?? false) ? apCubit.pause() : apCubit.play();
+          },
+          icon: (aps.playing ?? false)
+              ? const Icon(Icons.pause)
+              : const Icon(Icons.play_arrow),
+        ),
+        IconButton(
+            onPressed: apCubit.playNext, icon: const Icon(Icons.skip_next)),
+      ],
+    );
   }
 }
