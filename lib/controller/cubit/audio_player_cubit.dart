@@ -13,10 +13,6 @@ import 'package:vidya_music/model/track.dart';
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
-  late AudioPlayer _player;
-
-  late Roster _roster;
-
   AudioPlayerCubit() : super(const AudioPlayerState()) {
     _initializePlayer();
   }
@@ -27,9 +23,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late StreamSubscription<bool> onPlayingSubscription;
   late StreamSubscription<int?> onCurrentIndexSubscription;
 
+  late AudioPlayer _player;
   late Playlist _selectedPlaylist;
-
-  late ConcatenatingAudioSource _playlist;
+  late Roster _roster;
 
   void _initializePlayer() {
     _player = AudioPlayerSingleton.instance;
@@ -57,14 +53,14 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> _initializePlaylist() async {
     final tracks = _roster.tracks.map((t) => _trackToAudioSource(t)).toList();
 
-    _playlist = ConcatenatingAudioSource(
+    final playlist = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
       children: tracks,
     );
 
     final initialIndex = _selectRandomTrack();
-    await _player.setAudioSource(_playlist,
+    await _player.setAudioSource(playlist,
         initialIndex: initialIndex, initialPosition: Duration.zero);
 
     final initialShuffle = state.isShuffle ?? true;
