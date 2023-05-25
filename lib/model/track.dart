@@ -5,14 +5,19 @@ class Track {
   String comp;
   String? arr;
   String file;
+  bool? hasSrc;
+  bool? isSrcTrack;
 
-  Track(this.id, this.game, this.title, this.comp, this.arr, this.file);
+  Track(this.id, this.game, this.title, this.comp, this.arr, this.file,
+      this.hasSrc);
 
-  Track.fromJson(Map<String, dynamic> json, {bool isSource = false})
-      : id = !isSource ? json['id'] : (json['s_id'] ?? json['id']),
+  Track.fromJson(Map<String, dynamic> json, {bool isSrc = false})
+      : id = !isSrc ? json['id'] : (json['s_id'] ?? json['id']),
         game = json['game'],
-        title = !isSource ? json['title'] : (json['s_title'] ?? json['title']),
+        title = !isSrc ? json['title'] : (json['s_title'] ?? json['title']),
         comp = json['comp'],
-        arr = !isSource ? json['arr'] : null,
-        file = !isSource ? json['file'] : (json['s_file'] ?? json['file']);
+        arr = !isSrc ? json['arr'] : null,
+        file = !isSrc ? json['file'] : (json['s_file'] ?? json['file']),
+        hasSrc = json['s_id'] != null,
+        isSrcTrack = isSrc && (json['s_id'] != null);
 }

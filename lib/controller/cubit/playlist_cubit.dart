@@ -53,7 +53,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       emit(PlaylistStateLoading(_availablePlaylists, _selectedRoster));
       final r = await http.read(Uri.parse(url));
       final js = jsonDecode(r);
-      final roster = Roster.fromJson(js, isSource: _selectedRoster.isSource);
+      final roster = Roster.fromJson(js, isSrc: _selectedRoster.isSource);
       emit(PlaylistStateSuccess(_availablePlaylists, _selectedRoster, roster));
     } catch (e) {
       emit(PlaylistStateError(_availablePlaylists));

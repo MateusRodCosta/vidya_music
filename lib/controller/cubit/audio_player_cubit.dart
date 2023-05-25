@@ -84,8 +84,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   Uri _findTrackUri(Track track) {
-    final url =
-        '${_roster.url}${_selectedPlaylist.isSource ? _selectedPlaylist.additionalPath : ''}${track.file}.${_roster.ext}';
+    final additionalPath =
+        (track.isSrcTrack ?? false) ? _selectedPlaylist.additionalPath : '';
+    final url = '${_roster.url}$additionalPath${track.file}.${_roster.ext}';
 
     final uri = Uri.parse(url);
 
