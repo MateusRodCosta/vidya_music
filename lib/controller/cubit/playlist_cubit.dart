@@ -4,10 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:vidya_music/model/playlist.dart';
-import 'package:vidya_music/model/roster.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart' show rootBundle;
+
+import '../../model/config.dart';
+import '../../model/playlist.dart';
+import '../../model/roster.dart';
 
 part 'playlist_state.dart';
 
@@ -16,15 +18,15 @@ class PlaylistCubit extends Cubit<PlaylistState> {
   late Playlist _selectedRoster;
 
   PlaylistCubit() : super(PlaylistStateInitial()) {
-    _decodePlaylists();
+    _decodeConfig();
   }
 
-  void _decodePlaylists() async {
-    final js = await rootBundle.loadString('assets/playlists.json');
-    final decoded = json.decode(js) as List<dynamic>;
-    final lists = decoded.map((d) => Playlist.fromJson(d)).toList();
+  void _decodeConfig() async {
+    final js = await rootBundle.loadString('assets/config.json');
+    final decoded = json.decode(js);
+    final config = Config.fromJson(decoded);
 
-    _availablePlaylists = List.from(lists)
+    _availablePlaylists = List.from(config.playlists)
       ..sort(
         (a, b) => a.order.compareTo(b.order),
       );
@@ -32,7 +34,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
     emit(PlaylistStateDecoded(_availablePlaylists));
 
     final defaultPlaylist = _availablePlaylists.singleWhere(
-      (p) => p.isDefault,
+      (p) => p.id == config.defaultPlaylist,
       orElse: () => _availablePlaylists.first,
     );
 
@@ -53,7 +55,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       emit(PlaylistStateLoading(_availablePlaylists, _selectedRoster));
       final r = await http.read(Uri.parse(url));
       final js = jsonDecode(r);
-      final roster = Roster.fromJson(js, isSrc: _selectedRoster.isSource);
+      final roster = Roster.fromJson(js, getSource: _selectedRoster.isSource);
       emit(PlaylistStateSuccess(_availablePlaylists, _selectedRoster, roster));
     } catch (e) {
       emit(PlaylistStateError(_availablePlaylists));

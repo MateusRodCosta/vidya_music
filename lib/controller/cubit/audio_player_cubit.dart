@@ -5,10 +5,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:vidya_music/controller/services/audio_player_singleton.dart';
-import 'package:vidya_music/model/playlist.dart';
-import 'package:vidya_music/model/roster.dart';
-import 'package:vidya_music/model/track.dart';
+
+import '../../model/playlist.dart';
+import '../../model/roster.dart';
+import '../../model/track.dart';
+import '../services/audio_player_singleton.dart';
 
 part 'audio_player_state.dart';
 
@@ -71,7 +72,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   AudioSource _trackToAudioSource(Track track) {
-    return AudioSource.uri(_findTrackUri(track),
+    return AudioSource.uri(_generateTrackUri(track),
         tag: MediaItem(
           id: '${_selectedPlaylist.name}_${track.id}',
           title: track.title,
@@ -83,10 +84,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     await _player.seek(Duration.zero, index: trackIndex);
   }
 
-  Uri _findTrackUri(Track track) {
-    final additionalPath =
-        (track.isSrcTrack ?? false) ? _selectedPlaylist.additionalPath : '';
-    final url = '${_roster.url}$additionalPath${track.file}.${_roster.ext}';
+  Uri _generateTrackUri(Track track) {
+    final filename = '${track.file}.${_roster.ext}';
+    final sourcePath =
+        track.isSrcTrack ? (_selectedPlaylist.extras?.sourcePath ?? '') : '';
+    final url = '${_roster.url}$sourcePath$filename';
 
     final uri = Uri.parse(url);
 
