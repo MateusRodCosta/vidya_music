@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,16 +9,11 @@ import '../controller/cubit/theme_cubit.dart';
 import '../controller/services/package_info_singleton.dart';
 import '../model/playlist.dart';
 
-class AppDrawer extends StatefulWidget {
-  const AppDrawer({super.key, this.packageInfo});
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key, this.isLargeScreen = false});
 
-  final PackageInfo? packageInfo;
+  final bool isLargeScreen;
 
-  @override
-  State<AppDrawer> createState() => _AppDrawerState();
-}
-
-class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     Playlist? currentPlaylist;
@@ -39,20 +33,22 @@ class _AppDrawerState extends State<AppDrawer> {
           availablePlaylists = rs.availablePlaylists;
         }
         return Drawer(
+          shape: isLargeScreen ? const LinearBorder() : null,
           child: ListView(
             padding: Provider.of<bool>(context)
                 ? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom)
                 : null,
             children: <Widget>[
-              _buildDrawerHeader(),
+              _buildDrawerHeader(context),
               if (availablePlaylists != null)
                 ...availablePlaylists!
-                    .map((p) => _buildPlaylistTile(p, p == currentPlaylist))
+                    .map((p) =>
+                        _buildPlaylistTile(context, p, p == currentPlaylist))
                     .toList(),
-              _buildDivider(),
+              _buildDivider(context),
               _buildThemeTiles(),
-              _buildDivider(),
-              _buildAboutTile(),
+              _buildDivider(context),
+              _buildAboutTile(context),
             ],
           ),
         );
@@ -60,7 +56,7 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  DrawerHeader _buildDrawerHeader() {
+  DrawerHeader _buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
@@ -93,7 +89,7 @@ class _AppDrawerState extends State<AppDrawer> {
         ));
   }
 
-  Divider _buildDivider() {
+  Divider _buildDivider(BuildContext context) {
     return Divider(
       height: 1.0,
       thickness: 0.0,
@@ -103,7 +99,8 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  ListTile _buildPlaylistTile(Playlist playlist, bool isSelected) {
+  ListTile _buildPlaylistTile(
+      BuildContext context, Playlist playlist, bool isSelected) {
     return ListTile(
       leading: const Icon(Icons.music_note),
       title: Text(playlist.name),
@@ -152,14 +149,15 @@ class _AppDrawerState extends State<AppDrawer> {
     });
   }
 
-  ListTile _buildAboutTile() {
+  ListTile _buildAboutTile(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.help_outline),
       title: const Text('About'),
       onTap: () async {
         final packageInfo = await PackageInfoSingleton.instance;
 
-        if (!mounted) return;
+        // ignore: use_build_context_synchronously
+        if (!context.mounted) return;
 
         showAboutDialog(
             context: context,

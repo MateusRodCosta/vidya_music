@@ -14,19 +14,35 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLarge = MediaQuery.of(context).size.width >= 840;
+
+    const bodyContents = [
+      Player(),
+      Expanded(child: RosterList()),
+    ];
     return Scaffold(
-      appBar: AppBar(title: _buildTitle()),
-      endDrawer: const AppDrawer(),
-      body: const Column(
-        children: [
-          Player(),
-          Expanded(child: RosterList()),
-        ],
-      ),
+      appBar: !isLarge ? AppBar(title: _buildTitle()) : null,
+      endDrawer: !isLarge ? const AppDrawer() : null,
+      body: isLarge
+          ? Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      AppBar(title: _buildTitle(isLarge: isLarge)),
+                      ...bodyContents,
+                    ],
+                  ),
+                ),
+                AppDrawer(isLargeScreen: isLarge)
+              ],
+            )
+          : const Column(children: bodyContents),
     );
   }
 
-  BlocBuilder<PlaylistCubit, PlaylistState> _buildTitle() {
+  BlocBuilder<PlaylistCubit, PlaylistState> _buildTitle(
+      {bool isLarge = false}) {
     Playlist? currentPlaylist;
 
     return BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, rs) {
@@ -37,9 +53,7 @@ class MainPage extends StatelessWidget {
         currentPlaylist = rs.selectedRoster;
       }
       return InkWell(
-        onTap: () {
-          Scaffold.of(context).openEndDrawer();
-        },
+        onTap: !isLarge ? () => Scaffold.of(context).openEndDrawer() : null,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
