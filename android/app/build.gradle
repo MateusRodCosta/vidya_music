@@ -1,3 +1,8 @@
+plugins {
+    alias libs.plugins.android.application
+    alias libs.plugins.kotlin.android
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -15,23 +20,39 @@ def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
 }
-
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystorePropertiesFile = rootProject.file("key.properties")
-
 def keystoreProperties = new Properties()
-
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    namespace "com.mateusrodcosta.apps.vidyamusic"
+    compileSdkVersion  33
+    defaultConfig {
+        applicationId "com.mateusrodcosta.apps.vidyamusic"
+        minSdkVersion 26
+        targetSdkVersion  33
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -40,39 +61,12 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    compileSdkVersion  33
-    ndkVersion flutter.ndkVersion
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = '11'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    defaultConfig {
-        applicationId "com.mateusrodcosta.apps.vidyamusic"
-        minSdkVersion 24
-        targetSdkVersion  33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-    }
-
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            ndk {
-                debugSymbolLevel = 'FULL'
-            }
             manifestPlaceholders = [appName: "Vidya Music"]
         }
         debug {
@@ -81,7 +75,6 @@ android {
             manifestPlaceholders = [appName: "Vidya Music (Debug)"]
         }
     }
-
 }
 
 flutter {
@@ -89,5 +82,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation libs.kotlin.stdlib
 }
