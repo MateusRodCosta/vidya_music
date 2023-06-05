@@ -34,29 +34,32 @@ class AppDrawer extends StatelessWidget {
         }
         return Drawer(
           shape: isLargeScreen ? const LinearBorder() : null,
-          child: ListView(
-            padding: Provider.of<bool>(context)
-                ? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom)
-                : null,
+          child: Column(
             children: <Widget>[
               _buildDrawerHeader(context),
-              SafeArea(
-                left: true,
-                right: true,
-                top: false,
-                bottom: false,
-                child: Column(
-                  children: [
-                    if (availablePlaylists != null)
-                      ...availablePlaylists!
-                          .map((p) => _buildPlaylistTile(
-                              context, p, p == currentPlaylist))
-                          .toList(),
-                    _buildDivider(context),
-                    _buildThemeTiles(),
-                    _buildDivider(context),
-                    _buildAboutTile(context),
-                  ],
+              Expanded(
+                child: SafeArea(
+                  left: true,
+                  right: true,
+                  top: false,
+                  bottom: false,
+                  child: ListView(
+                    padding: Provider.of<bool>(context)
+                        ? EdgeInsets.only(
+                            bottom: MediaQuery.of(context).padding.bottom)
+                        : null,
+                    children: [
+                      if (availablePlaylists != null)
+                        ...availablePlaylists!
+                            .map((p) => _buildPlaylistTile(
+                                context, p, p == currentPlaylist))
+                            .toList(),
+                      _buildDivider(context),
+                      _buildThemeTiles(),
+                      _buildDivider(context),
+                      _buildAboutTile(context),
+                    ],
+                  ),
                 ),
               )
             ],
