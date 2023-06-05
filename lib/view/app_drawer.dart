@@ -22,11 +22,11 @@ class AppDrawer extends StatelessWidget {
     return BlocBuilder<PlaylistCubit, PlaylistState>(
       builder: (context, rs) {
         if (rs is PlaylistStateLoading) {
-          currentPlaylist = rs.selectedRoster;
+          currentPlaylist = rs.selectedPlaylist;
           availablePlaylists = rs.availablePlaylists;
         }
         if (rs is PlaylistStateSuccess) {
-          currentPlaylist = rs.selectedRoster;
+          currentPlaylist = rs.selectedPlaylist;
           availablePlaylists = rs.availablePlaylists;
         }
         if (rs is PlaylistStateError) {

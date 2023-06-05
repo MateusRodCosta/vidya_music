@@ -25,8 +25,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late StreamSubscription<int?> onCurrentIndexSubscription;
 
   late AudioPlayer _player;
-  late Playlist _selectedPlaylist;
+  late Playlist _currentPlaylist;
   late Roster _roster;
+  (Playlist, Roster)? _currentPlaylistPair;
 
   void _initializePlayer() {
     _player = AudioPlayerSingleton.instance;
@@ -44,9 +45,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         _player.currentIndexStream.listen(_onCurrentIndex);
   }
 
-  Future<void> setPlaylist(Playlist selectedPlaylist, Roster roster) async {
-    _selectedPlaylist = selectedPlaylist;
-    _roster = roster;
+  Future<void> setPlaylist((Playlist, Roster) newPlaylistPair) async {
+    if (newPlaylistPair == _currentPlaylistPair) return;
+
+    _currentPlaylist = newPlaylistPair.$1;
+    _roster = newPlaylistPair.$2;
+    _currentPlaylistPair = newPlaylistPair;
 
     await _initializePlaylist();
   }
@@ -74,7 +78,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioSource _trackToAudioSource(Track track) {
     return AudioSource.uri(_generateTrackUri(track),
         tag: MediaItem(
-          id: '${_selectedPlaylist.name}_${track.id}',
+          id: '${_currentPlaylist.name}_${track.id}',
           title: track.title,
           artist: track.game,
         ));
@@ -87,7 +91,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Uri _generateTrackUri(Track track) {
     final filename = '${track.file}.${_roster.ext}';
     final sourcePath =
-        track.isSrcTrack ? (_selectedPlaylist.extras?.sourcePath ?? '') : '';
+        track.isSrcTrack ? (_currentPlaylist.extras?.sourcePath ?? '') : '';
     final url = '${_roster.url}$sourcePath$filename';
 
     final uri = Uri.parse(url);

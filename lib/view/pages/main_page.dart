@@ -47,10 +47,10 @@ class MainPage extends StatelessWidget {
 
     return BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, rs) {
       if (rs is PlaylistStateLoading) {
-        currentPlaylist = rs.selectedRoster;
+        currentPlaylist = rs.selectedPlaylist;
       }
       if (rs is PlaylistStateSuccess) {
-        currentPlaylist = rs.selectedRoster;
+        currentPlaylist = rs.selectedPlaylist;
       }
       return InkWell(
         onTap: !isLarge ? () => Scaffold.of(context).openEndDrawer() : null,

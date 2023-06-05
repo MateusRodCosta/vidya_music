@@ -34,7 +34,14 @@ Future<void> main() async {
   runApp(
     Provider<bool>.value(
       value: enableEdgeToEdge,
-      child: const MyApp(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => PlaylistCubit()),
+          BlocProvider(create: (context) => AudioPlayerCubit()),
+          BlocProvider(create: (context) => ThemeCubit()),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }
@@ -43,22 +50,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => PlaylistCubit()),
-        BlocProvider(create: (context) => AudioPlayerCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
-      ],
-      child: BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
-        return MaterialApp(
-          title: 'Vidya Music',
-          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-          darkTheme:
-              ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-          themeMode: state.themeMode,
-          home: const MainPage(title: 'Vidya Music'),
-        );
-      }),
-    );
+    return BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
+      return MaterialApp(
+        title: 'Vidya Music',
+        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        themeMode: state.themeMode,
+        home: const MainPage(title: 'Vidya Music'),
+      );
+    });
   }
 }

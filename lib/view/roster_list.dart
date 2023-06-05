@@ -36,24 +36,25 @@ class _RosterListState extends State<RosterList> {
         scrollToTrack(aps.currentTrackIndex);
       },
       child: BlocBuilder<PlaylistCubit, PlaylistState>(
-        builder: (context, roster) {
-          if (roster is PlaylistStateLoading) {
+        builder: (context, playlistState) {
+          if (playlistState is PlaylistStateLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (roster is PlaylistStateSuccess) {
-            final ros = roster.roster;
+          if (playlistState is PlaylistStateSuccess) {
+            final roster = playlistState.roster;
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
-                .setPlaylist(roster.selectedRoster, ros);
+                .setPlaylist((playlistState.selectedPlaylist, roster));
+
             return ScrollablePositionedList.separated(
               padding: Provider.of<bool>(context)
                   ? EdgeInsets.only(
                       bottom: MediaQuery.of(context).padding.bottom)
                   : null,
-              itemCount: ros.tracks.length,
+              itemCount: roster.tracks.length,
               itemBuilder: (context, i) {
-                return TrackItem(track: ros.tracks[i], index: i);
+                return TrackItem(track: roster.tracks[i], index: i);
               },
               separatorBuilder: (context, i) => Divider(
                 height: 1.0,

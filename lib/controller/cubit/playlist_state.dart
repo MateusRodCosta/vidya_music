@@ -21,25 +21,25 @@ class PlaylistStateDecoded extends PlaylistState {
 }
 
 class PlaylistStateLoading extends PlaylistState {
-  PlaylistStateLoading(this.availablePlaylists, this.selectedRoster);
+  PlaylistStateLoading(this.availablePlaylists, this.selectedPlaylist);
 
   final List<Playlist> availablePlaylists;
-  final Playlist selectedRoster;
+  final Playlist selectedPlaylist;
 
   @override
-  List<Object?> get props => [availablePlaylists, selectedRoster];
+  List<Object?> get props => [availablePlaylists, selectedPlaylist];
 }
 
 class PlaylistStateSuccess extends PlaylistState {
   PlaylistStateSuccess(
-      this.availablePlaylists, this.selectedRoster, this.roster);
+      this.availablePlaylists, this.selectedPlaylist, this.roster);
 
   final List<Playlist> availablePlaylists;
-  final Playlist selectedRoster;
+  final Playlist selectedPlaylist;
   final Roster roster;
 
   @override
-  List<Object?> get props => [availablePlaylists, selectedRoster, roster];
+  List<Object?> get props => [availablePlaylists, selectedPlaylist, roster];
 }
 
 class PlaylistStateError extends PlaylistState {
