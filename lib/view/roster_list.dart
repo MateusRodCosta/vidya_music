@@ -47,24 +47,30 @@ class _RosterListState extends State<RosterList> {
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
                 .setPlaylist((playlistState.selectedPlaylist, roster));
 
-            return ScrollablePositionedList.separated(
-              padding: Provider.of<bool>(context)
-                  ? EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom)
-                  : null,
-              itemCount: roster.tracks.length,
-              itemBuilder: (context, i) {
-                return TrackItem(track: roster.tracks[i], index: i);
-              },
-              separatorBuilder: (context, i) => Divider(
-                height: 1.0,
-                thickness: 0.0,
-                color: Theme.of(context).dividerColor,
-                indent: 8,
-                endIndent: 8,
+            return SafeArea(
+              left: true,
+              right: true,
+              top: false,
+              bottom: false,
+              child: ScrollablePositionedList.separated(
+                padding: Provider.of<bool>(context)
+                    ? EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom)
+                    : null,
+                itemCount: roster.tracks.length,
+                itemBuilder: (context, i) {
+                  return TrackItem(track: roster.tracks[i], index: i);
+                },
+                separatorBuilder: (context, i) => Divider(
+                  height: 1.0,
+                  thickness: 0.0,
+                  color: Theme.of(context).dividerColor,
+                  indent: 8,
+                  endIndent: 8,
+                ),
+                itemScrollController: itemScrollController,
+                itemPositionsListener: itemPositionsListener,
               ),
-              itemScrollController: itemScrollController,
-              itemPositionsListener: itemPositionsListener,
             );
           }
           return Center(

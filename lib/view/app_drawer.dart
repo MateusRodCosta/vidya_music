@@ -40,15 +40,25 @@ class AppDrawer extends StatelessWidget {
                 : null,
             children: <Widget>[
               _buildDrawerHeader(context),
-              if (availablePlaylists != null)
-                ...availablePlaylists!
-                    .map((p) =>
-                        _buildPlaylistTile(context, p, p == currentPlaylist))
-                    .toList(),
-              _buildDivider(context),
-              _buildThemeTiles(),
-              _buildDivider(context),
-              _buildAboutTile(context),
+              SafeArea(
+                left: true,
+                right: true,
+                top: false,
+                bottom: false,
+                child: Column(
+                  children: [
+                    if (availablePlaylists != null)
+                      ...availablePlaylists!
+                          .map((p) => _buildPlaylistTile(
+                              context, p, p == currentPlaylist))
+                          .toList(),
+                    _buildDivider(context),
+                    _buildThemeTiles(),
+                    _buildDivider(context),
+                    _buildAboutTile(context),
+                  ],
+                ),
+              )
             ],
           ),
         );

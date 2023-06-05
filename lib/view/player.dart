@@ -14,24 +14,31 @@ class Player extends StatelessWidget {
     final apCubit = BlocProvider.of<AudioPlayerCubit>(context, listen: false);
     return BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
         builder: (context, apState) {
-      return Padding(
-        padding: MediaQuery.of(context).size.width >= 600
-            ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-            : const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: Column(
-          children: [
-            apState.currentTrack == null
-                ? Text('No track', style: Theme.of(context).textTheme.bodyLarge)
-                : _buildTrackInfo(context, apState.currentTrack!),
-            ProgressBar(
-              progress: apState.trackPosition ?? const Duration(seconds: 0),
-              total: apState.trackDuration ?? const Duration(seconds: 0),
-              buffered: apState.trackBuffered ?? const Duration(seconds: 0),
-              onSeek: apCubit.seek,
-              timeLabelLocation: TimeLabelLocation.sides,
-            ),
-            _buildControls(context, apCubit, apState),
-          ],
+      return SafeArea(
+        left: true,
+        right: true,
+        top: false,
+        bottom: false,
+        child: Padding(
+          padding: MediaQuery.of(context).size.width >= 600
+              ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
+              : const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: Column(
+            children: [
+              apState.currentTrack == null
+                  ? Text('No track',
+                      style: Theme.of(context).textTheme.bodyLarge)
+                  : _buildTrackInfo(context, apState.currentTrack!),
+              ProgressBar(
+                progress: apState.trackPosition ?? const Duration(seconds: 0),
+                total: apState.trackDuration ?? const Duration(seconds: 0),
+                buffered: apState.trackBuffered ?? const Duration(seconds: 0),
+                onSeek: apCubit.seek,
+                timeLabelLocation: TimeLabelLocation.sides,
+              ),
+              _buildControls(context, apCubit, apState),
+            ],
+          ),
         ),
       );
     });
