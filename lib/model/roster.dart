@@ -1,22 +1,23 @@
-import 'package:vidya_music/model/track.dart';
+import 'track.dart';
 
 class Roster {
-  String changelog;
-  String url;
-  String ext;
-  int? newId;
-  List<Track> tracks;
+  final String changelog;
+  final String url;
+  final String ext;
+  final int? newId;
+  final List<Track> tracks;
 
   Roster(this.changelog, this.url, this.ext, this.newId, this.tracks);
 
-  Roster.fromJson(Map<String, dynamic> json, {bool isSource = false})
-      : changelog = json['changelog'],
-        url = json['url'],
-        ext = json['ext'],
-        newId = json['new_id'],
-        tracks = (json['tracks'] as List<dynamic>)
-            .map((t) => Track.fromJson(t, isSource: isSource))
-            .toList();
-}
+  factory Roster.fromJson(Map<String, dynamic> json, {bool getSource = false}) {
+    final changelog = json['changelog'];
+    final url = json['url'];
+    final ext = json['ext'];
+    final newId = json['new_id'];
+    final tracks = (json['tracks'] as List<dynamic>)
+        .map((t) => Track.fromJson(t, getSource: getSource))
+        .toList();
 
-enum RosterPlaylist { vip, source, mellow, exiled }
+    return Roster(changelog, url, ext, newId, tracks);
+  }
+}

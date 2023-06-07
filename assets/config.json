@@ -1,0 +1,37 @@
+{
+    "default_playlist": "vip",
+    "playlists": [
+        {
+            "id": "vip",
+            "order": 1,
+            "name": "VIP",
+            "description": "The big one",
+            "url": "https://www.vipvgm.net/roster.min.json"
+        },
+        {
+            "id": "source",
+            "order": 2,
+            "name": "Source",
+            "description": "VIP with the original tracks",
+            "url": "https://www.vipvgm.net/roster.min.json",
+            "is_source": true,
+            "extras": {
+                "source_path": "source/"
+            }
+        },
+        {
+            "id": "mellow",
+            "order": 3,
+            "name": "Mellow",
+            "description": "ResidentSleeper",
+            "url": "https://www.vipvgm.net/roster-mellow.min.json"
+        },
+        {
+            "id": "exiled",
+            "order": 4,
+            "name": "Exiled",
+            "description": "Here be dragons",
+            "url": "https://www.vipvgm.net/roster-exiled.min.json"
+        }
+    ]
+}

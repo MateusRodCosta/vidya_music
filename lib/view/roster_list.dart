@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/controller/cubit/roster_cubit.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/view/track_item.dart';
 
 class RosterList extends StatefulWidget {
@@ -34,30 +37,42 @@ class _RosterListState extends State<RosterList> {
       listener: (context, aps) {
         scrollToTrack(aps.currentTrackIndex);
       },
-      child: BlocBuilder<RosterCubit, RosterState>(
-        builder: (context, roster) {
-          if (roster is RosterStateLoading) {
+      child: BlocBuilder<PlaylistCubit, PlaylistState>(
+        builder: (context, playlistState) {
+          if (playlistState is PlaylistStateLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-
-          if (roster is RosterStateSuccess) {
-            final ros = roster.roster;
+          if (playlistState is PlaylistStateSuccess) {
+            final roster = playlistState.roster;
             BlocProvider.of<AudioPlayerCubit>(context, listen: false)
-                .initializePlayer(roster.selectedRoster, ros);
-            return ScrollablePositionedList.separated(
-              itemCount: ros.tracks.length,
-              itemBuilder: (context, i) {
-                return TrackItem(track: ros.tracks[i], index: i);
-              },
-              separatorBuilder: (context, i) => Divider(
-                height: 1.0,
-                thickness: 0.0,
-                color: Colors.grey[300],
+                .setPlaylist((playlistState.selectedPlaylist, roster));
+
+            return SafeArea(
+              left: true,
+              right: !Platform.isIOS,
+              top: false,
+              bottom: false,
+              child: ScrollablePositionedList.separated(
+                padding: Provider.of<bool>(context)
+                    ? EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom)
+                    : null,
+                itemCount: roster.tracks.length,
+                itemBuilder: (context, i) {
+                  return TrackItem(track: roster.tracks[i], index: i);
+                },
+                separatorBuilder: (context, i) => Divider(
+                  height: 1.0,
+                  thickness: 0.0,
+                  color: Theme.of(context).dividerColor,
+                  indent: 8,
+                  endIndent: 8,
+                ),
+                itemScrollController: itemScrollController,
+                itemPositionsListener: itemPositionsListener,
               ),
-              itemScrollController: itemScrollController,
-              itemPositionsListener: itemPositionsListener,
             );
           }
           return Center(
@@ -68,7 +83,8 @@ class _RosterListState extends State<RosterList> {
                 ElevatedButton(
                     child: const Text('Try again'),
                     onPressed: () async {
-                      await BlocProvider.of<RosterCubit>(context, listen: false)
+                      await BlocProvider.of<PlaylistCubit>(context,
+                              listen: false)
                           .fetchRoster();
                     }),
               ],

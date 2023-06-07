@@ -5,17 +5,18 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:tuple/tuple.dart';
-import 'package:vidya_music/model/roster.dart';
-import 'package:vidya_music/model/track.dart';
+
+import '../../model/playlist.dart';
+import '../../model/roster.dart';
+import '../../model/track.dart';
+import '../services/audio_player_singleton.dart';
 
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
-  final _player = AudioPlayer();
-  late Roster _roster;
-
-  AudioPlayerCubit() : super(const AudioPlayerState());
+  AudioPlayerCubit() : super(const AudioPlayerState()) {
+    _initializePlayer();
+  }
 
   late StreamSubscription<Duration?> onDurationSubscription;
   late StreamSubscription<Duration> onPositionSubscription;
@@ -23,15 +24,13 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late StreamSubscription<bool> onPlayingSubscription;
   late StreamSubscription<int?> onCurrentIndexSubscription;
 
-  late RosterPlaylist _selectedRoster;
+  late AudioPlayer _player;
+  late Playlist _currentPlaylist;
+  late Roster _roster;
+  (Playlist, Roster)? _currentPlaylistPair;
 
-  late List<Tuple2<int, Track>> _playlistTracks;
-  late ConcatenatingAudioSource _playlist;
-
-  Future<void> initializePlayer(
-      RosterPlaylist selectedRoster, Roster roster) async {
-    _roster = roster;
-    _selectedRoster = selectedRoster;
+  void _initializePlayer() {
+    _player = AudioPlayerSingleton.instance;
 
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
 
@@ -44,87 +43,68 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
     onCurrentIndexSubscription =
         _player.currentIndexStream.listen(_onCurrentIndex);
+  }
+
+  Future<void> setPlaylist((Playlist, Roster) newPlaylistPair) async {
+    if (newPlaylistPair == _currentPlaylistPair) return;
+
+    _currentPlaylist = newPlaylistPair.$1;
+    _roster = newPlaylistPair.$2;
+    _currentPlaylistPair = newPlaylistPair;
 
     await _initializePlaylist();
   }
 
   Future<void> _initializePlaylist() async {
-    final l = <Tuple2<int, Track>>[];
-    for (int i = 0; i < 3; i++) {
-      final t = selectRandomTrack();
-      l.add(t);
-    }
+    final tracks = _roster.tracks.map((t) => _trackToAudioSource(t)).toList();
 
-    final pl = l.map((t) => _trackToAudioSource(t.item1, t.item2)).toList();
-
-    _playlistTracks = l;
-
-    final playli = ConcatenatingAudioSource(
+    final playlist = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
-      children: pl,
+      children: tracks,
     );
 
-    _playlist = playli;
+    final initialIndex = _selectRandomTrack();
+    await _player.setAudioSource(playlist,
+        initialIndex: initialIndex, initialPosition: Duration.zero);
 
-    await _player.setAudioSource(_playlist,
-        initialIndex: 0, initialPosition: Duration.zero);
-
+    final initialShuffle = state.isShuffle ?? true;
+    await _player.setShuffleModeEnabled(initialShuffle);
     await _player.play();
+
+    emit(state.copyWith(isShuffle: initialShuffle));
   }
 
-  AudioSource _trackToAudioSource(int id, Track track) {
-    return AudioSource.uri(_findTrackUri(track),
+  AudioSource _trackToAudioSource(Track track) {
+    return AudioSource.uri(_generateTrackUri(track),
         tag: MediaItem(
-          id: '${_selectedRoster.name}_$id',
+          id: '${_currentPlaylist.name}_${track.id}',
           title: track.title,
           artist: track.game,
         ));
   }
 
   Future<void> playTrack(Track track, int trackIndex) async {
-    final current = _player.currentIndex!;
-
-    final playlistTracks = List<Tuple2<int, Track>>.from(_playlistTracks);
-    playlistTracks.removeRange(current + 1, playlistTracks.length);
-    final t = Tuple2(trackIndex, track);
-    final tExtra = selectRandomTrack();
-
-    playlistTracks.add(t);
-    playlistTracks.add(tExtra);
-
-    final tracks = playlistTracks
-        .map((t) => _trackToAudioSource(t.item1, t.item2))
-        .toList();
-
-    final playli = ConcatenatingAudioSource(
-      useLazyPreparation: true,
-      shuffleOrder: DefaultShuffleOrder(),
-      children: tracks,
-    );
-
-    _playlistTracks = playlistTracks;
-    _playlist = playli;
-
-    await _player.setAudioSource(_playlist,
-        initialIndex: current + 1, initialPosition: Duration.zero);
+    await _player.seek(Duration.zero, index: trackIndex);
   }
 
-  Uri _findTrackUri(Track track) {
-    final url =
-        '${_roster.url}${_selectedRoster == RosterPlaylist.source ? 'source/' : ''}${track.file}.${_roster.ext}';
+  Uri _generateTrackUri(Track track) {
+    final filename = '${track.file}.${_roster.ext}';
+    final sourcePath =
+        track.isSrcTrack ? (_currentPlaylist.extras?.sourcePath ?? '') : '';
+    final url = '${_roster.url}$sourcePath$filename';
 
     final uri = Uri.parse(url);
 
     return uri;
   }
 
-  Tuple2<int, Track> selectRandomTrack() {
+  int _selectRandomTrack() {
     final numTracks = _roster.tracks.length;
 
     final r = Random.secure().nextInt(numTracks);
 
-    return Tuple2(r, _roster.tracks[r]);
+    return r;
   }
 
   Future<void> play() async => await _player.play();
@@ -136,6 +116,16 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> playPrevious() async => await _player.seekToPrevious();
 
   Future<void> playNext() async => await _player.seekToNext();
+
+  Future<void> setShuffle(bool shuffleMode) async {
+    await _player.setShuffleModeEnabled(shuffleMode);
+    emit(state.copyWith(isShuffle: shuffleMode));
+  }
+
+  Future<void> setLoopTrack(bool loopTrack) async {
+    await _player.setLoopMode(loopTrack ? LoopMode.one : LoopMode.off);
+    emit(state.copyWith(isLoopTrack: loopTrack));
+  }
 
   void _onDurationChanged(Duration? d) {
     emit(state.copyWith(trackDuration: d));
@@ -155,17 +145,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   void _onCurrentIndex(int? index) {
     if (index == null) return;
-    final currentTrack = _playlistTracks[index];
+
     emit(state.copyWith(
-        currentTrackIndex: currentTrack.item1,
-        currentTrack: currentTrack.item2));
-
-    if (!_player.hasNext) {
-      final t = selectRandomTrack();
-
-      _playlistTracks.add(t);
-      _playlist.add(_trackToAudioSource(t.item1, t.item2));
-    }
+        currentTrackIndex: index, currentTrack: _roster.tracks[index]));
   }
 
   @override

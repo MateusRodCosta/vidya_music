@@ -13,6 +13,7 @@ class TrackItem extends StatelessWidget {
     return Material(
       color: Theme.of(context).cardColor,
       child: InkWell(
+        borderRadius: BorderRadius.circular(16),
         onTap: () async {
           final apcubit =
               BlocProvider.of<AudioPlayerCubit>(context, listen: false);
