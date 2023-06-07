@@ -49,7 +49,7 @@ class _RosterListState extends State<RosterList> {
 
             return SafeArea(
               left: true,
-              right: true,
+              right: false,
               top: false,
               bottom: false,
               child: ScrollablePositionedList.separated(

@@ -16,7 +16,7 @@ class Player extends StatelessWidget {
         builder: (context, apState) {
       return SafeArea(
         left: true,
-        right: true,
+        right: false,
         top: false,
         bottom: false,
         child: Padding(

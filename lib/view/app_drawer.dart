@@ -39,15 +39,16 @@ class AppDrawer extends StatelessWidget {
               _buildDrawerHeader(context),
               Expanded(
                 child: SafeArea(
-                  left: true,
+                  left: false,
                   right: true,
                   top: false,
                   bottom: false,
                   child: ListView(
-                    padding: Provider.of<bool>(context)
-                        ? EdgeInsets.only(
-                            bottom: MediaQuery.of(context).padding.bottom)
-                        : null,
+                    padding: EdgeInsets.only(
+                        top: 0,
+                        bottom: Provider.of<bool>(context)
+                            ? MediaQuery.of(context).padding.bottom
+                            : 0),
                     children: [
                       if (availablePlaylists != null)
                         ...availablePlaylists!
