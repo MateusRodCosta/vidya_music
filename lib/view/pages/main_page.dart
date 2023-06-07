@@ -53,6 +53,7 @@ class MainPage extends StatelessWidget {
         currentPlaylist = rs.selectedPlaylist;
       }
       return InkWell(
+        borderRadius: BorderRadius.circular(16),
         onTap: !isLarge ? () => Scaffold.of(context).openEndDrawer() : null,
         child: Row(
           mainAxisSize: MainAxisSize.min,

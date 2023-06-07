@@ -74,6 +74,7 @@ class AppDrawer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
         ),
+        margin: const EdgeInsets.all(0),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -115,6 +116,7 @@ class AppDrawer extends StatelessWidget {
   ListTile _buildPlaylistTile(
       BuildContext context, Playlist playlist, bool isSelected) {
     return ListTile(
+      shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.music_note),
       title: Text(playlist.name),
       subtitle: Text(playlist.description),
@@ -132,6 +134,7 @@ class AppDrawer extends StatelessWidget {
       return Column(
         children: [
           ListTile(
+            shape: _getDrawerListTileShape(),
             leading: const Icon(Icons.brightness_auto),
             title: const Text('System Theme'),
             onTap: () {
@@ -141,6 +144,7 @@ class AppDrawer extends StatelessWidget {
             selected: themeState.themeMode == ThemeMode.system,
           ),
           ListTile(
+            shape: _getDrawerListTileShape(),
             leading: const Icon(Icons.light_mode),
             title: const Text('Light Theme'),
             onTap: () {
@@ -150,6 +154,7 @@ class AppDrawer extends StatelessWidget {
             selected: themeState.themeMode == ThemeMode.light,
           ),
           ListTile(
+            shape: _getDrawerListTileShape(),
             leading: const Icon(Icons.dark_mode),
             title: const Text('Dark Theme'),
             onTap: () {
@@ -164,6 +169,7 @@ class AppDrawer extends StatelessWidget {
 
   ListTile _buildAboutTile(BuildContext context) {
     return ListTile(
+      shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.help_outline),
       title: const Text('About'),
       onTap: () async {
@@ -221,6 +227,12 @@ class AppDrawer extends StatelessWidget {
               ),
             ]);
       },
+    );
+  }
+
+  RoundedRectangleBorder _getDrawerListTileShape() {
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(32),
     );
   }
 }
