@@ -7,9 +7,10 @@ Licensed under AGPLv3-or-later.
 
 ## Screenshots
 
-![](store/screenshots/preview/Screenshot_01_small.png)
-![](store/screenshots/preview/Screenshot_02_small.png)
-![](store/screenshots/preview/Screenshot_03_small.png)
+![](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
+![](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png)
+![](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png)
+![](fastlane/metadata/android/en-US/images/phoneScreenshots/4.png)
 
 # Download
 
