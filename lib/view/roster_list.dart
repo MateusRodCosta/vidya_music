@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +51,7 @@ class _RosterListState extends State<RosterList> {
 
             return SafeArea(
               left: true,
-              right: false,
+              right: !Platform.isIOS,
               top: false,
               bottom: false,
               child: ScrollablePositionedList.separated(

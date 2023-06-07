@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,7 @@ class Player extends StatelessWidget {
         builder: (context, apState) {
       return SafeArea(
         left: true,
-        right: false,
+        right: !Platform.isIOS,
         top: false,
         bottom: false,
         child: Padding(
