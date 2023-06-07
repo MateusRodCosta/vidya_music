@@ -1,0 +1,11 @@
+• Minimum Android version is now 8.0+
+• Upgraded Flutter to 3.10
+• Upgraded dependencies
+• New Theme Switcher
+• New Drawer which holds the Playlist and Theme switches as well as the About button
+• Added Shuffle and Repeat buttons
+• Improved the logic that fetches tracks from the playlists
+• Enabled Edge to Edge on supported devices (Android 10+)
+• Improved Audio Player behavior on configuration change
+• New UI for large width devices, e.g. tablets
+• Tweaked UI, theme and assets

@@ -1,0 +1,11 @@
+• Versão mínima do Android agora é 8.0+
+• Flutter atualizado para 3.10
+• Dependências atualizadas
+• Novo seletor de tema
+• Nova Gaveta contendo os seletores de playlist e tema e o botão Sobre
+• Adicionado botões Aleatório e Repetir
+• Melhorias no código que obtém as faixas das playlists
+• Modo Edge to Edge habilitado em dispositivos suportados (Android 10+)
+• Melhorias no Audio Player ao lidar com mudanças de configuração
+• Nova UI para tablets
+• Ajustes de UI, tema e elementos gráficos
