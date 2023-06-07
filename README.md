@@ -1,4 +1,4 @@
-# vidya_music
+# Vidya Music
 
 
 A Flutter player for the [Vidya Intarweb Playlist](https://www.vipvgm.net/) (aka VIP Aersia).
