@@ -37,17 +37,15 @@ class _RosterListState extends State<RosterList> {
       listener: (context, aps) {
         scrollToTrack(aps.currentTrackIndex);
       },
-      child: BlocBuilder<PlaylistCubit, PlaylistState>(
-        builder: (context, playlistState) {
-          if (playlistState is PlaylistStateLoading) {
+      child: BlocConsumer<PlaylistCubit, PlaylistState>(
+        builder: (context, state) {
+          if (state is PlaylistStateLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (playlistState is PlaylistStateSuccess) {
-            final roster = playlistState.roster;
-            BlocProvider.of<AudioPlayerCubit>(context, listen: false)
-                .setPlaylist((playlistState.selectedPlaylist, roster));
+          if (state is PlaylistStateSuccess) {
+            final tracks = state.roster.tracks;
 
             return SafeArea(
               left: true,
@@ -59,9 +57,9 @@ class _RosterListState extends State<RosterList> {
                     ? EdgeInsets.only(
                         bottom: MediaQuery.of(context).padding.bottom)
                     : null,
-                itemCount: roster.tracks.length,
+                itemCount: tracks.length,
                 itemBuilder: (context, i) {
-                  return TrackItem(track: roster.tracks[i], index: i);
+                  return TrackItem(track: tracks[i], index: i);
                 },
                 separatorBuilder: (context, i) => Divider(
                   height: 1.0,
@@ -83,13 +81,18 @@ class _RosterListState extends State<RosterList> {
                 ElevatedButton(
                     child: const Text('Try again'),
                     onPressed: () async {
-                      await BlocProvider.of<PlaylistCubit>(context,
-                              listen: false)
+                      await BlocProvider.of<PlaylistCubit>(context)
                           .fetchRoster();
                     }),
               ],
             ),
           );
+        },
+        listener: (context, state) {
+          if (state is PlaylistStateSuccess) {
+            BlocProvider.of<AudioPlayerCubit>(context)
+                .setPlaylist((state.selectedPlaylist, state.roster));
+          }
         },
       ),
     );
