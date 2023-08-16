@@ -33,7 +33,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     namespace "com.mateusrodcosta.apps.vidyamusic"
-    compileSdkVersion  33
+    compileSdk  33
     defaultConfig {
         applicationId "com.mateusrodcosta.apps.vidyamusic"
         minSdkVersion 26
