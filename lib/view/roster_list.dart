@@ -33,21 +33,21 @@ class _RosterListState extends State<RosterList> {
     final ItemPositionsListener itemPositionsListener =
         ItemPositionsListener.create();
 
-    return BlocListener<AudioPlayerCubit, AudioPlayerState>(
-      listener: (context, aps) {
-        scrollToTrack(aps.currentTrackIndex);
-      },
-      child: BlocConsumer<PlaylistCubit, PlaylistState>(
-        builder: (context, state) {
-          if (state is PlaylistStateLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is PlaylistStateSuccess) {
-            final tracks = state.roster.tracks;
+    return BlocConsumer<PlaylistCubit, PlaylistState>(
+      builder: (context, state) {
+        if (state is PlaylistStateLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is PlaylistStateSuccess) {
+          final tracks = state.roster.tracks;
 
-            return SafeArea(
+          return BlocListener<AudioPlayerCubit, AudioPlayerState>(
+            listener: (context, aps) {
+              scrollToTrack(aps.currentTrackIndex);
+            },
+            child: SafeArea(
               left: true,
               right: !Platform.isIOS,
               top: false,
@@ -71,30 +71,29 @@ class _RosterListState extends State<RosterList> {
                 itemScrollController: itemScrollController,
                 itemPositionsListener: itemPositionsListener,
               ),
-            );
-          }
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("Couldn't fetch tracks"),
-                ElevatedButton(
-                    child: const Text('Try again'),
-                    onPressed: () async {
-                      await BlocProvider.of<PlaylistCubit>(context)
-                          .fetchRoster();
-                    }),
-              ],
             ),
           );
-        },
-        listener: (context, state) {
-          if (state is PlaylistStateSuccess) {
-            BlocProvider.of<AudioPlayerCubit>(context)
-                .setPlaylist((state.selectedPlaylist, state.roster));
-          }
-        },
-      ),
+        }
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Couldn't fetch tracks"),
+              ElevatedButton(
+                  child: const Text('Try again'),
+                  onPressed: () async {
+                    await BlocProvider.of<PlaylistCubit>(context).fetchRoster();
+                  }),
+            ],
+          ),
+        );
+      },
+      listener: (context, state) {
+        if (state is PlaylistStateSuccess) {
+          BlocProvider.of<AudioPlayerCubit>(context)
+              .setPlaylist((state.selectedPlaylist, state.roster));
+        }
+      },
     );
   }
 }
