@@ -16,15 +16,7 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   ThemeMode _valueToThemeMode(String? value) {
     if (value == null) return ThemeMode.system;
-    switch (value) {
-      case 'light':
-        return ThemeMode.light;
-      case 'dark':
-        return ThemeMode.dark;
-      case 'system':
-      default:
-        return ThemeMode.system;
-    }
+    return ThemeMode.values.byName(value);
   }
 
   ThemeCubit() : super(const ThemeState(ThemeMode.system)) {
