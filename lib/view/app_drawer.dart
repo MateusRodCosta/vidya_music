@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
 import '../controller/cubit/playlist_cubit.dart';
 import '../controller/cubit/theme_cubit.dart';
@@ -56,7 +57,9 @@ class AppDrawer extends StatelessWidget {
                                 context, p, p == currentPlaylist))
                             .toList(),
                       _buildDivider(context),
-                      _buildThemeTiles(),
+                      ...[ThemeMode.system, ThemeMode.light, ThemeMode.dark]
+                          .map(_buildThemeTile)
+                          .toList(),
                       _buildDivider(context),
                       _buildAboutTile(context),
                     ],
@@ -130,42 +133,18 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  BlocBuilder<ThemeCubit, ThemeState> _buildThemeTiles() {
-    return BlocBuilder<ThemeCubit, ThemeState>(builder: (context, themeState) {
-      return Column(
-        children: [
-          ListTile(
-            shape: _getDrawerListTileShape(),
-            leading: const Icon(Icons.brightness_auto),
-            title: const Text('System Theme'),
-            onTap: () {
-              BlocProvider.of<ThemeCubit>(context)
-                  .setThemeMode(ThemeMode.system);
-            },
-            selected: themeState.themeMode == ThemeMode.system,
-          ),
-          ListTile(
-            shape: _getDrawerListTileShape(),
-            leading: const Icon(Icons.light_mode),
-            title: const Text('Light Theme'),
-            onTap: () {
-              BlocProvider.of<ThemeCubit>(context)
-                  .setThemeMode(ThemeMode.light);
-            },
-            selected: themeState.themeMode == ThemeMode.light,
-          ),
-          ListTile(
-            shape: _getDrawerListTileShape(),
-            leading: const Icon(Icons.dark_mode),
-            title: const Text('Dark Theme'),
-            onTap: () {
-              BlocProvider.of<ThemeCubit>(context).setThemeMode(ThemeMode.dark);
-            },
-            selected: themeState.themeMode == ThemeMode.dark,
-          ),
-        ],
-      );
-    });
+  Widget _buildThemeTile(ThemeMode themeMode) {
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, themeState) => ListTile(
+        shape: _getDrawerListTileShape(),
+        leading: Icon(themeMode.icon),
+        title: Text(themeMode.label),
+        onTap: () {
+          BlocProvider.of<ThemeCubit>(context).setThemeMode(themeMode);
+        },
+        selected: themeState.themeMode == themeMode,
+      ),
+    );
   }
 
   ListTile _buildAboutTile(BuildContext context) {
