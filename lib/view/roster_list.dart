@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
@@ -53,7 +52,7 @@ class _RosterListState extends State<RosterList> {
               top: false,
               bottom: false,
               child: ScrollablePositionedList.separated(
-                padding: Provider.of<bool>(context)
+                padding: context.watch<bool>()
                     ? EdgeInsets.only(
                         bottom: MediaQuery.of(context).padding.bottom)
                     : null,
@@ -82,7 +81,7 @@ class _RosterListState extends State<RosterList> {
               ElevatedButton(
                   child: const Text('Try again'),
                   onPressed: () async {
-                    await BlocProvider.of<PlaylistCubit>(context).fetchRoster();
+                    await context.read<PlaylistCubit>().fetchRoster();
                   }),
             ],
           ),
@@ -90,7 +89,8 @@ class _RosterListState extends State<RosterList> {
       },
       listener: (context, state) {
         if (state is PlaylistStateSuccess) {
-          BlocProvider.of<AudioPlayerCubit>(context)
+          context
+              .read<AudioPlayerCubit>()
               .setPlaylist((state.selectedPlaylist, state.roster));
         }
       },

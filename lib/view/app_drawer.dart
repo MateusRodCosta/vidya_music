@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
@@ -47,7 +46,7 @@ class AppDrawer extends StatelessWidget {
                   child: ListView(
                     padding: EdgeInsets.only(
                         top: 0,
-                        bottom: Provider.of<bool>(context)
+                        bottom: context.watch<bool>()
                             ? MediaQuery.of(context).padding.bottom
                             : 0),
                     children: [
@@ -126,8 +125,7 @@ class AppDrawer extends StatelessWidget {
       subtitle: Text(playlist.description),
       onTap: () async {
         Scaffold.of(context).closeEndDrawer();
-        await BlocProvider.of<PlaylistCubit>(context, listen: false)
-            .setPlaylist(playlist);
+        await context.read<PlaylistCubit>().setPlaylist(playlist);
       },
       selected: isSelected,
     );
@@ -140,7 +138,7 @@ class AppDrawer extends StatelessWidget {
         leading: Icon(themeMode.icon),
         title: Text(themeMode.label),
         onTap: () {
-          BlocProvider.of<ThemeCubit>(context).setThemeMode(themeMode);
+          context.read<ThemeCubit>().setThemeMode(themeMode);
         },
         selected: themeState.themeMode == themeMode,
       ),

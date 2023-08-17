@@ -15,9 +15,7 @@ class TrackItem extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () async {
-          final apcubit =
-              BlocProvider.of<AudioPlayerCubit>(context, listen: false);
-          await apcubit.playTrack(track, index);
+          await context.read<AudioPlayerCubit>().playTrack(track, index);
         },
         child: Container(
           constraints: const BoxConstraints(minHeight: 48.0),
