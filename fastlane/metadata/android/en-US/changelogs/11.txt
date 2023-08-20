@@ -1,0 +1,8 @@
+This is mainly a bugfix release, also including many improvements:
+
+This version includes:
+
+• Updated dependencies
+• UI and logic improvements
+• Performance improvements
+• Added generic player artwork using app icon
