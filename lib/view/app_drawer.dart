@@ -16,97 +16,99 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Playlist? currentPlaylist;
-    List<Playlist>? availablePlaylists;
+    return Drawer(
+      shape: isLargeScreen ? const LinearBorder() : null,
+      child: Column(
+        children: <Widget>[
+          _buildDrawerHeader(context),
+          Expanded(
+            child: SafeArea(
+              left: false,
+              right: true,
+              top: false,
+              bottom: false,
+              child: BlocBuilder<PlaylistCubit, PlaylistState>(
+                builder: (context, state) {
+                  Playlist? currentPlaylist;
+                  List<Playlist>? availablePlaylists;
 
-    return BlocBuilder<PlaylistCubit, PlaylistState>(
-      builder: (context, state) {
-        if (state is PlaylistStateDecoded) {
-          availablePlaylists = state.availablePlaylists;
-        }
-        if (state is PlaylistStateLoading) {
-          currentPlaylist = state.selectedPlaylist;
-          availablePlaylists = state.availablePlaylists;
-        }
-        if (state is PlaylistStateSuccess) {
-          currentPlaylist = state.selectedPlaylist;
-          availablePlaylists = state.availablePlaylists;
-        }
-        if (state is PlaylistStateError) {
-          availablePlaylists = state.availablePlaylists;
-        }
-        return Drawer(
-          shape: isLargeScreen ? const LinearBorder() : null,
-          child: Column(
-            children: <Widget>[
-              _buildDrawerHeader(context),
-              Expanded(
-                child: SafeArea(
-                  left: false,
-                  right: true,
-                  top: false,
-                  bottom: false,
-                  child: ListView(
+                  if (state is PlaylistStateDecoded) {
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  if (state is PlaylistStateLoading) {
+                    currentPlaylist = state.selectedPlaylist;
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  if (state is PlaylistStateSuccess) {
+                    currentPlaylist = state.selectedPlaylist;
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  if (state is PlaylistStateError) {
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  return ListView(
                     padding: EdgeInsets.only(
                         top: 0,
                         bottom: context.watch<bool>()
                             ? MediaQuery.of(context).padding.bottom
                             : 0),
                     children: [
-                      if (availablePlaylists != null)
-                        ...availablePlaylists!
+                      if (availablePlaylists != null) ...[
+                        ...availablePlaylists
                             .map((p) => _buildPlaylistTile(
                                 context, p, p == currentPlaylist))
                             .toList(),
-                      _buildDivider(context),
+                        _buildDivider(context),
+                      ],
                       ...[ThemeMode.system, ThemeMode.light, ThemeMode.dark]
                           .map(_buildThemeTile)
                           .toList(),
                       _buildDivider(context),
                       _buildAboutTile(context),
                     ],
-                  ),
-                ),
-              )
-            ],
+                  );
+                },
+              ),
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
   DrawerHeader _buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-        ),
-        margin: const EdgeInsets.all(0),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Image.asset(
-                Theme.of(context).brightness == Brightness.light
-                    ? 'assets/icon/app_icon.png'
-                    : 'assets/icon/app_icon_monochrome.png',
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : null,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+      ),
+      margin: const EdgeInsets.all(0),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Image.asset(
+              Theme.of(context).brightness == Brightness.light
+                  ? 'assets/icon/app_icon.png'
+                  : 'assets/icon/app_icon_monochrome.png',
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : null,
+            ),
+          ),
+          const Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              'Vidya Music',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
               ),
             ),
-            const Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Vidya Music',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Divider _buildDivider(BuildContext context) {
