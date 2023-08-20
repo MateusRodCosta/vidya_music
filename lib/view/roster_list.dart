@@ -15,25 +15,25 @@ class RosterList extends StatefulWidget {
 }
 
 class _RosterListState extends State<RosterList> {
-  int? currentScrollPosition;
+  int? lastScrollPosition;
 
-  void scrollToTrack(int? index) {
-    if (index == null || index == currentScrollPosition) return;
+  void _scrollToTrack(int? trackIndex) {
+    if (trackIndex == null || trackIndex == lastScrollPosition) return;
     //final previousScrollPosition = currentScrollPosition ?? 0;
-    //final newScrollPosition = index;
+    //final newScrollPosition = trackIndex;
 
-    itemScrollController.scrollTo(
-        index: index, duration: const Duration(milliseconds: 300));
-    currentScrollPosition = index;
+    itemScrollController
+        .scrollTo(
+            index: trackIndex, duration: const Duration(milliseconds: 300))
+        .then((_) => lastScrollPosition = trackIndex);
   }
 
   final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
 
   @override
   Widget build(BuildContext context) {
-    final ItemPositionsListener itemPositionsListener =
-        ItemPositionsListener.create();
-
     return BlocConsumer<PlaylistCubit, PlaylistState>(
       builder: (context, state) {
         if (state is PlaylistStateLoading) {
@@ -45,12 +45,12 @@ class _RosterListState extends State<RosterList> {
           final tracks = state.roster.tracks;
 
           return BlocListener<AudioPlayerCubit, AudioPlayerState>(
-            listener: (context, state) {
-              scrollToTrack(state.currentTrackIndex);
-            },
             listenWhen: (previous, current) =>
-                currentScrollPosition == null ||
-                currentScrollPosition != current.currentTrackIndex,
+                lastScrollPosition == null ||
+                lastScrollPosition != current.currentTrackIndex,
+            listener: (context, state) {
+              _scrollToTrack(state.currentTrackIndex);
+            },
             child: SafeArea(
               left: true,
               right: !Platform.isIOS,
