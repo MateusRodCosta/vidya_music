@@ -43,9 +43,12 @@ class _RosterListState extends State<RosterList> {
           final tracks = state.roster.tracks;
 
           return BlocListener<AudioPlayerCubit, AudioPlayerState>(
-            listener: (context, aps) {
-              scrollToTrack(aps.currentTrackIndex);
+            listener: (context, state) {
+              scrollToTrack(state.currentTrackIndex);
             },
+            listenWhen: (previous, current) =>
+                scrollPosition == null ||
+                scrollPosition != current.currentTrackIndex,
             child: SafeArea(
               left: true,
               right: !Platform.isIOS,

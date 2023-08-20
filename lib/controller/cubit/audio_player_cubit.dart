@@ -123,20 +123,20 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     emit(state.copyWith(isLoopTrack: loopTrack));
   }
 
-  void _onDurationChanged(Duration? d) {
-    emit(state.copyWith(trackDuration: d));
+  void _onDurationChanged(Duration? v) {
+    emit(state.copyWith(trackDuration: v));
   }
 
-  void _onPositionChanged(Duration d) {
-    emit(state.copyWith(trackPosition: d));
+  void _onPositionChanged(Duration v) {
+    emit(state.copyWith(trackPosition: v));
   }
 
-  void _onBufferedPositionChanged(Duration d) {
-    emit(state.copyWith(trackBuffered: d));
+  void _onBufferedPositionChanged(Duration v) {
+    emit(state.copyWith(trackBuffered: v));
   }
 
-  void _onPlayingChanged(bool p) {
-    emit(state.copyWith(playing: p));
+  void _onPlayingChanged(bool v) {
+    emit(state.copyWith(isPlaying: v));
   }
 
   void _onCurrentIndex(int? index) {

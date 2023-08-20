@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../controller/cubit/audio_player_cubit.dart';
+import '../model/track.dart';
 
 class Player extends StatelessWidget {
   const Player({super.key});
@@ -37,10 +38,9 @@ class TrackInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-      builder: (context, apState) {
-        final currentTrack = apState.currentTrack;
-
+    return BlocSelector<AudioPlayerCubit, AudioPlayerState, Track?>(
+      selector: (state) => state.currentTrack,
+      builder: (context, currentTrack) {
         if (currentTrack == null) {
           return Text('No track', style: Theme.of(context).textTheme.bodyLarge);
         }
@@ -75,56 +75,73 @@ class Controls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-        builder: (context, apState) {
-      final apCubit = context.read<AudioPlayerCubit>();
-      return Column(
-        children: [
-          ProgressBar(
-            progress: apState.trackPosition ?? const Duration(seconds: 0),
-            total: apState.trackDuration ?? const Duration(seconds: 0),
-            buffered: apState.trackBuffered ?? const Duration(seconds: 0),
-            onSeek: apCubit.seek,
-            timeLabelLocation: TimeLabelLocation.sides,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  onPressed: () =>
-                      apCubit.setShuffle(!(apState.isShuffle ?? true)),
-                  icon: Icon(
-                    Icons.shuffle,
-                    color: (apState.isShuffle ?? true)
-                        ? Theme.of(context).colorScheme.primary
-                        : null,
-                  )),
-              IconButton(
-                  onPressed: () => apCubit.playPrevious(),
-                  icon: const Icon(Icons.skip_previous)),
-              IconButton(
-                onPressed: () => (apState.playing ?? false)
-                    ? apCubit.pause()
-                    : apCubit.play(),
-                icon: (apState.playing ?? false)
+    final audioPlayerCubit = context.read<AudioPlayerCubit>();
+    return Column(
+      children: [
+        BlocSelector<AudioPlayerCubit, AudioPlayerState,
+            (Duration?, Duration?, Duration?)>(
+          selector: (state) =>
+              (state.trackPosition, state.trackDuration, state.trackBuffered),
+          builder: (context, filteredValues) {
+            final (trackPosition, trackDuration, trackBuffered) =
+                filteredValues;
+            return ProgressBar(
+              progress: trackPosition ?? const Duration(seconds: 0),
+              total: trackDuration ?? const Duration(seconds: 0),
+              buffered: trackBuffered ?? const Duration(seconds: 0),
+              onSeek: audioPlayerCubit.seek,
+              timeLabelLocation: TimeLabelLocation.sides,
+            );
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
+              selector: (state) => state.isShuffle,
+              builder: (context, isShuffle) => IconButton(
+                onPressed: () =>
+                    audioPlayerCubit.setShuffle(!(isShuffle ?? true)),
+                icon: Icon(
+                  Icons.shuffle,
+                  color: (isShuffle ?? true)
+                      ? Theme.of(context).colorScheme.primary
+                      : null,
+                ),
+              ),
+            ),
+            IconButton(
+                onPressed: () => audioPlayerCubit.playPrevious(),
+                icon: const Icon(Icons.skip_previous)),
+            BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
+              selector: (state) => state.isPlaying,
+              builder: (context, isPlaying) => IconButton(
+                onPressed: () => (isPlaying ?? false)
+                    ? audioPlayerCubit.pause()
+                    : audioPlayerCubit.play(),
+                icon: (isPlaying ?? false)
                     ? const Icon(Icons.pause)
                     : const Icon(Icons.play_arrow),
               ),
-              IconButton(
-                onPressed: () => apCubit.playNext(),
-                icon: const Icon(Icons.skip_next),
+            ),
+            IconButton(
+              onPressed: () => audioPlayerCubit.playNext(),
+              icon: const Icon(Icons.skip_next),
+            ),
+            BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
+              selector: (state) => state.isLoopTrack,
+              builder: (context, isLoopTrack) => IconButton(
+                onPressed: () =>
+                    audioPlayerCubit.setLoopTrack(!(isLoopTrack ?? false)),
+                icon: (isLoopTrack ?? false)
+                    ? Icon(Icons.repeat_one,
+                        color: Theme.of(context).colorScheme.primary)
+                    : const Icon(Icons.repeat),
               ),
-              IconButton(
-                  onPressed: () =>
-                      apCubit.setLoopTrack(!(apState.isLoopTrack ?? false)),
-                  icon: (apState.isLoopTrack ?? false)
-                      ? Icon(Icons.repeat_one,
-                          color: Theme.of(context).colorScheme.primary)
-                      : const Icon(Icons.repeat)),
-            ],
-          ),
-        ],
-      );
-    });
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
