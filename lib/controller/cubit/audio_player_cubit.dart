@@ -9,6 +9,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import '../../model/playlist.dart';
 import '../../model/roster.dart';
 import '../../model/track.dart';
+import '../../utils/utils.dart';
 import '../services/audio_player_singleton.dart';
 
 part 'audio_player_state.dart';
@@ -28,8 +29,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late Playlist _currentPlaylist;
   late Roster _roster;
 
+  late Uri _playerArtUri;
+
   void _initializePlayer() {
     _player = AudioPlayerSingleton.instance;
+
+    getPlayerArtFileFromAssets().then((uri) => _playerArtUri = uri);
 
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
 
@@ -72,12 +77,15 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   AudioSource _trackToAudioSource(Track track) {
-    return AudioSource.uri(_generateTrackUri(track),
-        tag: MediaItem(
-          id: '${_currentPlaylist.name}_${track.id}',
-          title: track.title,
-          artist: track.game,
-        ));
+    return AudioSource.uri(
+      _generateTrackUri(track),
+      tag: MediaItem(
+        id: '${_currentPlaylist.name}_${track.id}',
+        title: track.title,
+        artist: track.game,
+        artUri: _playerArtUri,
+      ),
+    );
   }
 
   Future<void> playTrack(Track track, int trackIndex) async {
