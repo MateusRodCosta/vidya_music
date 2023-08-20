@@ -74,6 +74,11 @@ android {
             versionNameSuffix '-debug'
             manifestPlaceholders = [appName: "Vidya Music (Debug)"]
         }
+        profile {
+            applicationIdSuffix '.profile'
+            versionNameSuffix '-profile'
+            manifestPlaceholders = [appName: "Vidya Music (Profile)"]
+        }
     }
 }
 
