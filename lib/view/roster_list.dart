@@ -36,9 +36,20 @@ class _RosterListState extends State<RosterList> {
   Widget build(BuildContext context) {
     return BlocConsumer<PlaylistCubit, PlaylistState>(
       builder: (context, state) {
-        if (state is PlaylistStateLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+        if (state is PlaylistStateError) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("Couldn't fetch tracks"),
+                ElevatedButton(
+                  child: const Text('Try again'),
+                  onPressed: () async {
+                    await context.read<PlaylistCubit>().fetchRoster();
+                  },
+                ),
+              ],
+            ),
           );
         }
         if (state is PlaylistStateSuccess) {
@@ -78,18 +89,9 @@ class _RosterListState extends State<RosterList> {
             ),
           );
         }
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text("Couldn't fetch tracks"),
-              ElevatedButton(
-                  child: const Text('Try again'),
-                  onPressed: () async {
-                    await context.read<PlaylistCubit>().fetchRoster();
-                  }),
-            ],
-          ),
+
+        return const Center(
+          child: CircularProgressIndicator(),
         );
       },
       listener: (context, state) {
