@@ -1,20 +1,8 @@
 part of 'audio_player_cubit.dart';
 
 class AudioPlayerState extends Equatable {
-  final bool? playing;
-  final bool? isShuffle;
-  final bool? isLoopTrack;
-
-  final Track? currentTrack;
-
-  final Duration? trackDuration;
-  final Duration? trackBuffered;
-  final Duration? trackPosition;
-
-  final int? currentTrackIndex;
-
   const AudioPlayerState({
-    this.playing,
+    this.isPlaying,
     this.isShuffle,
     this.isLoopTrack,
     this.currentTrack,
@@ -24,37 +12,48 @@ class AudioPlayerState extends Equatable {
     this.currentTrackIndex,
   });
 
+  final Track? currentTrack;
+  final int? currentTrackIndex;
+
+  final Duration? trackDuration;
+  final Duration? trackBuffered;
+  final Duration? trackPosition;
+
+  final bool? isPlaying;
+  final bool? isShuffle;
+  final bool? isLoopTrack;
+
   AudioPlayerState copyWith({
-    bool? playing,
-    bool? isShuffle,
-    bool? isLoopTrack,
     Track? currentTrack,
+    int? currentTrackIndex,
     Duration? trackDuration,
     Duration? trackBuffered,
     Duration? trackPosition,
-    int? currentTrackIndex,
+    bool? isPlaying,
+    bool? isShuffle,
+    bool? isLoopTrack,
   }) =>
       AudioPlayerState(
-        playing: playing ?? this.playing,
-        isShuffle: isShuffle ?? this.isShuffle,
-        isLoopTrack: isLoopTrack ?? this.isLoopTrack,
         currentTrack: currentTrack ?? this.currentTrack,
+        currentTrackIndex: currentTrackIndex ?? this.currentTrackIndex,
         trackDuration: trackDuration ?? this.trackDuration,
         trackBuffered: trackBuffered ?? this.trackBuffered,
         trackPosition: trackPosition ?? this.trackPosition,
-        currentTrackIndex: currentTrackIndex ?? this.currentTrackIndex,
+        isPlaying: isPlaying ?? this.isPlaying,
+        isShuffle: isShuffle ?? this.isShuffle,
+        isLoopTrack: isLoopTrack ?? this.isLoopTrack,
       );
 
   @override
   List<Object?> get props => [
-        playing,
-        isShuffle,
-        isLoopTrack,
         currentTrack,
+        currentTrackIndex,
         trackDuration,
         trackBuffered,
         trackPosition,
-        currentTrackIndex,
+        isPlaying,
+        isShuffle,
+        isLoopTrack,
       ];
 
   @override

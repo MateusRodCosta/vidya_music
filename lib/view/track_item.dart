@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/model/track.dart';
+
+import '../controller/cubit/audio_player_cubit.dart';
+import '../model/track.dart';
 
 class TrackItem extends StatelessWidget {
-  const TrackItem({super.key, required this.track, required this.index});
+  const TrackItem({required this.track, required this.index, super.key});
 
   final Track track;
   final int index;
@@ -14,11 +15,8 @@ class TrackItem extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () async {
-          final apcubit =
-              BlocProvider.of<AudioPlayerCubit>(context, listen: false);
-          await apcubit.playTrack(track, index);
-        },
+        onTap: () async =>
+            context.read<AudioPlayerCubit>().playTrack(track, index),
         child: Container(
           constraints: const BoxConstraints(minHeight: 48.0),
           child: Padding(

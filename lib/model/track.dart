@@ -1,13 +1,4 @@
 class Track {
-  final int? id;
-  final String game;
-  final String title;
-  final String comp;
-  final String? arr;
-  final String file;
-  final bool hasSource;
-  final bool isSrcTrack;
-
   Track(
     this.id,
     this.game,
@@ -28,4 +19,13 @@ class Track {
         file = !getSource ? json['file'] : (json['s_file'] ?? json['file']),
         hasSource = json['s_id'] != null,
         isSrcTrack = getSource && json['s_id'] != null;
+
+  final int? id;
+  final String game;
+  final String title;
+  final String comp;
+  final String? arr;
+  final String file;
+  final bool hasSource;
+  final bool isSrcTrack;
 }

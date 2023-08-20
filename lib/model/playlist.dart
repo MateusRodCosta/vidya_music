@@ -1,12 +1,4 @@
 class Playlist {
-  final String id;
-  final int order;
-  final String name;
-  final String description;
-  final String url;
-  final bool isSource;
-  final PlaylistExtras? extras;
-
   Playlist(
     this.id,
     this.order,
@@ -27,15 +19,22 @@ class Playlist {
         extras = json['extras'] != null
             ? PlaylistExtras.fromJson(json['extras'])
             : null;
+
+  final String id;
+  final int order;
+  final String name;
+  final String description;
+  final String url;
+  final bool isSource;
+  final PlaylistExtras? extras;
 }
 
 class PlaylistExtras {
-  final String? sourcePath;
-
   PlaylistExtras(
     this.sourcePath,
   );
 
   PlaylistExtras.fromJson(Map<String, dynamic> json)
       : sourcePath = json['source_path'];
+  final String? sourcePath;
 }

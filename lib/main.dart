@@ -19,7 +19,7 @@ Future<void> main() async {
     androidNotificationChannelDescription:
         'Vidya Music Audio playback controls',
     androidNotificationOngoing: true,
-    androidNotificationIcon: "drawable/ic_player_notification",
+    androidNotificationIcon: 'drawable/ic_player_notification',
   );
 
   final enableEdgeToEdge = await supportsEdgeToEdge();
@@ -28,7 +28,7 @@ Future<void> main() async {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.transparent,
     ));
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
   runApp(

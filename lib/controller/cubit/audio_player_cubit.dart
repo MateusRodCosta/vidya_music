@@ -9,6 +9,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import '../../model/playlist.dart';
 import '../../model/roster.dart';
 import '../../model/track.dart';
+import '../../utils/utils.dart';
 import '../services/audio_player_singleton.dart';
 
 part 'audio_player_state.dart';
@@ -27,10 +28,14 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late AudioPlayer _player;
   late Playlist _currentPlaylist;
   late Roster _roster;
-  (Playlist, Roster)? _currentPlaylistPair;
+
+  late Uri _playerArtUri;
 
   void _initializePlayer() {
     _player = AudioPlayerSingleton.instance;
+
+    // ignore: discarded_futures
+    getPlayerArtFileFromAssets().then((uri) => _playerArtUri = uri);
 
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
 
@@ -46,11 +51,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   Future<void> setPlaylist((Playlist, Roster) newPlaylistPair) async {
-    if (newPlaylistPair == _currentPlaylistPair) return;
-
     _currentPlaylist = newPlaylistPair.$1;
     _roster = newPlaylistPair.$2;
-    _currentPlaylistPair = newPlaylistPair;
 
     await _initializePlaylist();
   }
@@ -76,12 +78,15 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   AudioSource _trackToAudioSource(Track track) {
-    return AudioSource.uri(_generateTrackUri(track),
-        tag: MediaItem(
-          id: '${_currentPlaylist.name}_${track.id}',
-          title: track.title,
-          artist: track.game,
-        ));
+    return AudioSource.uri(
+      _generateTrackUri(track),
+      tag: MediaItem(
+        id: '${_currentPlaylist.name}_${track.id}',
+        title: track.title,
+        artist: track.game,
+        artUri: _playerArtUri,
+      ),
+    );
   }
 
   Future<void> playTrack(Track track, int trackIndex) async {
@@ -107,15 +112,15 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     return r;
   }
 
-  Future<void> play() async => await _player.play();
+  Future<void> play() async => _player.play();
 
-  Future<void> pause() async => await _player.pause();
+  Future<void> pause() async => _player.pause();
 
-  Future<void> seek(Duration? d) async => await _player.seek(d);
+  Future<void> seek(Duration? d) async => _player.seek(d);
 
-  Future<void> playPrevious() async => await _player.seekToPrevious();
+  Future<void> playPrevious() async => _player.seekToPrevious();
 
-  Future<void> playNext() async => await _player.seekToNext();
+  Future<void> playNext() async => _player.seekToNext();
 
   Future<void> setShuffle(bool shuffleMode) async {
     await _player.setShuffleModeEnabled(shuffleMode);
@@ -127,20 +132,20 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     emit(state.copyWith(isLoopTrack: loopTrack));
   }
 
-  void _onDurationChanged(Duration? d) {
-    emit(state.copyWith(trackDuration: d));
+  void _onDurationChanged(Duration? v) {
+    emit(state.copyWith(trackDuration: v));
   }
 
-  void _onPositionChanged(Duration d) {
-    emit(state.copyWith(trackPosition: d));
+  void _onPositionChanged(Duration v) {
+    emit(state.copyWith(trackPosition: v));
   }
 
-  void _onBufferedPositionChanged(Duration d) {
-    emit(state.copyWith(trackBuffered: d));
+  void _onBufferedPositionChanged(Duration v) {
+    emit(state.copyWith(trackBuffered: v));
   }
 
-  void _onPlayingChanged(bool p) {
-    emit(state.copyWith(playing: p));
+  void _onPlayingChanged(bool v) {
+    emit(state.copyWith(isPlaying: v));
   }
 
   void _onCurrentIndex(int? index) {

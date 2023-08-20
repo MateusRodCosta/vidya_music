@@ -1,12 +1,6 @@
 import 'track.dart';
 
 class Roster {
-  final String changelog;
-  final String url;
-  final String ext;
-  final int? newId;
-  final List<Track> tracks;
-
   Roster(this.changelog, this.url, this.ext, this.newId, this.tracks);
 
   factory Roster.fromJson(Map<String, dynamic> json, {bool getSource = false}) {
@@ -20,4 +14,10 @@ class Roster {
 
     return Roster(changelog, url, ext, newId, tracks);
   }
+
+  final String changelog;
+  final String url;
+  final String ext;
+  final int? newId;
+  final List<Track> tracks;
 }

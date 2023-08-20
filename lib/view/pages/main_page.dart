@@ -8,7 +8,7 @@ import '../player.dart';
 import '../roster_list.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key, required this.title});
+  const MainPage({required this.title, super.key});
 
   final String title;
 
@@ -21,7 +21,7 @@ class MainPage extends StatelessWidget {
       Expanded(child: RosterList()),
     ];
     return Scaffold(
-      appBar: !isLarge ? AppBar(title: _buildTitle()) : null,
+      appBar: !isLarge ? _buildAppBar() : null,
       endDrawer: !isLarge ? const AppDrawer() : null,
       body: isLarge
           ? Row(
@@ -29,7 +29,7 @@ class MainPage extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      AppBar(title: _buildTitle(isLarge: isLarge)),
+                      _buildAppBar(isLargeScreen: true),
                       ...bodyContents,
                     ],
                   ),
@@ -41,29 +41,36 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  BlocBuilder<PlaylistCubit, PlaylistState> _buildTitle(
-      {bool isLarge = false}) {
+  AppBar _buildAppBar({bool isLargeScreen = false}) {
     Playlist? currentPlaylist;
 
-    return BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, rs) {
-      if (rs is PlaylistStateLoading) {
-        currentPlaylist = rs.selectedPlaylist;
-      }
-      if (rs is PlaylistStateSuccess) {
-        currentPlaylist = rs.selectedPlaylist;
-      }
-      return InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: !isLarge ? () => Scaffold.of(context).openEndDrawer() : null,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(title +
-                (currentPlaylist != null ? ' - ${currentPlaylist!.name}' : '')),
-            const Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      );
-    });
+    return AppBar(
+      title: BlocBuilder<PlaylistCubit, PlaylistState>(
+        builder: (context, rs) {
+          if (rs is PlaylistStateLoading) {
+            currentPlaylist = rs.selectedPlaylist;
+          }
+          if (rs is PlaylistStateSuccess) {
+            currentPlaylist = rs.selectedPlaylist;
+          }
+          return InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: !isLargeScreen
+                ? () => Scaffold.of(context).openEndDrawer()
+                : null,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title +
+                    (currentPlaylist != null
+                        ? ' - ${currentPlaylist!.name}'
+                        : '')),
+                const Icon(Icons.arrow_drop_down),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

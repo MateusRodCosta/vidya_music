@@ -1,0 +1,8 @@
+Atualização focada em correção de bugs, mas também trazendo várias melhorias.
+
+Essa versão inclui:
+
+• Dependências atualizadas
+• Melhorias de lógica e UI
+• Melhorias de performance
+• Adicionada artwork genérica para o player usando o ícone do app

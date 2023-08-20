@@ -14,12 +14,12 @@ import '../../model/roster.dart';
 part 'playlist_state.dart';
 
 class PlaylistCubit extends Cubit<PlaylistState> {
-  late List<Playlist> _availablePlaylists;
-  late Playlist _selectedRoster;
-
   PlaylistCubit() : super(PlaylistStateInitial()) {
     _decodeConfig();
   }
+
+  late List<Playlist> _availablePlaylists;
+  late Playlist _selectedRoster;
 
   void _decodeConfig() async {
     final js = await rootBundle.loadString('assets/config.json');

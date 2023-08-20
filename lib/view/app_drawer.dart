@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/cubit/playlist_cubit.dart';
 import '../controller/cubit/theme_cubit.dart';
 import '../controller/services/package_info_singleton.dart';
 import '../model/playlist.dart';
+import '../utils/theme_mode_tile_ext.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key, this.isLargeScreen = false});
@@ -16,92 +16,96 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Playlist? currentPlaylist;
-    List<Playlist>? availablePlaylists;
+    return Drawer(
+      shape: isLargeScreen ? LinearBorder.none : null,
+      child: Column(
+        children: <Widget>[
+          _buildDrawerHeader(context),
+          Expanded(
+            child: SafeArea(
+              left: false,
+              right: true,
+              top: false,
+              bottom: false,
+              child: BlocBuilder<PlaylistCubit, PlaylistState>(
+                builder: (context, state) {
+                  Playlist? currentPlaylist;
+                  List<Playlist>? availablePlaylists;
 
-    return BlocBuilder<PlaylistCubit, PlaylistState>(
-      builder: (context, rs) {
-        if (rs is PlaylistStateLoading) {
-          currentPlaylist = rs.selectedPlaylist;
-          availablePlaylists = rs.availablePlaylists;
-        }
-        if (rs is PlaylistStateSuccess) {
-          currentPlaylist = rs.selectedPlaylist;
-          availablePlaylists = rs.availablePlaylists;
-        }
-        if (rs is PlaylistStateError) {
-          availablePlaylists = rs.availablePlaylists;
-        }
-        return Drawer(
-          shape: isLargeScreen ? const LinearBorder() : null,
-          child: Column(
-            children: <Widget>[
-              _buildDrawerHeader(context),
-              Expanded(
-                child: SafeArea(
-                  left: false,
-                  right: true,
-                  top: false,
-                  bottom: false,
-                  child: ListView(
+                  if (state is PlaylistStateDecoded) {
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  if (state is PlaylistStateLoading) {
+                    currentPlaylist = state.selectedPlaylist;
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  if (state is PlaylistStateSuccess) {
+                    currentPlaylist = state.selectedPlaylist;
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  if (state is PlaylistStateError) {
+                    availablePlaylists = state.availablePlaylists;
+                  }
+                  return ListView(
                     padding: EdgeInsets.only(
                         top: 0,
-                        bottom: Provider.of<bool>(context)
+                        bottom: context.watch<bool>()
                             ? MediaQuery.of(context).padding.bottom
                             : 0),
                     children: [
-                      if (availablePlaylists != null)
-                        ...availablePlaylists!
-                            .map((p) => _buildPlaylistTile(
-                                context, p, p == currentPlaylist))
-                            .toList(),
-                      _buildDivider(context),
-                      _buildThemeTiles(),
+                      if (availablePlaylists != null) ...[
+                        ...availablePlaylists.map((p) => _buildPlaylistTile(
+                            context, p, p == currentPlaylist)),
+                        _buildDivider(context),
+                      ],
+                      ...[ThemeMode.system, ThemeMode.light, ThemeMode.dark]
+                          .map(_buildThemeTile),
                       _buildDivider(context),
                       _buildAboutTile(context),
                     ],
-                  ),
-                ),
-              )
-            ],
+                  );
+                },
+              ),
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
   DrawerHeader _buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-        ),
-        margin: const EdgeInsets.all(0),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Image.asset(
-                Theme.of(context).brightness == Brightness.light
-                    ? 'assets/icon/app_icon.png'
-                    : 'assets/icon/app_icon_monochrome.png',
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : null,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+      ),
+      margin: EdgeInsets.zero,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Image.asset(
+              Theme.of(context).brightness == Brightness.light
+                  ? 'assets/icon/app_icon.png'
+                  : 'assets/icon/app_icon_monochrome.png',
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : null,
+            ),
+          ),
+          const Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              'Vidya Music',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
               ),
             ),
-            const Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Vidya Music',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Divider _buildDivider(BuildContext context) {
@@ -123,49 +127,22 @@ class AppDrawer extends StatelessWidget {
       subtitle: Text(playlist.description),
       onTap: () async {
         Scaffold.of(context).closeEndDrawer();
-        await BlocProvider.of<PlaylistCubit>(context, listen: false)
-            .setPlaylist(playlist);
+        await context.read<PlaylistCubit>().setPlaylist(playlist);
       },
       selected: isSelected,
     );
   }
 
-  BlocBuilder<ThemeCubit, ThemeState> _buildThemeTiles() {
-    return BlocBuilder<ThemeCubit, ThemeState>(builder: (context, themeState) {
-      return Column(
-        children: [
-          ListTile(
-            shape: _getDrawerListTileShape(),
-            leading: const Icon(Icons.brightness_auto),
-            title: const Text('System Theme'),
-            onTap: () {
-              BlocProvider.of<ThemeCubit>(context)
-                  .setThemeMode(ThemeMode.system);
-            },
-            selected: themeState.themeMode == ThemeMode.system,
-          ),
-          ListTile(
-            shape: _getDrawerListTileShape(),
-            leading: const Icon(Icons.light_mode),
-            title: const Text('Light Theme'),
-            onTap: () {
-              BlocProvider.of<ThemeCubit>(context)
-                  .setThemeMode(ThemeMode.light);
-            },
-            selected: themeState.themeMode == ThemeMode.light,
-          ),
-          ListTile(
-            shape: _getDrawerListTileShape(),
-            leading: const Icon(Icons.dark_mode),
-            title: const Text('Dark Theme'),
-            onTap: () {
-              BlocProvider.of<ThemeCubit>(context).setThemeMode(ThemeMode.dark);
-            },
-            selected: themeState.themeMode == ThemeMode.dark,
-          ),
-        ],
-      );
-    });
+  Widget _buildThemeTile(ThemeMode themeMode) {
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, themeState) => ListTile(
+        shape: _getDrawerListTileShape(),
+        leading: Icon(themeMode.tileIcon),
+        title: Text(themeMode.tileLabel),
+        onTap: () async => context.read<ThemeCubit>().setThemeMode(themeMode),
+        selected: themeState.themeMode == themeMode,
+      ),
+    );
   }
 
   ListTile _buildAboutTile(BuildContext context) {
@@ -184,7 +161,7 @@ class AppDrawer extends StatelessWidget {
             applicationName: packageInfo.appName,
             applicationVersion: packageInfo.version,
             applicationLegalese:
-                "Licensed under AGPLv3+, developed by MateusRodCosta",
+                'Licensed under AGPLv3+, developed by MateusRodCosta',
             children: [
               const SizedBox(height: 8),
               const Text(
