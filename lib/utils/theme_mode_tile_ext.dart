@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension ThemeModeTileExt on ThemeMode {
-  String get label {
+  String get tileLabel {
     switch (this) {
       case ThemeMode.system:
         return 'System Theme';
@@ -12,7 +12,7 @@ extension ThemeModeTileExt on ThemeMode {
     }
   }
 
-  IconData get icon {
+  IconData get tileIcon {
     switch (this) {
       case ThemeMode.system:
         return Icons.brightness_auto;

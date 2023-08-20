@@ -135,8 +135,8 @@ class AppDrawer extends StatelessWidget {
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, themeState) => ListTile(
         shape: _getDrawerListTileShape(),
-        leading: Icon(themeMode.icon),
-        title: Text(themeMode.label),
+        leading: Icon(themeMode.tileIcon),
+        title: Text(themeMode.tileLabel),
         onTap: () {
           context.read<ThemeCubit>().setThemeMode(themeMode);
         },
