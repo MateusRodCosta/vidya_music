@@ -34,6 +34,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   void _initializePlayer() {
     _player = AudioPlayerSingleton.instance;
 
+    // ignore: discarded_futures
     getPlayerArtFileFromAssets().then((uri) => _playerArtUri = uri);
 
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
@@ -111,15 +112,15 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     return r;
   }
 
-  Future<void> play() async => await _player.play();
+  Future<void> play() async => _player.play();
 
-  Future<void> pause() async => await _player.pause();
+  Future<void> pause() async => _player.pause();
 
-  Future<void> seek(Duration? d) async => await _player.seek(d);
+  Future<void> seek(Duration? d) async => _player.seek(d);
 
-  Future<void> playPrevious() async => await _player.seekToPrevious();
+  Future<void> playPrevious() async => _player.seekToPrevious();
 
-  Future<void> playNext() async => await _player.seekToNext();
+  Future<void> playNext() async => _player.seekToNext();
 
   Future<void> setShuffle(bool shuffleMode) async {
     await _player.setShuffleModeEnabled(shuffleMode);

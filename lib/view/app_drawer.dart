@@ -2,12 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
 import '../controller/cubit/playlist_cubit.dart';
 import '../controller/cubit/theme_cubit.dart';
 import '../controller/services/package_info_singleton.dart';
 import '../model/playlist.dart';
+import '../utils/theme_mode_tile_ext.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key, this.isLargeScreen = false});
@@ -17,7 +17,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      shape: isLargeScreen ? const LinearBorder() : null,
+      shape: isLargeScreen ? LinearBorder.none : null,
       child: Column(
         children: <Widget>[
           _buildDrawerHeader(context),
@@ -54,15 +54,12 @@ class AppDrawer extends StatelessWidget {
                             : 0),
                     children: [
                       if (availablePlaylists != null) ...[
-                        ...availablePlaylists
-                            .map((p) => _buildPlaylistTile(
-                                context, p, p == currentPlaylist))
-                            .toList(),
+                        ...availablePlaylists.map((p) => _buildPlaylistTile(
+                            context, p, p == currentPlaylist)),
                         _buildDivider(context),
                       ],
                       ...[ThemeMode.system, ThemeMode.light, ThemeMode.dark]
-                          .map(_buildThemeTile)
-                          .toList(),
+                          .map(_buildThemeTile),
                       _buildDivider(context),
                       _buildAboutTile(context),
                     ],
@@ -81,7 +78,7 @@ class AppDrawer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
       ),
-      margin: const EdgeInsets.all(0),
+      margin: EdgeInsets.zero,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -142,9 +139,7 @@ class AppDrawer extends StatelessWidget {
         shape: _getDrawerListTileShape(),
         leading: Icon(themeMode.tileIcon),
         title: Text(themeMode.tileLabel),
-        onTap: () {
-          context.read<ThemeCubit>().setThemeMode(themeMode);
-        },
+        onTap: () async => context.read<ThemeCubit>().setThemeMode(themeMode),
         selected: themeState.themeMode == themeMode,
       ),
     );
@@ -166,7 +161,7 @@ class AppDrawer extends StatelessWidget {
             applicationName: packageInfo.appName,
             applicationVersion: packageInfo.version,
             applicationLegalese:
-                "Licensed under AGPLv3+, developed by MateusRodCosta",
+                'Licensed under AGPLv3+, developed by MateusRodCosta',
             children: [
               const SizedBox(height: 8),
               const Text(

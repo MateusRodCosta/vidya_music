@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/view/track_item.dart';
+
+import '../controller/cubit/audio_player_cubit.dart';
+import '../controller/cubit/playlist_cubit.dart';
+import 'track_item.dart';
 
 class RosterList extends StatefulWidget {
   const RosterList({super.key});
@@ -17,15 +18,15 @@ class RosterList extends StatefulWidget {
 class _RosterListState extends State<RosterList> {
   int? lastScrollPosition;
 
-  void _scrollToTrack(int? trackIndex) {
+  Future<void> _scrollToTrack(int? trackIndex) async {
     if (trackIndex == null || trackIndex == lastScrollPosition) return;
     //final previousScrollPosition = currentScrollPosition ?? 0;
     //final newScrollPosition = trackIndex;
 
-    itemScrollController
-        .scrollTo(
-            index: trackIndex, duration: const Duration(milliseconds: 300))
-        .then((_) => lastScrollPosition = trackIndex);
+    await itemScrollController.scrollTo(
+        index: trackIndex, duration: const Duration(milliseconds: 300));
+
+    lastScrollPosition = trackIndex;
   }
 
   final ItemScrollController itemScrollController = ItemScrollController();
@@ -44,9 +45,8 @@ class _RosterListState extends State<RosterList> {
                 const Text("Couldn't fetch tracks"),
                 ElevatedButton(
                   child: const Text('Try again'),
-                  onPressed: () async {
-                    await context.read<PlaylistCubit>().fetchRoster();
-                  },
+                  onPressed: () async =>
+                      context.read<PlaylistCubit>().fetchRoster(),
                 ),
               ],
             ),
@@ -59,9 +59,8 @@ class _RosterListState extends State<RosterList> {
             listenWhen: (previous, current) =>
                 lastScrollPosition == null ||
                 lastScrollPosition != current.currentTrackIndex,
-            listener: (context, state) {
-              _scrollToTrack(state.currentTrackIndex);
-            },
+            listener: (context, state) async =>
+                _scrollToTrack(state.currentTrackIndex),
             child: SafeArea(
               left: true,
               right: !Platform.isIOS,
@@ -94,9 +93,9 @@ class _RosterListState extends State<RosterList> {
           child: CircularProgressIndicator(),
         );
       },
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is PlaylistStateSuccess) {
-          context
+          await context
               .read<AudioPlayerCubit>()
               .setPlaylist((state.selectedPlaylist, state.roster));
         }

@@ -1,17 +1,6 @@
 part of 'audio_player_cubit.dart';
 
 class AudioPlayerState extends Equatable {
-  final Track? currentTrack;
-  final int? currentTrackIndex;
-
-  final Duration? trackDuration;
-  final Duration? trackBuffered;
-  final Duration? trackPosition;
-
-  final bool? isPlaying;
-  final bool? isShuffle;
-  final bool? isLoopTrack;
-
   const AudioPlayerState({
     this.isPlaying,
     this.isShuffle,
@@ -22,6 +11,17 @@ class AudioPlayerState extends Equatable {
     this.trackPosition,
     this.currentTrackIndex,
   });
+
+  final Track? currentTrack;
+  final int? currentTrackIndex;
+
+  final Duration? trackDuration;
+  final Duration? trackBuffered;
+  final Duration? trackPosition;
+
+  final bool? isPlaying;
+  final bool? isShuffle;
+  final bool? isLoopTrack;
 
   AudioPlayerState copyWith({
     Track? currentTrack,

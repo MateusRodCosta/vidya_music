@@ -86,9 +86,9 @@ class Controls extends StatelessWidget {
             final (trackPosition, trackDuration, trackBuffered) =
                 filteredValues;
             return ProgressBar(
-              progress: trackPosition ?? const Duration(seconds: 0),
-              total: trackDuration ?? const Duration(seconds: 0),
-              buffered: trackBuffered ?? const Duration(seconds: 0),
+              progress: trackPosition ?? Duration.zero,
+              total: trackDuration ?? Duration.zero,
+              buffered: trackBuffered ?? Duration.zero,
               onSeek: audioPlayerCubit.seek,
               timeLabelLocation: TimeLabelLocation.sides,
             );
@@ -100,7 +100,7 @@ class Controls extends StatelessWidget {
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isShuffle,
               builder: (context, isShuffle) => IconButton(
-                onPressed: () =>
+                onPressed: () async =>
                     audioPlayerCubit.setShuffle(!(isShuffle ?? true)),
                 icon: Icon(
                   Icons.shuffle,
@@ -111,12 +111,12 @@ class Controls extends StatelessWidget {
               ),
             ),
             IconButton(
-                onPressed: () => audioPlayerCubit.playPrevious(),
+                onPressed: () async => audioPlayerCubit.playPrevious(),
                 icon: const Icon(Icons.skip_previous)),
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isPlaying,
               builder: (context, isPlaying) => IconButton(
-                onPressed: () => (isPlaying ?? false)
+                onPressed: () async => (isPlaying ?? false)
                     ? audioPlayerCubit.pause()
                     : audioPlayerCubit.play(),
                 icon: (isPlaying ?? false)
@@ -125,13 +125,13 @@ class Controls extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => audioPlayerCubit.playNext(),
+              onPressed: () async => audioPlayerCubit.playNext(),
               icon: const Icon(Icons.skip_next),
             ),
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isLoopTrack,
               builder: (context, isLoopTrack) => IconButton(
-                onPressed: () =>
+                onPressed: () async =>
                     audioPlayerCubit.setLoopTrack(!(isLoopTrack ?? false)),
                 icon: (isLoopTrack ?? false)
                     ? Icon(Icons.repeat_one,

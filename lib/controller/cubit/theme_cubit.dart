@@ -2,13 +2,18 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vidya_music/controller/services/shared_preferences_singleton.dart';
+import '../services/shared_preferences_singleton.dart';
 
 part 'theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
+  ThemeCubit() : super(const ThemeState(ThemeMode.system)) {
+    // ignore: discarded_futures
+    _initPrefs().then((_) => _initializeThemeMode());
+  }
+
   late SharedPreferences _prefs;
-  final String themeKey = "theme_mode";
+  static const themeKey = 'theme_mode';
 
   Future<void> _initPrefs() async {
     _prefs = await SharedPreferencesSingleton.instance;
@@ -19,10 +24,6 @@ class ThemeCubit extends Cubit<ThemeState> {
     return ThemeMode.values.byName(value);
   }
 
-  ThemeCubit() : super(const ThemeState(ThemeMode.system)) {
-    _initPrefs().then((_) => _initializeThemeMode());
-  }
-
   void _initializeThemeMode() {
     final value = _prefs.getString(themeKey);
     final themeMode = _valueToThemeMode(value);
@@ -30,9 +31,9 @@ class ThemeCubit extends Cubit<ThemeState> {
     emit(ThemeState(themeMode));
   }
 
-  void setThemeMode(ThemeMode themeMode) {
+  Future<void> setThemeMode(ThemeMode themeMode) async {
     final value = themeMode.name;
-    _prefs.setString(themeKey, value);
+    await _prefs.setString(themeKey, value);
 
     emit(ThemeState(themeMode));
   }

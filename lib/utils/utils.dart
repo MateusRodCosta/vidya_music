@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 Future<int?> getAndroidSdk() async {
   if (!Platform.isAndroid) return null;
 
-  DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  final deviceInfoPlugin = DeviceInfoPlugin();
   final androidInfo = await deviceInfoPlugin.androidInfo;
   return androidInfo.version.sdkInt;
 }
@@ -29,9 +29,9 @@ Future<bool> supportsEdgeToEdge() async {
 Future<Uri> getPlayerArtFileFromAssets() async {
   final byteData = await rootBundle.load('assets/icon/app_icon.png');
   final buffer = byteData.buffer;
-  Directory tempDir = await getApplicationDocumentsDirectory();
-  String tempPath = tempDir.path;
-  var filePath = '$tempPath/player_artwork_generic.png';
+  final tempDir = await getApplicationDocumentsDirectory();
+  final tempPath = tempDir.path;
+  final filePath = '$tempPath/player_artwork_generic.png';
   return (await File(filePath).writeAsBytes(
           buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes)))
       .uri;

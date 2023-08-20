@@ -8,7 +8,7 @@ import '../player.dart';
 import '../roster_list.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key, required this.title});
+  const MainPage({required this.title, super.key});
 
   final String title;
 
