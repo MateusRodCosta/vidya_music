@@ -20,17 +20,20 @@ class AppDrawer extends StatelessWidget {
     List<Playlist>? availablePlaylists;
 
     return BlocBuilder<PlaylistCubit, PlaylistState>(
-      builder: (context, rs) {
-        if (rs is PlaylistStateLoading) {
-          currentPlaylist = rs.selectedPlaylist;
-          availablePlaylists = rs.availablePlaylists;
+      builder: (context, state) {
+        if (state is PlaylistStateDecoded) {
+          availablePlaylists = state.availablePlaylists;
         }
-        if (rs is PlaylistStateSuccess) {
-          currentPlaylist = rs.selectedPlaylist;
-          availablePlaylists = rs.availablePlaylists;
+        if (state is PlaylistStateLoading) {
+          currentPlaylist = state.selectedPlaylist;
+          availablePlaylists = state.availablePlaylists;
         }
-        if (rs is PlaylistStateError) {
-          availablePlaylists = rs.availablePlaylists;
+        if (state is PlaylistStateSuccess) {
+          currentPlaylist = state.selectedPlaylist;
+          availablePlaylists = state.availablePlaylists;
+        }
+        if (state is PlaylistStateError) {
+          availablePlaylists = state.availablePlaylists;
         }
         return Drawer(
           shape: isLargeScreen ? const LinearBorder() : null,
