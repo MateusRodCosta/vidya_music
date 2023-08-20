@@ -15,14 +15,16 @@ class RosterList extends StatefulWidget {
 }
 
 class _RosterListState extends State<RosterList> {
-  int? scrollPosition;
+  int? currentScrollPosition;
 
   void scrollToTrack(int? index) {
-    if (index == null || index == scrollPosition) return;
-    scrollPosition = index;
+    if (index == null || index == currentScrollPosition) return;
+    //final previousScrollPosition = currentScrollPosition ?? 0;
+    //final newScrollPosition = index;
 
     itemScrollController.scrollTo(
         index: index, duration: const Duration(milliseconds: 300));
+    currentScrollPosition = index;
   }
 
   final ItemScrollController itemScrollController = ItemScrollController();
@@ -47,8 +49,8 @@ class _RosterListState extends State<RosterList> {
               scrollToTrack(state.currentTrackIndex);
             },
             listenWhen: (previous, current) =>
-                scrollPosition == null ||
-                scrollPosition != current.currentTrackIndex,
+                currentScrollPosition == null ||
+                currentScrollPosition != current.currentTrackIndex,
             child: SafeArea(
               left: true,
               right: !Platform.isIOS,
