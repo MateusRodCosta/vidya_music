@@ -33,6 +33,7 @@ Future<Uri> getPlayerArtFileFromAssets() async {
   final tempPath = tempDir.path;
   final filePath = '$tempPath/player_artwork_generic.png';
   return (await File(filePath).writeAsBytes(
-          buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes)))
+    buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
+  ))
       .uri;
 }

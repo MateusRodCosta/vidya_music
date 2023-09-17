@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../controller/cubit/audio_player_cubit.dart';
-import '../model/track.dart';
+import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+import 'package:vidya_music/model/track.dart';
 
 class Player extends StatelessWidget {
   const Player({super.key});
@@ -14,14 +14,13 @@ class Player extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
       right: !Platform.isIOS,
       top: false,
       bottom: false,
       child: Padding(
         padding: MediaQuery.of(context).size.width >= 600
-            ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-            : const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+            : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: const Column(
           children: [
             TrackInfo(),
@@ -56,13 +55,17 @@ class TrackInfo extends StatelessWidget {
               intervalSpaces: 10,
             ),
             if (currentTrack.arr != null)
-              Text('Arranger: ${currentTrack.arr}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.center),
-            Text(
-                'Composer: ${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
+              Text(
+                'Arranger: ${currentTrack.arr}',
                 style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center),
+                textAlign: TextAlign.center,
+              ),
+            Text(
+              'Composer: '
+              '${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
           ],
         );
       },
@@ -100,8 +103,9 @@ class Controls extends StatelessWidget {
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isShuffle,
               builder: (context, isShuffle) => IconButton(
-                onPressed: () async =>
-                    audioPlayerCubit.setShuffle(!(isShuffle ?? true)),
+                onPressed: () async => audioPlayerCubit.setShuffle(
+                  shuffleMode: !(isShuffle ?? true),
+                ),
                 icon: Icon(
                   Icons.shuffle,
                   color: (isShuffle ?? true)
@@ -111,8 +115,9 @@ class Controls extends StatelessWidget {
               ),
             ),
             IconButton(
-                onPressed: () async => audioPlayerCubit.playPrevious(),
-                icon: const Icon(Icons.skip_previous)),
+              onPressed: () async => audioPlayerCubit.playPrevious(),
+              icon: const Icon(Icons.skip_previous),
+            ),
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isPlaying,
               builder: (context, isPlaying) => IconButton(
@@ -131,11 +136,14 @@ class Controls extends StatelessWidget {
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isLoopTrack,
               builder: (context, isLoopTrack) => IconButton(
-                onPressed: () async =>
-                    audioPlayerCubit.setLoopTrack(!(isLoopTrack ?? false)),
+                onPressed: () async => audioPlayerCubit.setLoopTrack(
+                  loopTrack: !(isLoopTrack ?? false),
+                ),
                 icon: (isLoopTrack ?? false)
-                    ? Icon(Icons.repeat_one,
-                        color: Theme.of(context).colorScheme.primary)
+                    ? Icon(
+                        Icons.repeat_one,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                     : const Icon(Icons.repeat),
               ),
             ),

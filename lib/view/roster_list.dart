@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../controller/cubit/audio_player_cubit.dart';
-import '../controller/cubit/playlist_cubit.dart';
-import 'track_item.dart';
+import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+import 'package:vidya_music/view/track_item.dart';
 
 class RosterList extends StatefulWidget {
   const RosterList({super.key});
@@ -24,7 +24,9 @@ class _RosterListState extends State<RosterList> {
     //final newScrollPosition = trackIndex;
 
     await itemScrollController.scrollTo(
-        index: trackIndex, duration: const Duration(milliseconds: 300));
+      index: trackIndex,
+      duration: const Duration(milliseconds: 300),
+    );
 
     lastScrollPosition = trackIndex;
   }
@@ -62,22 +64,22 @@ class _RosterListState extends State<RosterList> {
             listener: (context, state) async =>
                 _scrollToTrack(state.currentTrackIndex),
             child: SafeArea(
-              left: true,
               right: !Platform.isIOS,
               top: false,
               bottom: false,
               child: ScrollablePositionedList.separated(
                 padding: context.watch<bool>()
                     ? EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom)
+                        bottom: MediaQuery.of(context).padding.bottom,
+                      )
                     : null,
                 itemCount: tracks.length,
                 itemBuilder: (context, i) {
                   return TrackItem(track: tracks[i], index: i);
                 },
                 separatorBuilder: (context, i) => Divider(
-                  height: 1.0,
-                  thickness: 0.0,
+                  height: 1,
+                  thickness: 0,
                   color: Theme.of(context).dividerColor,
                   indent: 8,
                   endIndent: 8,

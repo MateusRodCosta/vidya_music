@@ -5,12 +5,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-
-import '../../model/playlist.dart';
-import '../../model/roster.dart';
-import '../../model/track.dart';
-import '../../utils/utils.dart';
-import '../services/audio_player_singleton.dart';
+import 'package:vidya_music/controller/services/audio_player_singleton.dart';
+import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/model/roster.dart';
+import 'package:vidya_music/model/track.dart';
+import 'package:vidya_music/utils/utils.dart';
 
 part 'audio_player_state.dart';
 
@@ -58,17 +57,19 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   Future<void> _initializePlaylist() async {
-    final tracks = _roster.tracks.map((t) => _trackToAudioSource(t)).toList();
+    final tracks = _roster.tracks.map(_trackToAudioSource).toList();
 
     final playlist = ConcatenatingAudioSource(
-      useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
       children: tracks,
     );
 
     final initialIndex = _selectRandomTrack();
-    await _player.setAudioSource(playlist,
-        initialIndex: initialIndex, initialPosition: Duration.zero);
+    await _player.setAudioSource(
+      playlist,
+      initialIndex: initialIndex,
+      initialPosition: Duration.zero,
+    );
 
     final initialShuffle = state.isShuffle ?? true;
     await _player.setShuffleModeEnabled(initialShuffle);
@@ -122,12 +123,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
   Future<void> playNext() async => _player.seekToNext();
 
-  Future<void> setShuffle(bool shuffleMode) async {
+  Future<void> setShuffle({required bool shuffleMode}) async {
     await _player.setShuffleModeEnabled(shuffleMode);
     emit(state.copyWith(isShuffle: shuffleMode));
   }
 
-  Future<void> setLoopTrack(bool loopTrack) async {
+  Future<void> setLoopTrack({required bool loopTrack}) async {
     await _player.setLoopMode(loopTrack ? LoopMode.one : LoopMode.off);
     emit(state.copyWith(isLoopTrack: loopTrack));
   }
@@ -151,8 +152,12 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   void _onCurrentIndex(int? index) {
     if (index == null) return;
 
-    emit(state.copyWith(
-        currentTrackIndex: index, currentTrack: _roster.tracks[index]));
+    emit(
+      state.copyWith(
+        currentTrackIndex: index,
+        currentTrack: _roster.tracks[index],
+      ),
+    );
   }
 
   @override

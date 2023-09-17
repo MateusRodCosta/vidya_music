@@ -4,20 +4,20 @@ class Playlist {
     this.order,
     this.name,
     this.description,
-    this.url,
-    this.isSource,
+    this.url, {
+    this.isSource = false,
     this.extras,
-  );
+  });
 
   Playlist.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        order = json['order'],
-        name = json['name'],
-        description = json['description'],
-        url = json['url'],
-        isSource = json['is_source'] ?? false,
+      : id = json['id'] as String,
+        order = json['order'] as int,
+        name = json['name'] as String,
+        description = json['description'] as String,
+        url = json['url'] as String,
+        isSource = (json['is_source'] ?? false) as bool,
         extras = json['extras'] != null
-            ? PlaylistExtras.fromJson(json['extras'])
+            ? PlaylistExtras.fromJson(json['extras'] as Map<String, dynamic>)
             : null;
 
   final String id;
@@ -35,6 +35,7 @@ class PlaylistExtras {
   );
 
   PlaylistExtras.fromJson(Map<String, dynamic> json)
-      : sourcePath = json['source_path'];
+      : sourcePath = json['source_path'] as String?;
+
   final String? sourcePath;
 }

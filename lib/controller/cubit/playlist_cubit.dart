@@ -3,13 +3,12 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart' show rootBundle;
-
-import '../../model/config.dart';
-import '../../model/playlist.dart';
-import '../../model/roster.dart';
+import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
+import 'package:vidya_music/model/config.dart';
+import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/model/roster.dart';
 
 part 'playlist_state.dart';
 
@@ -21,9 +20,9 @@ class PlaylistCubit extends Cubit<PlaylistState> {
   late List<Playlist> _availablePlaylists;
   late Playlist _selectedRoster;
 
-  void _decodeConfig() async {
+  Future<void> _decodeConfig() async {
     final js = await rootBundle.loadString('assets/config.json');
-    final decoded = json.decode(js);
+    final decoded = json.decode(js) as Map<String, dynamic>;
     final config = Config.fromJson(decoded);
 
     _availablePlaylists = List.from(config.playlists)
@@ -54,7 +53,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
     try {
       emit(PlaylistStateLoading(_availablePlaylists, _selectedRoster));
       final r = await http.read(Uri.parse(url));
-      final js = jsonDecode(r);
+      final js = jsonDecode(r) as Map<String, dynamic>;
       final roster = Roster.fromJson(js, getSource: _selectedRoster.isSource);
       emit(PlaylistStateSuccess(_availablePlaylists, _selectedRoster, roster));
     } catch (e) {
