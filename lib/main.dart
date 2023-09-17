@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 
-import 'controller/cubit/audio_player_cubit.dart';
-import 'controller/cubit/playlist_cubit.dart';
-import 'controller/cubit/theme_cubit.dart';
-import 'theme/color_schemes.g.dart';
-import 'utils/utils.dart';
-import 'view/pages/main_page.dart';
+import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+import 'package:vidya_music/controller/cubit/theme_cubit.dart';
+import 'package:vidya_music/theme/color_schemes.g.dart';
+import 'package:vidya_music/utils/utils.dart';
+import 'package:vidya_music/view/pages/main_page.dart';
 
 Future<void> main() async {
   await JustAudioBackground.init(
@@ -25,9 +25,11 @@ Future<void> main() async {
   final enableEdgeToEdge = await supportsEdgeToEdge();
 
   if (enableEdgeToEdge) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+      ),
+    );
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
@@ -50,14 +52,17 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
-      return MaterialApp(
-        title: 'Vidya Music',
-        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        themeMode: state.themeMode,
-        home: const MainPage(title: 'Vidya Music'),
-      );
-    });
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'Vidya Music',
+          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+          darkTheme:
+              ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+          themeMode: state.themeMode,
+          home: const MainPage(title: 'Vidya Music'),
+        );
+      },
+    );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../controller/cubit/playlist_cubit.dart';
-import '../../model/playlist.dart';
-import '../app_drawer.dart';
-import '../player.dart';
-import '../roster_list.dart';
+import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/view/app_drawer.dart';
+import 'package:vidya_music/view/player.dart';
+import 'package:vidya_music/view/roster_list.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({required this.title, super.key});
@@ -61,10 +61,12 @@ class MainPage extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(title +
-                    (currentPlaylist != null
-                        ? ' - ${currentPlaylist!.name}'
-                        : '')),
+                Text(
+                  title +
+                      (currentPlaylist != null
+                          ? ' - ${currentPlaylist!.name}'
+                          : ''),
+                ),
                 const Icon(Icons.arrow_drop_down),
               ],
             ),

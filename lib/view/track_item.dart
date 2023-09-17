@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../controller/cubit/audio_player_cubit.dart';
-import '../model/track.dart';
+import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+import 'package:vidya_music/model/track.dart';
 
 class TrackItem extends StatelessWidget {
   const TrackItem({required this.track, required this.index, super.key});
@@ -18,11 +18,11 @@ class TrackItem extends StatelessWidget {
         onTap: () async =>
             context.read<AudioPlayerCubit>().playTrack(track, index),
         child: Container(
-          constraints: const BoxConstraints(minHeight: 48.0),
+          constraints: const BoxConstraints(minHeight: 48),
           child: Padding(
             padding: MediaQuery.of(context).size.width >= 600
-                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-                : const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+                : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text('${track.game} - ${track.title}'),
