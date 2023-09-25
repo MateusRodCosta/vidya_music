@@ -31,8 +31,13 @@ def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+kotlin {
+    jvmToolchain 17
+}
+
 android {
     namespace "com.mateusrodcosta.apps.vidyamusic"
+
     compileSdk  33
     defaultConfig {
         applicationId "com.mateusrodcosta.apps.vidyamusic"
@@ -40,17 +45,6 @@ android {
         targetSdkVersion  33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = '17'
-    }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
     }
 
     signingConfigs {
@@ -61,6 +55,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -80,6 +75,14 @@ android {
             manifestPlaceholders = [appName: "Vidya Music (Profile)"]
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
 }
 
 flutter {
@@ -87,5 +90,4 @@ flutter {
 }
 
 dependencies {
-    implementation libs.kotlin.stdlib
 }
