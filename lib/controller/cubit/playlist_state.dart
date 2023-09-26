@@ -32,7 +32,10 @@ class PlaylistStateLoading extends PlaylistState {
 
 class PlaylistStateSuccess extends PlaylistState {
   PlaylistStateSuccess(
-      this.availablePlaylists, this.selectedPlaylist, this.roster);
+    this.availablePlaylists,
+    this.selectedPlaylist,
+    this.roster,
+  );
 
   final List<Playlist> availablePlaylists;
   final Playlist selectedPlaylist;
