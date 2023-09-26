@@ -1,0 +1,3 @@
+• Dependências atualizadas
+• Ajustes no ícone do aplicativo
+• Melhorias na qualidade do código
