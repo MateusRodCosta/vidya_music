@@ -11,7 +11,7 @@ class Track {
   });
 
   Track.fromJson(Map<String, dynamic> json, {bool getSource = false})
-      : id = (!getSource ? json['id'] : (json['s_id'] ?? json['id'])) as int,
+      : id = (!getSource ? json['id'] : (json['s_id'] ?? json['id'])) as int?,
         game = json['game'] as String,
         title = (!getSource
             ? json['title']
