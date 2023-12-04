@@ -7,8 +7,9 @@
         android:label="${appName}"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:appCategory="audio"
         android:localeConfig="@xml/locales_config"
-       tools:targetApi="33">
+        tools:targetApi="33">
         <activity
             android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
