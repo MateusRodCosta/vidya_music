@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 
 extension ThemeModeTileExt on ThemeMode {
-  String get tileLabelString {
+  String get tileLabelKey {
     switch (this) {
       case ThemeMode.system:
-        return 'theme_mode_system';
+        return LocaleKeys.themeModeSystem;
       case ThemeMode.light:
-        return 'theme_mode_light';
+        return LocaleKeys.themeModeLight;
       case ThemeMode.dark:
-        return 'theme_mode_dark';
+        return LocaleKeys.themeModeDark;
     }
   }
 

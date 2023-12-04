@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/track.dart';
 
 class Player extends StatelessWidget {
@@ -43,9 +44,9 @@ class TrackInfo extends StatelessWidget {
       builder: (context, currentTrack) {
         if (currentTrack == null) {
           return Text(
-            context.tr('player_no_track'),
+            LocaleKeys.playerNoTrack,
             style: Theme.of(context).textTheme.bodyLarge,
-          );
+          ).tr();
         }
 
         return Column(
@@ -60,12 +61,12 @@ class TrackInfo extends StatelessWidget {
             ),
             if (currentTrack.arr != null)
               Text(
-                '${context.tr('player_arranjer')}: ${currentTrack.arr}',
+                '${LocaleKeys.playerArranjer.tr()}: ${currentTrack.arr}',
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
             Text(
-              '${context.tr('player_composer')}: '
+              '${LocaleKeys.playerArranjer.tr()}: '
               '${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,

@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
@@ -146,7 +147,7 @@ class AppDrawer extends StatelessWidget {
       builder: (context, themeState) => ListTile(
         shape: _getDrawerListTileShape(),
         leading: Icon(themeMode.tileIcon),
-        title: Text(context.tr(themeMode.tileLabelString)),
+        title: Text(themeMode.tileLabelKey).tr(),
         onTap: () async => context.read<ThemeCubit>().setThemeMode(themeMode),
         selected: themeState.themeMode == themeMode,
       ),
@@ -157,7 +158,7 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.help_outline),
-      title: Text(context.tr('drawer_about_tile')),
+      title: const Text(LocaleKeys.drawerAboutTile).tr(),
       onTap: () async {
         final packageInfo = await PackageInfoSingleton.instance;
 
@@ -168,20 +169,16 @@ class AppDrawer extends StatelessWidget {
           context: context,
           applicationName: packageInfo.appName,
           applicationVersion: packageInfo.version,
-          applicationLegalese: context.tr('about_dialog_license'),
+          applicationLegalese: LocaleKeys.aboutDialogLicense.tr(),
           children: [
             const SizedBox(height: 8),
-            Text(
-              context.tr('about_dialog_app_description'),
-            ),
+            const Text(LocaleKeys.aboutDialogAppDescription).tr(),
             const SizedBox(height: 8),
             GestureDetector(
               child: Text(
-                context.tr('about_dialog_vip_cats777'),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
+                LocaleKeys.aboutDialogVipCats777,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ).tr(),
               onTap: () {
                 launchUrl(
                   Uri.parse('https://www.vipvgm.net/'),
@@ -190,13 +187,13 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
-            Text(context.tr('about_dialog_tracks_copyright_notice')),
+            const Text(LocaleKeys.aboutDialogCopyrightNotice).tr(),
             const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: context.tr('source_code_available_at'),
+                    text: LocaleKeys.aboutDialogSourceCode.tr(),
                     style: TextStyle(
                       color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),

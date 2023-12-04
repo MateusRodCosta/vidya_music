@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
-
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
@@ -97,7 +96,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          title: 'Vidya Music',
+          title: appName,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,
@@ -105,7 +104,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           darkTheme:
               ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
           themeMode: state.themeMode,
-          home: const MainPage(title: 'Vidya Music'),
+          home: MainPage(title: appName),
         );
       },
     );

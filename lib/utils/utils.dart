@@ -37,3 +37,5 @@ Future<Uri> getPlayerArtFileFromAssets() async {
   ))
       .uri;
 }
+
+String get appName => 'Vidya Music';
