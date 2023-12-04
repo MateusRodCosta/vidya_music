@@ -34,7 +34,7 @@ class MainPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                AppDrawer(isLargeScreen: isLarge)
+                AppDrawer(isLargeScreen: isLarge),
               ],
             )
           : const Column(children: bodyContents),

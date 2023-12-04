@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -145,7 +146,7 @@ class AppDrawer extends StatelessWidget {
       builder: (context, themeState) => ListTile(
         shape: _getDrawerListTileShape(),
         leading: Icon(themeMode.tileIcon),
-        title: Text(themeMode.tileLabel),
+        title: Text(context.tr(themeMode.tileLabelString)),
         onTap: () async => context.read<ThemeCubit>().setThemeMode(themeMode),
         selected: themeState.themeMode == themeMode,
       ),
@@ -156,7 +157,7 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.help_outline),
-      title: const Text('About'),
+      title: Text(context.tr('drawer_about_tile')),
       onTap: () async {
         final packageInfo = await PackageInfoSingleton.instance;
 
@@ -167,17 +168,16 @@ class AppDrawer extends StatelessWidget {
           context: context,
           applicationName: packageInfo.appName,
           applicationVersion: packageInfo.version,
-          applicationLegalese:
-              'Licensed under AGPLv3+, developed by MateusRodCosta',
+          applicationLegalese: context.tr('about_dialog_license'),
           children: [
             const SizedBox(height: 8),
-            const Text(
-              'A player for the Vidya Intarweb Playlist (aka VIP Aersia)',
+            Text(
+              context.tr('about_dialog_app_description'),
             ),
             const SizedBox(height: 8),
             GestureDetector(
               child: Text(
-                'Vidya Intarweb Playlist by Cats777',
+                context.tr('about_dialog_vip_cats777'),
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -190,13 +190,13 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
-            const Text('All Tracks © & ℗ Their Respective Owners'),
+            Text(context.tr('about_dialog_tracks_copyright_notice')),
             const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Source code is available at ',
+                    text: context.tr('source_code_available_at'),
                     style: TextStyle(
                       color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),

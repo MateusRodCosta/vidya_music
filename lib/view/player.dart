@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -41,7 +42,10 @@ class TrackInfo extends StatelessWidget {
       selector: (state) => state.currentTrack,
       builder: (context, currentTrack) {
         if (currentTrack == null) {
-          return Text('No track', style: Theme.of(context).textTheme.bodyLarge);
+          return Text(
+            context.tr('player_no_track'),
+            style: Theme.of(context).textTheme.bodyLarge,
+          );
         }
 
         return Column(
@@ -56,12 +60,12 @@ class TrackInfo extends StatelessWidget {
             ),
             if (currentTrack.arr != null)
               Text(
-                'Arranger: ${currentTrack.arr}',
+                '${context.tr('player_arranjer')}: ${currentTrack.arr}',
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
             Text(
-              'Composer: '
+              '${context.tr('player_composer')}: '
               '${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,

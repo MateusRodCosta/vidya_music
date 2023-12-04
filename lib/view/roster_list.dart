@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -20,8 +21,6 @@ class _RosterListState extends State<RosterList> {
 
   Future<void> _scrollToTrack(int? trackIndex) async {
     if (trackIndex == null || trackIndex == lastScrollPosition) return;
-    //final previousScrollPosition = currentScrollPosition ?? 0;
-    //final newScrollPosition = trackIndex;
 
     await itemScrollController.scrollTo(
       index: trackIndex,
@@ -44,9 +43,9 @@ class _RosterListState extends State<RosterList> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text("Couldn't fetch tracks"),
+                Text(context.tr('roster_couldnt_fetch')),
                 ElevatedButton(
-                  child: const Text('Try again'),
+                  child: Text(context.tr('roster_retry')),
                   onPressed: () async =>
                       context.read<PlaylistCubit>().fetchRoster(),
                 ),

@@ -1,0 +1,17 @@
+{
+    "roster_couldnt_fetch": "Não foi possível obter as faixas",
+    "roster_retry": "Tentar novamente",
+    "player_no_track": "Nenhuma faixa",
+    "player_arranjer": "Arranjador",
+    "player_composer": "Compositor",
+    "theme_mode_system": "Tema do Sistema",
+    "theme_mode_light": "Tema Claro",
+    "theme_mode_dark": "Tema Escuro",
+    "drawer_about_tile": "Sobre",
+    "about_dialog_license": "Licenciado sob a AGPLv3+, desenvolvido por MateusRodCosta",
+    "about_dialog_app_description": "Um player para a Vidya Intarweb Playlist (aka VIP Aersia)",
+    "about_dialog_vip_cats777": "Vidya Intarweb Playlist por Cats777",
+    "about_dialog_tracks_copyright_notice": "Todas as Faixas Tracks © & ℗ Seus Respectivos Donos",
+    "source_code_available_at": "O código fonte está disponível em "
+ }
+ 

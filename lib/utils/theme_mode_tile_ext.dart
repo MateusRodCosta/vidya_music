@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 extension ThemeModeTileExt on ThemeMode {
-  String get tileLabel {
+  String get tileLabelString {
     switch (this) {
       case ThemeMode.system:
-        return 'System Theme';
+        return 'theme_mode_system';
       case ThemeMode.light:
-        return 'Light Theme';
+        return 'theme_mode_light';
       case ThemeMode.dark:
-        return 'Dark Theme';
+        return 'theme_mode_dark';
     }
   }
 
