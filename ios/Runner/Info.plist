@@ -51,5 +51,10 @@
 	<array>
 		<string>audio</string>
 	</array>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>pt-BR</string>
+	</array>
 </dict>
 </plist>
