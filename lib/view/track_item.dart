@@ -26,7 +26,8 @@ class TrackItem extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${track.game} - ${track.title}',
+                '${track.game} - ${track.arr != null ? '${track.arr} - ' : ''}'
+                '${track.title}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),

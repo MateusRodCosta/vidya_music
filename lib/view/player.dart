@@ -64,7 +64,7 @@ class TrackInfo extends StatelessWidget {
               ),
               if (currentTrack.arr != null)
                 Text(
-                  '${LocaleKeys.playerArranjer.tr()}: ${currentTrack.arr}',
+                  '${LocaleKeys.playerArranger.tr()}: ${currentTrack.arr}',
                   textAlign: TextAlign.center,
                 ),
               Text(

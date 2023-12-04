@@ -1,10 +1,10 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const rosterCouldntFetch = 'rosterCouldntFetch';
   static const rosterRetry = 'rosterRetry';
   static const playerNoTrack = 'playerNoTrack';
-  static const playerArranjer = 'playerArranjer';
+  static const playerArranger = 'playerArranger';
   static const playerComposer = 'playerComposer';
   static const themeModeSystem = 'themeModeSystem';
   static const themeModeLight = 'themeModeLight';
@@ -15,4 +15,5 @@ abstract class LocaleKeys {
   static const aboutDialogVipCats777 = 'aboutDialogVipCats777';
   static const aboutDialogCopyrightNotice = 'aboutDialogCopyrightNotice';
   static const aboutDialogSourceCode = 'aboutDialogSourceCode';
+
 }
