@@ -18,13 +18,12 @@ Future<void> main() async {
 
   await EasyLocalization.ensureInitialized();
   await JustAudioBackground.init(
-    androidNotificationChannelId:
-        'com.mateusrodcosta.apps.vidyamusic.channel.audio',
-    androidNotificationChannelName: 'Vidya Music Audio playback',
+    androidNotificationChannelId: justAudioNotificationChannelId,
+    androidNotificationChannelName: justAudioNotificationChannelName,
     androidNotificationChannelDescription:
-        'Vidya Music Audio playback controls',
+        justAudioNotificationChannelDescription,
     androidNotificationOngoing: true,
-    androidNotificationIcon: 'drawable/ic_player_notification',
+    androidNotificationIcon: justAudiopNotificationIcon,
   );
 
   final enableEdgeToEdge = await supportsEdgeToEdge();
