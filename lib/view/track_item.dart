@@ -11,8 +11,10 @@ class TrackItem extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).cardColor,
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: 0,
+      shape: const Border(),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () async =>

@@ -23,6 +23,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: !isLarge ? _buildAppBar() : null,
       endDrawer: !isLarge ? const AppDrawer() : null,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: isLarge
           ? Row(
               children: [
