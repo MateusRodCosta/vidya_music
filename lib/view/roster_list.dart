@@ -70,6 +70,7 @@ class _RosterListState extends State<RosterList> {
               child: ScrollablePositionedList.separated(
                 padding: context.watch<bool>()
                     ? EdgeInsets.only(
+                        top: 8,
                         bottom: MediaQuery.of(context).padding.bottom,
                       )
                     : null,

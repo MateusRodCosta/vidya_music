@@ -9,6 +9,7 @@ import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -92,8 +93,8 @@ class AppDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16),
             child: Image.asset(
               Theme.of(context).brightness == Brightness.light
-                  ? 'assets/icon/app_icon.png'
-                  : 'assets/icon/app_icon_monochrome.png',
+                  ? appIconPath
+                  : appIconMonochrome,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
                   : null,
@@ -102,7 +103,7 @@ class AppDrawer extends StatelessWidget {
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              'Vidya Music',
+              appName,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,

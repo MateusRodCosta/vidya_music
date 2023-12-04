@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
-import 'package:vidya_music/theme/color_schemes.g.dart';
+import 'package:vidya_music/theme/color_schemes.dart';
+import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/i18n.dart';
 import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/pages/main_page.dart';
@@ -101,10 +102,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             useMaterial3: true,
             colorScheme: lightColorScheme,
           ),
-          darkTheme:
-              ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme,
+          ),
           themeMode: state.themeMode,
-          home: MainPage(title: appName),
+          home: const MainPage(title: appName),
         );
       },
     );

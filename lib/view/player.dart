@@ -19,15 +19,19 @@ class Player extends StatelessWidget {
       right: !Platform.isIOS,
       top: false,
       bottom: false,
-      child: Padding(
-        padding: MediaQuery.of(context).size.width >= 600
-            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-            : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        child: const Column(
-          children: [
-            TrackInfo(),
-            Controls(),
-          ],
+      child: Card(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
+        child: Padding(
+          padding: MediaQuery.of(context).size.width >= 600
+              ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+              : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: const Column(
+            children: [
+              TrackInfo(),
+              Controls(),
+            ],
+          ),
         ),
       ),
     );
@@ -66,7 +70,7 @@ class TrackInfo extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             Text(
-              '${LocaleKeys.playerArranjer.tr()}: '
+              '${LocaleKeys.playerComposer.tr()}: '
               '${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
@@ -99,6 +103,12 @@ class Controls extends StatelessWidget {
               buffered: trackBuffered ?? Duration.zero,
               onSeek: audioPlayerCubit.seek,
               timeLabelLocation: TimeLabelLocation.sides,
+              baseBarColor:
+                  Theme.of(context).colorScheme.tertiary.withOpacity(0.24),
+              progressBarColor: Theme.of(context).colorScheme.tertiary,
+              bufferedBarColor:
+                  Theme.of(context).colorScheme.tertiary.withOpacity(0.24),
+              thumbColor: Theme.of(context).colorScheme.tertiary,
             );
           },
         ),
@@ -114,7 +124,7 @@ class Controls extends StatelessWidget {
                 icon: Icon(
                   Icons.shuffle,
                   color: (isShuffle ?? true)
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.tertiary
                       : null,
                 ),
               ),
@@ -147,7 +157,7 @@ class Controls extends StatelessWidget {
                 icon: (isLoopTrack ?? false)
                     ? Icon(
                         Icons.repeat_one,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.tertiary,
                       )
                     : const Icon(Icons.repeat),
               ),
