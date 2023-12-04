@@ -71,7 +71,7 @@ class _RosterListState extends State<RosterList> {
                 padding: context.watch<bool>()
                     ? EdgeInsets.only(
                         top: 8,
-                        bottom: MediaQuery.of(context).padding.bottom,
+                        bottom: MediaQuery.of(context).padding.bottom + 8,
                       )
                     : null,
                 itemCount: tracks.length,
@@ -80,10 +80,10 @@ class _RosterListState extends State<RosterList> {
                 },
                 separatorBuilder: (context, i) => Divider(
                   height: 1,
-                  thickness: 0,
-                  color: Theme.of(context).dividerColor,
-                  indent: MediaQuery.of(context).size.width >= 600 ? 16 : 8,
-                  endIndent: MediaQuery.of(context).size.width >= 600 ? 16 : 8,
+                  thickness: 1,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  indent: 16,
+                  endIndent: 16,
                 ),
                 itemScrollController: itemScrollController,
                 itemPositionsListener: itemPositionsListener,

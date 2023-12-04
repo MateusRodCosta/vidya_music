@@ -21,14 +21,10 @@ class Player extends StatelessWidget {
       bottom: false,
       child: Card(
         color: Theme.of(context).colorScheme.secondaryContainer,
-        margin: MediaQuery.of(context).size.width >= 600
-            ? const EdgeInsets.only(top: 8, left: 16, right: 16)
-            : const EdgeInsets.only(top: 8, left: 8, right: 8),
-        child: Padding(
-          padding: MediaQuery.of(context).size.width >= 600
-              ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-              : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: const Column(
+        margin: const EdgeInsets.only(top: 8, left: 16, right: 16),
+        child: const Padding(
+          padding: EdgeInsets.only(top: 8, left: 16, right: 16),
+          child: Column(
             children: [
               TrackInfo(),
               Controls(),

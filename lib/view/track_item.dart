@@ -20,14 +20,15 @@ class TrackItem extends StatelessWidget {
         onTap: () async =>
             context.read<AudioPlayerCubit>().playTrack(track, index),
         child: Container(
-          constraints: const BoxConstraints(minHeight: 48),
+          constraints: const BoxConstraints(minHeight: 56),
           child: Padding(
-            padding: MediaQuery.of(context).size.width >= 600
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-                : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text('${track.game} - ${track.title}'),
+              child: Text(
+                '${track.game} - ${track.title}',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ),
         ),
