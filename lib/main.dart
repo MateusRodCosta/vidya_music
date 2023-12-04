@@ -9,6 +9,7 @@ import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/theme/color_schemes.g.dart';
+import 'package:vidya_music/utils/i18n.dart';
 import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/pages/main_page.dart';
 
@@ -47,12 +48,9 @@ Future<void> main() async {
           BlocProvider(create: (context) => ThemeCubit()),
         ],
         child: EasyLocalization(
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pt', 'BR'),
-          ],
+          supportedLocales: appSupportedLocales,
           path: 'assets/i18n',
-          fallbackLocale: const Locale('en'),
+          fallbackLocale: appDefaultLocale,
           child: const MyApp(),
         ),
       ),
@@ -60,8 +58,37 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    super.didChangeLocales(locales);
+    if (locales == null) return;
+
+    for (final l in locales) {
+      if (context.supportedLocales.contains(l)) {
+        context.setLocale(l);
+        return;
+      }
+      if (context.supportedLocales.contains(Locale(l.languageCode))) {
+        context.setLocale(Locale(l.languageCode));
+        return;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeState>(
