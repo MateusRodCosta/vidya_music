@@ -44,7 +44,11 @@ class _RosterListState extends State<RosterList> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(LocaleKeys.rosterCouldntFetch).tr(),
+                Text(
+                  state.errorMessage,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ).tr(),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   child: const Text(LocaleKeys.rosterRetry).tr(),
                   onPressed: () async =>

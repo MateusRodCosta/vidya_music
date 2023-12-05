@@ -1,6 +1,7 @@
 const appName = 'Vidya Music';
 const appIconPath = 'assets/icon/app_icon.png';
-const appIconMonochrome = 'assets/icon/app_icon_monochrome.png';
+const appIconMonochromePath = 'assets/icon/app_icon_monochrome.png';
+const playlistConfigPath = 'assets/config.json';
 
 const justAudioNotificationChannelId =
     'com.mateusrodcosta.apps.vidyamusic.channel.audio';

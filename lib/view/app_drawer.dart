@@ -94,7 +94,7 @@ class AppDrawer extends StatelessWidget {
             child: Image.asset(
               Theme.of(context).brightness == Brightness.light
                   ? appIconPath
-                  : appIconMonochrome,
+                  : appIconMonochromePath,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
                   : null,

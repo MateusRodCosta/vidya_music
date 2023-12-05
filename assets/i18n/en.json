@@ -1,5 +1,7 @@
 {
-    "rosterCouldntFetch": "Couldn't fetch tracks",
+    "genericError": "An Error Occurred.",
+    "rosterErrorNoInternet": "No Internet Connection!",
+    "rosterErrorCouldntFetch": "Couldn't fetch tracks...",
     "rosterRetry": "Retry",
     "playerNoTrack": "No track",
     "playerArranger": "Arranger",
