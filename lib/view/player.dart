@@ -63,14 +63,17 @@ class TrackInfo extends StatelessWidget {
                 intervalSpaces: 10,
               ),
               if (currentTrack.arr != null)
-                Text(
-                  '${LocaleKeys.playerArranger.tr()}: ${currentTrack.arr}',
+                const Text(
+                  LocaleKeys.playerArranger,
                   textAlign: TextAlign.center,
-                ),
-              Text(
-                '${LocaleKeys.playerComposer.tr()}: '
-                '${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
+                ).tr(args: [currentTrack.arr!]),
+              const Text(
+                LocaleKeys.playerComposer,
                 textAlign: TextAlign.center,
+              ).tr(
+                args: [
+                  if (currentTrack.comp.isEmpty) '-' else currentTrack.comp,
+                ],
               ),
             ],
           ),
