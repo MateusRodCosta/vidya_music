@@ -1,0 +1,7 @@
+• Upgraded Flutter to 3.13.9
+• Updated dependencies
+• Added localizations support (currently only English and Brazilian Portuguese)
+• Added per-app language support
+• Small appearance tweaks, including theming (e.g. colors and used widgets) and spacing (padding and margins)
+• Arranger is now shown on Track list
+• Improved error handling
