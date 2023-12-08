@@ -38,11 +38,11 @@ kotlin {
 android {
     namespace "com.mateusrodcosta.apps.vidyamusic"
 
-    compileSdk  33
+    compileSdk 34
     defaultConfig {
         applicationId "com.mateusrodcosta.apps.vidyamusic"
         minSdkVersion 26
-        targetSdkVersion  33
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -76,12 +76,46 @@ android {
         }
     }
 
+    splits {
+        abi {
+            enable true
+
+            reset()
+            //noinspection ChromeOsAbiSupport
+            include "armeabi-v7a", "arm64-v8a", "x86_64"
+
+            universalApk true
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
         jvmTarget = '17'
+    }
+}
+
+ext.abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, x86_64: 4]
+
+android.applicationVariants.configureEach { variant ->
+
+    variant.outputs.each { output ->
+
+        def baseAbiVersionCode =
+                project.ext.abiCodes.get(output.getFilter("ABI"))
+
+        if (baseAbiVersionCode != null) {
+
+            output.versionCodeOverride =
+                // As required by F-Droid, version code at beginning and abi code at the end
+                // If wanting to build a universal APK with similar naming scheme, do so manually
+                // via `--build-number` argument from `flutter build apk`
+                variant.versionCode * 100 + baseAbiVersionCode
+                // Default split apk version code, api code at beginning and version code at the end
+                //baseAbiVersionCode * 1000 + variant.versionCode
+        }
     }
 }
 

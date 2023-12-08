@@ -46,10 +46,14 @@ class PlaylistStateSuccess extends PlaylistState {
 }
 
 class PlaylistStateError extends PlaylistState {
-  PlaylistStateError(this.availablePlaylists);
+  PlaylistStateError({
+    this.errorMessage = LocaleKeys.genericError,
+    this.availablePlaylists,
+  });
 
-  final List<Playlist> availablePlaylists;
+  final String errorMessage;
+  final List<Playlist>? availablePlaylists;
 
   @override
-  List<Object?> get props => [availablePlaylists];
+  List<Object?> get props => [errorMessage, availablePlaylists];
 }

@@ -1,0 +1,19 @@
+{
+    "genericError": "Ocorreu um erro.",
+    "rosterErrorNoInternet": "Sem Conexão a Internet!",
+    "rosterErrorCouldntFetch": "Não foi possível obter as faixas...",
+    "rosterRetry": "Tentar novamente",
+    "playerNoTrack": "Nenhuma faixa",
+    "playerArranger": "Arranjador: {}",
+    "playerComposer": "Compositor: {}",
+    "themeModeSystem": "Tema do Sistema",
+    "themeModeLight": "Tema Claro",
+    "themeModeDark": "Tema Escuro",
+    "drawerAboutTile": "Sobre",
+    "aboutDialogLicense": "Licenciado sob a AGPLv3+, desenvolvido por MateusRodCosta",
+    "aboutDialogAppDescription": "Um player para a Vidya Intarweb Playlist (aka VIP Aersia)",
+    "aboutDialogVipCats777": "Vidya Intarweb Playlist por Cats777",
+    "aboutDialogCopyrightNotice": "Todas as Faixas Tracks © & ℗ Seus Respectivos Donos",
+    "aboutDialogSourceCode": "O código fonte está disponível em "
+ }
+ 

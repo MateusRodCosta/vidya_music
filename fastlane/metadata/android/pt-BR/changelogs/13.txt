@@ -1,0 +1,7 @@
+• Flutter atualizado para 3.13.9
+• Dependências atualizadas
+• Adicionado suporte a traduções (atualmente apenas Inglês e Português Brasileiro)
+• Adicionado suporte a seleção de idioma por aplicativo
+• Pequenos ajustes de aparência, incluindo em temas (e.g. cores e widgets usado) e espaçamento (padding e margens)
+• O arranjador agora é mostrado na lista de faixas
+• Melhorias no tratamento de erros

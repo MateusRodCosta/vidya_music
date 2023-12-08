@@ -1,9 +1,20 @@
-on: [pull_request]
+name: Validate Fastlane metadata
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+  schedule:
+    - cron: '0 15 * * 5'
+  workflow_dispatch:
+
 jobs:
   validate-fastlane:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
       - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2
         with:
           usePlayStoreLocales: true # optional

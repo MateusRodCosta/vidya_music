@@ -23,6 +23,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: !isLarge ? _buildAppBar() : null,
       endDrawer: !isLarge ? const AppDrawer() : null,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: isLarge
           ? Row(
               children: [
@@ -34,7 +35,7 @@ class MainPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                AppDrawer(isLargeScreen: isLarge)
+                AppDrawer(isLargeScreen: isLarge),
               ],
             )
           : const Column(children: bodyContents),

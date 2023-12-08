@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/view/track_item.dart';
 
 class RosterList extends StatefulWidget {
@@ -20,8 +22,6 @@ class _RosterListState extends State<RosterList> {
 
   Future<void> _scrollToTrack(int? trackIndex) async {
     if (trackIndex == null || trackIndex == lastScrollPosition) return;
-    //final previousScrollPosition = currentScrollPosition ?? 0;
-    //final newScrollPosition = trackIndex;
 
     await itemScrollController.scrollTo(
       index: trackIndex,
@@ -44,9 +44,13 @@ class _RosterListState extends State<RosterList> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text("Couldn't fetch tracks"),
+                Text(
+                  state.errorMessage,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ).tr(),
+                const SizedBox(height: 16),
                 ElevatedButton(
-                  child: const Text('Try again'),
+                  child: const Text(LocaleKeys.rosterRetry).tr(),
                   onPressed: () async =>
                       context.read<PlaylistCubit>().fetchRoster(),
                 ),
@@ -70,7 +74,8 @@ class _RosterListState extends State<RosterList> {
               child: ScrollablePositionedList.separated(
                 padding: context.watch<bool>()
                     ? EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom,
+                        top: 8,
+                        bottom: MediaQuery.of(context).padding.bottom + 8,
                       )
                     : null,
                 itemCount: tracks.length,
@@ -79,10 +84,10 @@ class _RosterListState extends State<RosterList> {
                 },
                 separatorBuilder: (context, i) => Divider(
                   height: 1,
-                  thickness: 0,
-                  color: Theme.of(context).dividerColor,
-                  indent: 8,
-                  endIndent: 8,
+                  thickness: 1,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  indent: 16,
+                  endIndent: 16,
                 ),
                 itemScrollController: itemScrollController,
                 itemPositionsListener: itemPositionsListener,

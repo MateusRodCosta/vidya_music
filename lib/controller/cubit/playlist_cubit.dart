@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -6,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/config.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
+import 'package:vidya_music/utils/branding.dart';
 
 part 'playlist_state.dart';
 
@@ -21,7 +25,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
   late Playlist _selectedRoster;
 
   Future<void> _decodeConfig() async {
-    final js = await rootBundle.loadString('assets/config.json');
+    final js = await rootBundle.loadString(playlistConfigPath);
     final decoded = json.decode(js) as Map<String, dynamic>;
     final config = Config.fromJson(decoded);
 
@@ -56,8 +60,17 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       final js = jsonDecode(r) as Map<String, dynamic>;
       final roster = Roster.fromJson(js, getSource: _selectedRoster.isSource);
       emit(PlaylistStateSuccess(_availablePlaylists, _selectedRoster, roster));
+    } on SocketException catch (e) {
+      emit(
+        PlaylistStateError(
+          errorMessage: LocaleKeys.rosterErrorCouldntFetch,
+          availablePlaylists: _availablePlaylists,
+        ),
+      );
+      developer.log(e.toString(), name: 'fetchRoster');
     } catch (e) {
-      emit(PlaylistStateError(_availablePlaylists));
+      emit(PlaylistStateError(availablePlaylists: _availablePlaylists));
+      developer.log(e.toString(), name: 'fetchRoster');
     }
   }
 }
