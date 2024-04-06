@@ -35,15 +35,15 @@ dependencies:
 
   audio_video_progress_bar: ^2.0.2
   bloc: ^8.1.4
-  device_info_plus: ^9.1.2
+  device_info_plus: ^10.0.1
   easy_localization: ^3.0.5
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
-  http: ^1.2.0
+  http: ^1.2.1
   just_audio: ^0.9.37
   just_audio_background: ^0.0.1-beta.11
   meta: ^1.11.0
-  package_info_plus: ^5.0.1
+  package_info_plus: ^6.0.0
   path_provider: ^2.1.2
   provider: ^6.1.2
   scrollable_positioned_list: ^0.3.8
