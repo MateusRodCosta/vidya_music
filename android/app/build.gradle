@@ -48,6 +48,10 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
+
+            // Always enable v2 and v3 signing schemes, which will be used on modern Android OSes
+            enableV2Signing true
+            enableV3Signing true
         }
     }
 
