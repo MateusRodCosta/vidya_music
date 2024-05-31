@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -90,8 +93,8 @@ class AppDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16),
             child: Image.asset(
               Theme.of(context).brightness == Brightness.light
-                  ? 'assets/icon/app_icon.png'
-                  : 'assets/icon/app_icon_monochrome.png',
+                  ? appIconPath
+                  : appIconMonochromePath,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
                   : null,
@@ -100,7 +103,7 @@ class AppDrawer extends StatelessWidget {
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              'Vidya Music',
+              appName,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -145,7 +148,7 @@ class AppDrawer extends StatelessWidget {
       builder: (context, themeState) => ListTile(
         shape: _getDrawerListTileShape(),
         leading: Icon(themeMode.tileIcon),
-        title: Text(themeMode.tileLabel),
+        title: Text(themeMode.tileLabelKey).tr(),
         onTap: () async => context.read<ThemeCubit>().setThemeMode(themeMode),
         selected: themeState.themeMode == themeMode,
       ),
@@ -156,7 +159,7 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.help_outline),
-      title: const Text('About'),
+      title: const Text(LocaleKeys.drawerAboutTile).tr(),
       onTap: () async {
         final packageInfo = await PackageInfoSingleton.instance;
 
@@ -167,21 +170,16 @@ class AppDrawer extends StatelessWidget {
           context: context,
           applicationName: packageInfo.appName,
           applicationVersion: packageInfo.version,
-          applicationLegalese:
-              'Licensed under AGPLv3+, developed by MateusRodCosta',
+          applicationLegalese: LocaleKeys.aboutDialogLicense.tr(),
           children: [
             const SizedBox(height: 8),
-            const Text(
-              'A player for the Vidya Intarweb Playlist (aka VIP Aersia)',
-            ),
+            const Text(LocaleKeys.aboutDialogAppDescription).tr(),
             const SizedBox(height: 8),
             GestureDetector(
               child: Text(
-                'Vidya Intarweb Playlist by Cats777',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
+                LocaleKeys.aboutDialogVipCats777,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ).tr(),
               onTap: () {
                 launchUrl(
                   Uri.parse('https://www.vipvgm.net/'),
@@ -190,13 +188,13 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
-            const Text('All Tracks © & ℗ Their Respective Owners'),
+            const Text(LocaleKeys.aboutDialogCopyrightNotice).tr(),
             const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Source code is available at ',
+                    text: LocaleKeys.aboutDialogSourceCode.tr(),
                     style: TextStyle(
                       color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),

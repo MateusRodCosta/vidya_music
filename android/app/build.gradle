@@ -1,6 +1,7 @@
 plugins {
-    alias libs.plugins.android.application
-    alias libs.plugins.kotlin.android
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "dev.flutter.flutter-gradle-plugin"
 }
 
 def localProperties = new Properties()
@@ -11,21 +12,15 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
 }
+
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
@@ -37,12 +32,13 @@ kotlin {
 
 android {
     namespace "com.mateusrodcosta.apps.vidyamusic"
+    compileSdk 34
 
-    compileSdk  33
     defaultConfig {
         applicationId "com.mateusrodcosta.apps.vidyamusic"
         minSdkVersion 26
-        targetSdkVersion  33
+        //noinspection OldTargetApi
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -76,6 +72,18 @@ android {
         }
     }
 
+    splits {
+        abi {
+            enable true
+
+            reset()
+            //noinspection ChromeOsAbiSupport
+            include "armeabi-v7a", "arm64-v8a", "x86_64"
+
+            universalApk true
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -89,5 +97,27 @@ flutter {
     source '../..'
 }
 
-dependencies {
+dependencies {}
+
+ext.abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, x86_64: 4]
+
+android.applicationVariants.configureEach { variant ->
+
+    variant.outputs.each { output ->
+
+        def baseAbiVersionCode =
+                project.ext.abiCodes.get(output.getFilter("ABI"))
+
+        if (baseAbiVersionCode != null) {
+
+            output.versionCodeOverride =
+                // As required by F-Droid, version code at beginning and abi code at the end
+                // If wanting to build a universal APK with similar naming scheme, do so manually
+                // via `--build-number` argument from `flutter build apk`
+                variant.versionCode * 100 + baseAbiVersionCode
+                // Default split apk version code, api code at beginning and version code at the end
+                //baseAbiVersionCode * 1000 + variant.versionCode
+        }
+    }
 }
+

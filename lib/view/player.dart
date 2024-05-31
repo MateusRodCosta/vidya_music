@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
+import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/track.dart';
 
 class Player extends StatelessWidget {
@@ -17,15 +19,17 @@ class Player extends StatelessWidget {
       right: !Platform.isIOS,
       top: false,
       bottom: false,
-      child: Padding(
-        padding: MediaQuery.of(context).size.width >= 600
-            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-            : const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        child: const Column(
-          children: [
-            TrackInfo(),
-            Controls(),
-          ],
+      child: Card(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        margin: const EdgeInsets.only(top: 8, left: 16, right: 16),
+        child: const Padding(
+          padding: EdgeInsets.only(top: 8, left: 16, right: 16),
+          child: Column(
+            children: [
+              TrackInfo(),
+              Controls(),
+            ],
+          ),
         ),
       ),
     );
@@ -40,33 +44,39 @@ class TrackInfo extends StatelessWidget {
     return BlocSelector<AudioPlayerCubit, AudioPlayerState, Track?>(
       selector: (state) => state.currentTrack,
       builder: (context, currentTrack) {
+        final defaultColor = Theme.of(context).colorScheme.onSecondaryContainer;
+        final bodyLargeStyle = Theme.of(context).textTheme.bodyLarge;
+        final textStyle = bodyLargeStyle?.copyWith(color: defaultColor) ??
+            TextStyle(color: defaultColor);
         if (currentTrack == null) {
-          return Text('No track', style: Theme.of(context).textTheme.bodyLarge);
+          return Text(LocaleKeys.playerNoTrack, style: textStyle).tr();
         }
-
-        return Column(
-          children: [
-            TextScroll(
-              '${currentTrack.game} - ${currentTrack.title}',
-              style: Theme.of(context).textTheme.bodyLarge,
-              delayBefore: const Duration(seconds: 3),
-              pauseBetween: const Duration(seconds: 1),
-              velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
-              intervalSpaces: 10,
-            ),
-            if (currentTrack.arr != null)
-              Text(
-                'Arranger: ${currentTrack.arr}',
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center,
+        return DefaultTextStyle(
+          style: textStyle,
+          child: Column(
+            children: [
+              TextScroll(
+                '${currentTrack.game} - ${currentTrack.title}',
+                delayBefore: const Duration(seconds: 3),
+                pauseBetween: const Duration(seconds: 1),
+                velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                intervalSpaces: 10,
               ),
-            Text(
-              'Composer: '
-              '${currentTrack.comp.isEmpty ? '-' : currentTrack.comp}',
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-          ],
+              if (currentTrack.arr != null)
+                const Text(
+                  LocaleKeys.playerArranger,
+                  textAlign: TextAlign.center,
+                ).tr(args: [currentTrack.arr!]),
+              const Text(
+                LocaleKeys.playerComposer,
+                textAlign: TextAlign.center,
+              ).tr(
+                args: [
+                  if (currentTrack.comp.isEmpty) '-' else currentTrack.comp,
+                ],
+              ),
+            ],
+          ),
         );
       },
     );
@@ -79,6 +89,9 @@ class Controls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audioPlayerCubit = context.read<AudioPlayerCubit>();
+    final defaultColor = Theme.of(context).colorScheme.onSecondaryContainer;
+    final accentColor = Theme.of(context).colorScheme.tertiary;
+
     return Column(
       children: [
         BlocSelector<AudioPlayerCubit, AudioPlayerState,
@@ -91,8 +104,12 @@ class Controls extends StatelessWidget {
             return ProgressBar(
               progress: trackPosition ?? Duration.zero,
               total: trackDuration ?? Duration.zero,
-              buffered: trackBuffered ?? Duration.zero,
+              buffered: trackBuffered,
               onSeek: audioPlayerCubit.seek,
+              baseBarColor: accentColor.withOpacity(0.24),
+              progressBarColor: accentColor,
+              bufferedBarColor: accentColor.withOpacity(0.24),
+              thumbColor: accentColor,
               timeLabelLocation: TimeLabelLocation.sides,
             );
           },
@@ -108,15 +125,13 @@ class Controls extends StatelessWidget {
                 ),
                 icon: Icon(
                   Icons.shuffle,
-                  color: (isShuffle ?? true)
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
+                  color: (isShuffle ?? true) ? accentColor : defaultColor,
                 ),
               ),
             ),
             IconButton(
               onPressed: () async => audioPlayerCubit.playPrevious(),
-              icon: const Icon(Icons.skip_previous),
+              icon: Icon(Icons.skip_previous, color: defaultColor),
             ),
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isPlaying,
@@ -124,14 +139,15 @@ class Controls extends StatelessWidget {
                 onPressed: () async => (isPlaying ?? false)
                     ? audioPlayerCubit.pause()
                     : audioPlayerCubit.play(),
-                icon: (isPlaying ?? false)
-                    ? const Icon(Icons.pause)
-                    : const Icon(Icons.play_arrow),
+                icon: Icon(
+                  (isPlaying ?? false) ? Icons.pause : Icons.play_arrow,
+                  color: defaultColor,
+                ),
               ),
             ),
             IconButton(
               onPressed: () async => audioPlayerCubit.playNext(),
-              icon: const Icon(Icons.skip_next),
+              icon: Icon(Icons.skip_next, color: defaultColor),
             ),
             BlocSelector<AudioPlayerCubit, AudioPlayerState, bool?>(
               selector: (state) => state.isLoopTrack,
@@ -140,11 +156,8 @@ class Controls extends StatelessWidget {
                   loopTrack: !(isLoopTrack ?? false),
                 ),
                 icon: (isLoopTrack ?? false)
-                    ? Icon(
-                        Icons.repeat_one,
-                        color: Theme.of(context).colorScheme.primary,
-                      )
-                    : const Icon(Icons.repeat),
+                    ? Icon(Icons.repeat_one, color: accentColor)
+                    : Icon(Icons.repeat, color: defaultColor),
               ),
             ),
           ],

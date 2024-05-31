@@ -1,5 +1,7 @@
-Listen to lots of awesome videogame songs from your favorite video games directly from your device.
+Do you like VGM (aka Video Game Music)? If so, you came to the right place!
 
-The original playlist is available at <a href="https://www.vipvgm.net/">https://www.vipvgm.net/</a>. All Tracks © & ℗ Their Respective Owners.
+Listen to several of the awesomest videogame songs from your favorite video games directly from your device. This app is based on the VIP Aersia playlist (nowadays VIPVGM), which contains the very best VGM tracks as selected by Cats777.
 
-The app is developed with Flutter and licensed under AGPLv3+.  Source code is available at <a href="https://github.com/MateusRodCosta/vidya_music">https://github.com/MateusRodCosta/vidya_music</a>.
+The original playlist is available at <a href="https://www.vipvgm.net/">https://www.vipvgm.net/</a> . All Tracks © & ℗ Their Respective Owners.
+
+Vidya Music is developed with Flutter and is FLOSS software. The source code is available at <a href="https://github.com/MateusRodCosta/vidya_music">https://github.com/MateusRodCosta/vidya_music</a> and licensed under AGPLv3+.
