@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:appCategory="audio"
         android:localeConfig="@xml/locales_config"
-        tools:targetApi="33">
+       android:enableOnBackInvokedCallback="true"
+       tools:targetApi="34">
         <activity
             android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
