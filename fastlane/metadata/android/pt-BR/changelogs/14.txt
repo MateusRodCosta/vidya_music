@@ -1,0 +1,9 @@
+A versão 2.0 foi adiada, então estou lançando a versão 1.4 com foco no suporte ao Android 14.
+
+A versão 1.4.0 inclui:
+
+&bull; Suporte ao Android 14
+&bull; Upgrade para o Flutter 3.19.6
+&bull; Upgrade de dependências
+&bull; Implementado suporte a splash screen (inclui suporte para Android anterior ao 12)
+&bull; Ajustes para algumas funcionalidades especificas a versões recentes do Android
