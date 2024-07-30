@@ -1,6 +1,7 @@
 plugins {
-    alias libs.plugins.android.application
-    alias libs.plugins.kotlin.android
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
 }
 
 def localProperties = new Properties()
@@ -11,21 +12,15 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
 }
+
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
@@ -37,12 +32,12 @@ kotlin {
 
 android {
     namespace "com.mateusrodcosta.apps.vidyamusic"
-
     compileSdk 34
+
     defaultConfig {
         applicationId "com.mateusrodcosta.apps.vidyamusic"
         minSdkVersion 26
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -53,6 +48,10 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
+
+            // Always enable v2 and v3 signing schemes, which will be used on modern Android OSes
+            enableV2Signing true
+            enableV3Signing true
         }
     }
 
@@ -97,6 +96,14 @@ android {
     }
 }
 
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+}
+
 ext.abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, x86_64: 4]
 
 android.applicationVariants.configureEach { variant ->
@@ -119,9 +126,3 @@ android.applicationVariants.configureEach { variant ->
     }
 }
 
-flutter {
-    source '../..'
-}
-
-dependencies {
-}

@@ -1,11 +1,13 @@
-plugins {
-    alias libs.plugins.android.application apply false
-    alias libs.plugins.kotlin.android apply false
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 
-rootProject.layout.buildDirectory.set(new File('../build'))
+rootProject.layout.buildDirectory = file('../build')
 subprojects {
-    project.layout.buildDirectory.set(rootProject.layout.buildDirectory.dir(project.name))
+    project.layout.buildDirectory = rootProject.layout.buildDirectory.dir(project.name)
 }
 subprojects {
     project.evaluationDependsOn(':app')
