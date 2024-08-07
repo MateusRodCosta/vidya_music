@@ -10,8 +10,8 @@ import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/generated/codegen_loader.g.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
+import 'package:vidya_music/utils/edge_to_edge.dart';
 import 'package:vidya_music/utils/i18n.dart';
-import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/pages/main_page.dart';
 
 Future<void> main() async {
@@ -39,21 +39,19 @@ Future<void> main() async {
   }
 
   runApp(
-    Provider<bool>.value(
-      value: enableEdgeToEdge,
-      child: MultiProvider(
-        providers: [
-          BlocProvider(create: (context) => PlaylistCubit()),
-          BlocProvider(create: (context) => AudioPlayerCubit()),
-          ChangeNotifierProvider(create: (context) => SettingsProvider()),
-        ],
-        child: EasyLocalization(
-          supportedLocales: appSupportedLocales,
-          path: 'assets/i18n',
-          fallbackLocale: appDefaultLocale,
-          assetLoader: const CodegenLoader(),
-          child: const MyApp(),
-        ),
+    MultiProvider(
+      providers: [
+        Provider<IsEdgeToEdge>.value(value: enableEdgeToEdge),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        BlocProvider(create: (context) => PlaylistCubit()),
+        BlocProvider(create: (context) => AudioPlayerCubit()),
+      ],
+      child: EasyLocalization(
+        supportedLocales: appSupportedLocales,
+        path: 'assets/i18n',
+        fallbackLocale: appDefaultLocale,
+        assetLoader: const CodegenLoader(),
+        child: const MyApp(),
       ),
     ),
   );

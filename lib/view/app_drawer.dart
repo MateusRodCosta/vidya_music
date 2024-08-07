@@ -9,6 +9,7 @@ import 'package:vidya_music/controller/services/package_info_singleton.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/branding.dart';
+import 'package:vidya_music/utils/edge_to_edge.dart';
 import 'package:vidya_music/view/pages/settings_page.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -49,7 +50,7 @@ class AppDrawer extends StatelessWidget {
                   }
                   return ListView(
                     padding: EdgeInsets.only(
-                      bottom: context.watch<bool>()
+                      bottom: context.read<IsEdgeToEdge>()
                           ? MediaQuery.of(context).padding.bottom
                           : 0,
                     ),

@@ -8,6 +8,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
+import 'package:vidya_music/utils/edge_to_edge.dart';
 import 'package:vidya_music/view/track_item.dart';
 
 class RosterList extends StatefulWidget {
@@ -72,7 +73,7 @@ class _RosterListState extends State<RosterList> {
               top: false,
               bottom: false,
               child: ScrollablePositionedList.separated(
-                padding: context.watch<bool>()
+                padding: context.read<IsEdgeToEdge>()
                     ? EdgeInsets.only(
                         top: 8,
                         bottom: MediaQuery.of(context).padding.bottom + 8,
