@@ -6,7 +6,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/controller/cubit/theme_cubit.dart';
+import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/generated/codegen_loader.g.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
@@ -41,11 +41,11 @@ Future<void> main() async {
   runApp(
     Provider<bool>.value(
       value: enableEdgeToEdge,
-      child: MultiBlocProvider(
+      child: MultiProvider(
         providers: [
           BlocProvider(create: (context) => PlaylistCubit()),
           BlocProvider(create: (context) => AudioPlayerCubit()),
-          BlocProvider(create: (context) => ThemeCubit()),
+          ChangeNotifierProvider(create: (context) => SettingsProvider()),
         ],
         child: EasyLocalization(
           supportedLocales: appSupportedLocales,
@@ -92,25 +92,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(
-      builder: (context, state) {
-        return MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          title: appName,
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightColorScheme,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkColorScheme,
-          ),
-          themeMode: state.themeMode,
-          home: const MainPage(title: appName),
-        );
-      },
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: appName,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
+      ),
+      themeMode: context.watch<SettingsProvider>().themeMode,
+      home: const MainPage(title: appName),
     );
   }
 }

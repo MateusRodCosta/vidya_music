@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vidya_music/controller/cubit/theme_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
@@ -24,11 +24,11 @@ class SettingsPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ).tr(),
               ),
-              BlocBuilder<ThemeCubit, ThemeState>(
-                builder: (context, state) => ListTile(
+              Consumer<SettingsProvider>(
+                builder: (context, value, child) => ListTile(
                   leading: const Icon(Icons.brush_outlined),
                   title: Text(LocaleKeys.settingsAppearanceHeader).tr(),
-                  subtitle: Text(state.themeMode.tileLabelKey).tr(),
+                  subtitle: Text(value.themeMode.tileLabelKey).tr(),
                   onTap: () => showAdaptiveDialog<void>(
                     context: context,
                     builder: (context) => SimpleDialog(
@@ -59,7 +59,7 @@ class SettingsPage extends StatelessWidget {
       leading: Icon(themeMode.tileIcon),
       title: Text(themeMode.tileLabelKey).tr(),
       onTap: () async {
-        await context.read<ThemeCubit>().setThemeMode(themeMode);
+        await context.read<SettingsProvider>().setThemeMode(themeMode);
 
         if (context.mounted) Navigator.of(context).pop();
       },
