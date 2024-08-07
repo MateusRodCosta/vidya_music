@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/cubit/theme_cubit.dart';
+import 'package:vidya_music/generated/codegen_loader.g.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/i18n.dart';
@@ -50,6 +51,7 @@ Future<void> main() async {
           supportedLocales: appSupportedLocales,
           path: 'assets/i18n',
           fallbackLocale: appDefaultLocale,
+          assetLoader: const CodegenLoader(),
           child: const MyApp(),
         ),
       ),

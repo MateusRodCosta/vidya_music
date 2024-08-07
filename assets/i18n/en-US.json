@@ -6,14 +6,17 @@
     "playerNoTrack": "No track",
     "playerArranger": "Arranger: {}",
     "playerComposer": "Composer: {}",
+    "themeModeHeader": "Theme",
     "themeModeSystem": "System Theme",
     "themeModeLight": "Light Theme",
     "themeModeDark": "Dark Theme",
+    "drawerSettingsTile": "Settings",
     "drawerAboutTile": "About",
     "aboutDialogLicense": "Licensed under AGPLv3+, developed by MateusRodCosta",
     "aboutDialogAppDescription": "A player for the Vidya Intarweb Playlist (aka VIP Aersia)",
     "aboutDialogVipCats777": "Vidya Intarweb Playlist by Cats777",
     "aboutDialogCopyrightNotice": "All Tracks © & ℗ Their Respective Owners",
-    "aboutDialogSourceCode": "Source code is available at "
+    "aboutDialogSourceCode": "Source code is available at ",
+    "settingsPageTitle": "Settings",
+    "settingsAppearanceHeader": "Appearance"
  }
- 
