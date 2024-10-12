@@ -10,8 +10,8 @@ import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/generated/codegen_loader.g.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
-import 'package:vidya_music/utils/edge_to_edge.dart';
 import 'package:vidya_music/utils/i18n.dart';
+import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/pages/main_page.dart';
 
 Future<void> main() async {
@@ -24,25 +24,28 @@ Future<void> main() async {
     androidNotificationChannelDescription:
         justAudioNotificationChannelDescription,
     androidNotificationOngoing: true,
-    androidNotificationIcon: justAudiopNotificationIcon,
+    androidNotificationIcon: justAudioNotificationIcon,
   );
 
-  final enableEdgeToEdge = await supportsEdgeToEdge();
-
-  if (enableEdgeToEdge) {
+  final isEdgeToEdgeSupported = await supportsEdgeToEdge();
+  var isEdgeToEdgeEnabled = false;
+  if (isEdgeToEdgeSupported) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.transparent,
       ),
     );
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    isEdgeToEdgeEnabled = true;
   }
 
   runApp(
     MultiProvider(
       providers: [
-        Provider<IsEdgeToEdge>.value(value: enableEdgeToEdge),
-        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        ChangeNotifierProvider(
+          create: (context) =>
+              SettingsProvider(edgeToEdgeEnabled: isEdgeToEdgeEnabled),
+        ),
         BlocProvider(create: (context) => PlaylistCubit()),
         BlocProvider(create: (context) => AudioPlayerCubit()),
       ],

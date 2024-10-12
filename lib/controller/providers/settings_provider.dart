@@ -4,15 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidya_music/controller/services/shared_preferences_singleton.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  SettingsProvider() {
+  SettingsProvider({bool edgeToEdgeEnabled = false}) {
     _initFromPreferences();
+    _isEdgeToEdgeEnabled = edgeToEdgeEnabled;
   }
 
   late SharedPreferences _prefs;
 
   static const themeKey = 'theme_mode';
+
   ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
+
+  bool _isEdgeToEdgeEnabled = false;
+  bool get isEdgeToEdgeEnabled => _isEdgeToEdgeEnabled;
 
   Future<void> _initFromPreferences() async {
     _prefs = await SharedPreferencesSingleton.instance;

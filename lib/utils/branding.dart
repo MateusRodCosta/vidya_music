@@ -8,4 +8,4 @@ const justAudioNotificationChannelId =
 const justAudioNotificationChannelName = 'Vidya Music Audio playback';
 const justAudioNotificationChannelDescription =
     'Vidya Music Audio playback controls';
-const justAudiopNotificationIcon = 'drawable/ic_player_notification';
+const justAudioNotificationIcon = 'drawable/ic_player_notification';
