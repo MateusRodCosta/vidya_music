@@ -33,6 +33,7 @@ android {
     defaultConfig {
         applicationId = "com.mateusrodcosta.apps.vidyamusic"
         minSdk = 26
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
@@ -120,7 +121,6 @@ dependencies {
 
 val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86_64" to 4)
 
-
 androidComponents {
     onVariants { variant ->
 
@@ -134,7 +134,7 @@ androidComponents {
                     // As required by F-Droid, version code at beginning and abi code at the end
                     // If wanting to build a universal APK with similar naming scheme, do so manually
                     // via `--build-number` argument from `flutter build apk`
-                    baseAbiCode * 100 + (output.versionCode.get() ?: 0)
+                    baseAbiCode * 100 + output.versionCode.get()
                     // Default split apk version code, api code at beginning and version code at the end
                     //baseAbiVersionCode * 1000 + variant.versionCode
                 )
