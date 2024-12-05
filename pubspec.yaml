@@ -6,8 +6,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.4.0+14
 
 environment:
-  sdk: ^3.4.0
-  flutter: '>=3.22.0'
+  sdk: ^3.5.0
+  flutter: '>=3.24.0'
 
 dependencies:
   flutter:
@@ -15,19 +15,19 @@ dependencies:
 
   audio_video_progress_bar: ^2.0.3
   bloc: ^8.1.4
-  device_info_plus: ^11.0.0
+  device_info_plus: ^11.1.1
   easy_localization: ^3.0.7
-  equatable: ^2.0.5
+  equatable: ^2.0.7
   flutter_bloc: ^8.1.6
   http: ^1.2.2
-  just_audio: ^0.9.41
+  just_audio: ^0.9.42
   just_audio_background: ^0.0.1-beta.13
-  meta: ^1.12.0
-  package_info_plus: ^8.0.3
-  path_provider: ^2.1.4
+  meta: ^1.15.0
+  package_info_plus: ^8.1.1
+  path_provider: ^2.1.5
   provider: ^6.1.2
   scrollable_positioned_list: ^0.3.8
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.3.3
   text_scroll: ^0.2.0
   url_launcher: ^6.3.1
 

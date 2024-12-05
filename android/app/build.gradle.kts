@@ -1,5 +1,6 @@
 import java.util.Properties
 import com.android.build.api.variant.FilterConfiguration.FilterType.*
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
@@ -13,9 +14,6 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 
-val flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
-val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
-
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
@@ -24,19 +22,22 @@ if (keystorePropertiesFile.exists()) {
 
 kotlin {
     jvmToolchain(21)
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+    }
 }
 
 android {
     namespace = "com.mateusrodcosta.apps.vidyamusic"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.mateusrodcosta.apps.vidyamusic"
         minSdk = 26
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = flutterVersionCode.toInt()
-        versionName = flutterVersionName
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     signingConfigs {
@@ -90,9 +91,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
 
     packaging {
         // This is set to false starting with minSdk >= 28, but I want uncompressed DEX files with minSdk 26
@@ -140,4 +138,3 @@ androidComponents {
         }
     }
 }
-
