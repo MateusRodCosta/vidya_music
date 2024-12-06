@@ -40,7 +40,7 @@ class MainPage extends StatelessWidget {
             )
           else
             Column(children: bodyContents),
-          AppMiniPlayer(),
+          const AppMiniPlayer(),
         ],
       ),
     );

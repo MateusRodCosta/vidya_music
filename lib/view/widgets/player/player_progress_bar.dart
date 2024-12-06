@@ -20,11 +20,11 @@ class MiniPlayerProgressBar extends StatelessWidget {
         final (trackPosition, trackDuration, trackBuffered) = filteredValues;
 
         final percentagePlayed = trackPosition != null && trackDuration != null
-            ? trackPosition.inSeconds / trackDuration.inSeconds
+            ? trackPosition.inMilliseconds / trackDuration.inMilliseconds
             : 0.0;
         final percentageBuffered =
             trackBuffered != null && trackDuration != null
-                ? trackBuffered.inSeconds / trackDuration.inSeconds
+                ? trackBuffered.inMilliseconds / trackDuration.inMilliseconds
                 : 0.0;
 
         return SizedBox(
