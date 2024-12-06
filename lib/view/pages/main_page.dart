@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/view/widgets/app_drawer.dart';
 import 'package:vidya_music/view/widgets/player/player.dart';
 import 'package:vidya_music/view/widgets/roster_list.dart';
@@ -18,8 +19,12 @@ class MainPage extends StatelessWidget {
 
     final bodyContents = [
       _buildAppBar(isLargeScreen: isLarge),
-      const Expanded(
-        child: RosterList(),
+      Expanded(
+        child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + playerMinHeight,
+            ),
+            child: RosterList()),
       ),
     ];
 
