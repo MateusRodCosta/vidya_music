@@ -1,5 +1,6 @@
 {
     "currentPlaylist": "Current Playlist",
+    "playlistConfigDecodingError": "Error decoding playlist config",
     "genericError": "An Error Occurred.",
     "rosterErrorNoInternet": "No Internet Connection!",
     "rosterErrorCouldntFetch": "Couldn't fetch tracks...",

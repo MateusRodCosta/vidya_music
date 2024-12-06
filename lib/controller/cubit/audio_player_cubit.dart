@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -14,37 +13,35 @@ import 'package:vidya_music/utils/utils.dart';
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
-  AudioPlayerCubit() : super(const AudioPlayerState()) {
-    _initializePlayer();
+  AudioPlayerCubit()
+      : _player = AudioPlayerSingleton.instance,
+        super(const AudioPlayerState()) {
+    _setupArt();
+    _setupStreamSubscriptions();
   }
 
-  late StreamSubscription<Duration?> onDurationSubscription;
-  late StreamSubscription<Duration> onPositionSubscription;
-  late StreamSubscription<Duration> onBufferedPositionSubscription;
-  late StreamSubscription<bool> onPlayingSubscription;
-  late StreamSubscription<int?> onCurrentIndexSubscription;
+  late final StreamSubscription<Duration?> onDurationSubscription;
+  late final StreamSubscription<Duration> onPositionSubscription;
+  late final StreamSubscription<Duration> onBufferedPositionSubscription;
+  late final StreamSubscription<bool> onPlayingSubscription;
+  late final StreamSubscription<int?> onCurrentIndexSubscription;
 
-  late AudioPlayer _player;
+  final AudioPlayer _player;
+  late final Uri _playerArtUri;
+
   late Playlist _currentPlaylist;
   late Roster _roster;
 
-  late Uri _playerArtUri;
+  Future<void> _setupArt() async {
+    _playerArtUri = await getPlayerArtFileFromAssets();
+  }
 
-  void _initializePlayer() {
-    _player = AudioPlayerSingleton.instance;
-
-    // ignore: discarded_futures
-    getPlayerArtFileFromAssets().then((uri) => _playerArtUri = uri);
-
+  void _setupStreamSubscriptions() {
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
-
     onPositionSubscription = _player.positionStream.listen(_onPositionChanged);
-
     onBufferedPositionSubscription =
         _player.bufferedPositionStream.listen(_onBufferedPositionChanged);
-
     onPlayingSubscription = _player.playingStream.listen(_onPlayingChanged);
-
     onCurrentIndexSubscription =
         _player.currentIndexStream.listen(_onCurrentIndex);
   }
@@ -53,23 +50,18 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     _currentPlaylist = newPlaylistPair.$1;
     _roster = newPlaylistPair.$2;
 
-    await _initializePlaylist();
+    await _loadTracksAndPlay();
   }
 
-  Future<void> _initializePlaylist() async {
-    final tracks = _roster.tracks.map(_trackToAudioSource).toList();
+  Future<void> _loadTracksAndPlay() async {
+    final tracks = _generateTrackList();
 
     final playlist = ConcatenatingAudioSource(
       shuffleOrder: DefaultShuffleOrder(),
       children: tracks,
     );
 
-    final initialIndex = _selectRandomTrack();
-    await _player.setAudioSource(
-      playlist,
-      initialIndex: initialIndex,
-      initialPosition: Duration.zero,
-    );
+    await _player.setAudioSource(playlist);
 
     final initialShuffle = state.isShuffle ?? true;
     await _player.setShuffleModeEnabled(initialShuffle);
@@ -78,7 +70,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     emit(state.copyWith(isShuffle: initialShuffle));
   }
 
-  AudioSource _trackToAudioSource(Track track) {
+  List<AudioSource> _generateTrackList() {
+    return _roster.tracks.map(_generateAudioSource).toList();
+  }
+
+  AudioSource _generateAudioSource(Track track) {
     return AudioSource.uri(
       _generateTrackUri(track),
       tag: MediaItem(
@@ -103,14 +99,6 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     final uri = Uri.parse(url);
 
     return uri;
-  }
-
-  int _selectRandomTrack() {
-    final numTracks = _roster.tracks.length;
-
-    final r = Random.secure().nextInt(numTracks);
-
-    return r;
   }
 
   Future<void> play() async => _player.play();

@@ -16,6 +16,7 @@ class CodegenLoader extends AssetLoader{
 
   static const Map<String,dynamic> pt_BR = {
   "currentPlaylist": "Playlist Atual",
+  "playlistConfigDecodingError": "Erro ao decodificar configuração de playlist",
   "genericError": "Ocorreu um erro.",
   "rosterErrorNoInternet": "Sem Conexão a Internet!",
   "rosterErrorCouldntFetch": "Não foi possível obter as faixas...",
@@ -39,6 +40,7 @@ class CodegenLoader extends AssetLoader{
 };
 static const Map<String,dynamic> en_US = {
   "currentPlaylist": "Current Playlist",
+  "playlistConfigDecodingError": "Error decoding playlist config",
   "genericError": "An Error Occurred.",
   "rosterErrorNoInternet": "No Internet Connection!",
   "rosterErrorCouldntFetch": "Couldn't fetch tracks...",

@@ -2,6 +2,7 @@
 
 abstract class  LocaleKeys {
   static const currentPlaylist = 'currentPlaylist';
+  static const playlistConfigDecodingError = 'playlistConfigDecodingError';
   static const genericError = 'genericError';
   static const rosterErrorNoInternet = 'rosterErrorNoInternet';
   static const rosterErrorCouldntFetch = 'rosterErrorCouldntFetch';

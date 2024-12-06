@@ -53,7 +53,7 @@ class _RosterListState extends State<RosterList> {
                 ElevatedButton(
                   child: const Text(LocaleKeys.rosterRetry).tr(),
                   onPressed: () async =>
-                      context.read<PlaylistCubit>().fetchRoster(),
+                      context.read<PlaylistCubit>().loadRoster(),
                 ),
               ],
             ),

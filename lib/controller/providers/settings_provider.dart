@@ -5,11 +5,11 @@ import 'package:vidya_music/controller/services/shared_preferences_singleton.dar
 
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider({bool edgeToEdgeEnabled = false}) {
-    _initFromPreferences();
+    _init();
     _isEdgeToEdgeEnabled = edgeToEdgeEnabled;
   }
 
-  late SharedPreferences _prefs;
+  late final SharedPreferences _prefs;
 
   static const themeKey = 'theme_mode';
 
@@ -19,15 +19,19 @@ class SettingsProvider extends ChangeNotifier {
   bool _isEdgeToEdgeEnabled = false;
   bool get isEdgeToEdgeEnabled => _isEdgeToEdgeEnabled;
 
-  Future<void> _initFromPreferences() async {
+  Future<void> _init() async {
     _prefs = await SharedPreferencesSingleton.instance;
+    _loadSettings();
+  }
 
-    _themeMode = _valueToThemeMode(_prefs.getString(themeKey));
-
+  void _loadSettings() {
+    _themeMode = _getThemeMode();
     notifyListeners();
   }
 
-  ThemeMode _valueToThemeMode(String? value) {
+  ThemeMode _getThemeMode() {
+    final value = _prefs.getString(themeKey);
+
     if (value == null || value.isEmpty) return ThemeMode.system;
     return ThemeMode.values.byName(value);
   }
