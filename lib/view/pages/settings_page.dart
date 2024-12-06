@@ -11,7 +11,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.settingsPageTitle).tr()),
+      appBar: AppBar(title: const Text(LocaleKeys.settingsPageTitle).tr()),
       body: Expanded(
         child: SingleChildScrollView(
           child: Column(
@@ -27,12 +27,12 @@ class SettingsPage extends StatelessWidget {
               Consumer<SettingsProvider>(
                 builder: (context, value, child) => ListTile(
                   leading: const Icon(Icons.brush_outlined),
-                  title: Text(LocaleKeys.settingsAppearanceHeader).tr(),
+                  title: const Text(LocaleKeys.settingsAppearanceHeader).tr(),
                   subtitle: Text(value.themeMode.tileLabelKey).tr(),
                   onTap: () => showAdaptiveDialog<void>(
                     context: context,
                     builder: (context) => SimpleDialog(
-                      title: Text(LocaleKeys.themeModeHeader).tr(),
+                      title: const Text(LocaleKeys.themeModeHeader).tr(),
                       children: [
                         ...[ThemeMode.system, ThemeMode.light, ThemeMode.dark]
                             .map(

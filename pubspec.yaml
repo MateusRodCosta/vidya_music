@@ -30,6 +30,7 @@ dependencies:
   shared_preferences: ^2.3.3
   text_scroll: ^0.2.0
   url_launcher: ^6.3.1
+  miniplayer: ^1.0.1
 
 
 dev_dependencies:

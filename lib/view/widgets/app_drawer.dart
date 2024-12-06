@@ -147,7 +147,7 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.settings_outlined),
-      title: Text(LocaleKeys.drawerSettingsTile).tr(),
+      title: const Text(LocaleKeys.drawerSettingsTile).tr(),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute<void>(
           builder: (context) => const SettingsPage(),

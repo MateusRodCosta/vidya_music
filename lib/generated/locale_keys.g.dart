@@ -1,6 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
 abstract class  LocaleKeys {
+  static const currentPlaylist = 'currentPlaylist';
   static const genericError = 'genericError';
   static const rosterErrorNoInternet = 'rosterErrorNoInternet';
   static const rosterErrorCouldntFetch = 'rosterErrorCouldntFetch';
