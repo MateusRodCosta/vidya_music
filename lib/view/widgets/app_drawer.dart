@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/playlist.dart';

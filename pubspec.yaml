@@ -15,7 +15,6 @@ dependencies:
 
   audio_video_progress_bar: ^2.0.3
   bloc: ^8.1.4
-  device_info_plus: ^11.1.1
   easy_localization: ^3.0.7
   equatable: ^2.0.7
   flutter_bloc: ^8.1.6
@@ -23,6 +22,7 @@ dependencies:
   just_audio: ^0.9.42
   just_audio_background: ^0.0.1-beta.13
   meta: ^1.15.0
+  miniplayer: ^1.0.1
   package_info_plus: ^8.1.1
   path_provider: ^2.1.5
   provider: ^6.1.2
@@ -30,7 +30,6 @@ dependencies:
   shared_preferences: ^2.3.3
   text_scroll: ^0.2.0
   url_launcher: ^6.3.1
-  miniplayer: ^1.0.1
   vs_scrollbar: ^1.0.0
 
 

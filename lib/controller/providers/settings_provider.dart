@@ -5,9 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidya_music/controller/services/shared_preferences_singleton.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  SettingsProvider({bool edgeToEdgeEnabled = false}) {
+  SettingsProvider() {
     _init();
-    _isEdgeToEdgeEnabled = edgeToEdgeEnabled;
   }
 
   late final SharedPreferences _prefs;
@@ -16,9 +15,6 @@ class SettingsProvider extends ChangeNotifier {
 
   ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
-
-  bool _isEdgeToEdgeEnabled = false;
-  bool get isEdgeToEdgeEnabled => _isEdgeToEdgeEnabled;
 
   final MiniplayerController _miniplayerController = MiniplayerController();
   MiniplayerController get miniplayerController => _miniplayerController;
