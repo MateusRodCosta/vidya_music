@@ -10,7 +10,7 @@
 include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
-  exclude: [flutter-sdk/**]
+  exclude: [flutter-sdk/**, lib/generated/**]
 
 linter:
 

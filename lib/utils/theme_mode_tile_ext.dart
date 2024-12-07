@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show IconData, Icons, ThemeMode;
 import 'package:vidya_music/generated/locale_keys.g.dart';
 
 extension ThemeModeTileExt on ThemeMode {
