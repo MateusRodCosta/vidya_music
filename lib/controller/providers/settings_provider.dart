@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show ThemeMode;
-import 'package:miniplayer/miniplayer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidya_music/controller/services/shared_preferences_singleton.dart';
 
@@ -15,9 +14,6 @@ class SettingsProvider extends ChangeNotifier {
 
   ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
-
-  final MiniplayerController _miniplayerController = MiniplayerController();
-  MiniplayerController get miniplayerController => _miniplayerController;
 
   Future<void> _init() async {
     _prefs = await SharedPreferencesSingleton.instance;

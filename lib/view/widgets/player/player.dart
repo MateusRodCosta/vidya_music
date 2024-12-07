@@ -6,7 +6,6 @@ import 'package:text_scroll/text_scroll.dart';
 
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/track.dart';
 import 'package:vidya_music/utils/branding.dart';
@@ -19,10 +18,8 @@ class AppMiniPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final baseHeight = playerMinHeight + MediaQuery.of(context).padding.bottom;
-    final controller = context.watch<SettingsProvider>().miniplayerController;
 
     return Miniplayer(
-      controller: controller,
       minHeight: baseHeight,
       maxHeight: MediaQuery.of(context).size.height,
       builder: (height, percentage) {
