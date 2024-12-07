@@ -11,12 +11,13 @@ import 'package:vidya_music/generated/codegen_loader.g.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/i18n.dart';
+import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/pages/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await EasyLocalization.ensureInitialized();
+
   await JustAudioBackground.init(
     androidNotificationChannelId: justAudioNotificationChannelId,
     androidNotificationChannelName: justAudioNotificationChannelName,
@@ -26,12 +27,15 @@ Future<void> main() async {
     androidNotificationIcon: justAudioNotificationIcon,
   );
 
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
-    ),
-  );
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  if (await isAndroidQOrHigher) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+      ),
+    );
+  }
 
   runApp(
     MultiProvider(
