@@ -30,6 +30,12 @@ class AppMiniPlayer extends StatelessWidget {
           return SizedBox(
             width: double.infinity,
             child: Card.filled(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
               color: Theme.of(context).colorScheme.secondaryContainer,
               margin: EdgeInsets.zero,
               child: Padding(
@@ -82,6 +88,14 @@ class AppMiniPlayer extends StatelessWidget {
         return Card.filled(
           color: Theme.of(context).colorScheme.secondaryContainer,
           margin: EdgeInsets.zero,
+          shape: percentage == 1
+              ? LinearBorder.none
+              : const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
           child: Padding(
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).padding.bottom,
