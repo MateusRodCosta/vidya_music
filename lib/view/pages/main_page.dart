@@ -17,37 +17,38 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLarge = MediaQuery.of(context).size.width >= 840;
 
-    final bodyContents = [
-      _buildAppBar(isLargeScreen: isLarge),
-      Expanded(
-        child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom + playerMinHeight,
+    final body = Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Column(
+          children: [
+            _buildAppBar(isLargeScreen: isLarge),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom:
+                      MediaQuery.of(context).padding.bottom + playerMinHeight,
+                ),
+                child: const RosterList(),
+              ),
             ),
-            child: RosterList()),
-      ),
-    ];
+          ],
+        ),
+        const AppMiniPlayer(),
+      ],
+    );
 
     return Scaffold(
       endDrawer: !isLarge ? const AppDrawer() : null,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          if (isLarge)
-            Row(
+      body: isLarge
+          ? Row(
               children: [
-                Expanded(
-                  child: Column(children: bodyContents),
-                ),
+                Expanded(child: body),
                 AppDrawer(isLargeScreen: isLarge),
               ],
             )
-          else
-            Column(children: bodyContents),
-          const AppMiniPlayer(),
-        ],
-      ),
+          : body,
     );
   }
 
