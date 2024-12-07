@@ -25,54 +25,47 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           _buildDrawerHeader(context),
           Expanded(
-            child: SafeArea(
-              left: false,
-              top: false,
-              bottom: false,
-              child: BlocBuilder<PlaylistCubit, PlaylistState>(
-                builder: (context, state) {
-                  Playlist? currentPlaylist;
-                  List<Playlist>? availablePlaylists;
+            child: BlocBuilder<PlaylistCubit, PlaylistState>(
+              builder: (context, state) {
+                Playlist? currentPlaylist;
+                List<Playlist>? availablePlaylists;
 
-                  if (state is PlaylistStateDecoded) {
-                    availablePlaylists = state.availablePlaylists;
-                  }
-                  if (state is PlaylistStateLoading) {
-                    currentPlaylist = state.selectedPlaylist;
-                    availablePlaylists = state.availablePlaylists;
-                  }
-                  if (state is PlaylistStateSuccess) {
-                    currentPlaylist = state.selectedPlaylist;
-                    availablePlaylists = state.availablePlaylists;
-                  }
-                  if (state is PlaylistStateError) {
-                    availablePlaylists = state.availablePlaylists;
-                  }
-                  return ListView(
-                    padding: EdgeInsets.only(
-                      bottom:
-                          context.read<SettingsProvider>().isEdgeToEdgeEnabled
-                              ? MediaQuery.of(context).padding.bottom
-                              : 0,
-                    ),
-                    children: [
-                      if (availablePlaylists != null) ...[
-                        ...availablePlaylists.map(
-                          (p) => _buildPlaylistTile(
-                            context,
-                            p,
-                            p == currentPlaylist,
-                          ),
+                if (state is PlaylistStateDecoded) {
+                  availablePlaylists = state.availablePlaylists;
+                }
+                if (state is PlaylistStateLoading) {
+                  currentPlaylist = state.selectedPlaylist;
+                  availablePlaylists = state.availablePlaylists;
+                }
+                if (state is PlaylistStateSuccess) {
+                  currentPlaylist = state.selectedPlaylist;
+                  availablePlaylists = state.availablePlaylists;
+                }
+                if (state is PlaylistStateError) {
+                  availablePlaylists = state.availablePlaylists;
+                }
+                return ListView(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom,
+                    right: MediaQuery.of(context).padding.right,
+                  ),
+                  children: [
+                    if (availablePlaylists != null) ...[
+                      ...availablePlaylists.map(
+                        (p) => _buildPlaylistTile(
+                          context,
+                          p,
+                          p == currentPlaylist,
                         ),
-                        _buildDivider(context),
-                      ],
+                      ),
                       _buildDivider(context),
-                      _buildSettingsTile(context),
-                      _buildAboutTile(context),
                     ],
-                  );
-                },
-              ),
+                    _buildDivider(context),
+                    _buildSettingsTile(context),
+                    _buildAboutTile(context),
+                  ],
+                );
+              },
             ),
           ),
         ],
