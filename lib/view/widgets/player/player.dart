@@ -153,7 +153,14 @@ class AppMiniPlayer extends StatelessWidget {
                 if (percentage > 0.3)
                   Expanded(
                     child: Expanded(
-                      child: Image.asset(appIconPath),
+                      child: Image.asset(
+                        Theme.of(context).brightness == Brightness.light
+                            ? appIconPath
+                            : appIconMonochromePath,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : null,
+                      ),
                     ),
                   ),
                 const Hero(
