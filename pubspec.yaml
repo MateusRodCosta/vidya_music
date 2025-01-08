@@ -15,20 +15,19 @@ dependencies:
 
   audio_video_progress_bar: ^2.0.3
   bloc: ^8.1.4
-  device_info_plus: ^11.1.1
+  device_info_plus: ^11.2.0
   easy_localization: ^3.0.7
   equatable: ^2.0.7
   flutter_bloc: ^8.1.6
   http: ^1.2.2
   just_audio: ^0.9.42
-  just_audio_background: ^0.0.1-beta.13
+  just_audio_background: ^0.0.1-beta.14
   meta: ^1.15.0
-  miniplayer: ^1.0.1
-  package_info_plus: ^8.1.1
+  package_info_plus: ^8.1.2
   path_provider: ^2.1.5
   provider: ^6.1.2
   scrollable_positioned_list: ^0.3.8
-  shared_preferences: ^2.3.3
+  shared_preferences: ^2.3.5
   text_scroll: ^0.2.0
   url_launcher: ^6.3.1
   vs_scrollbar: ^1.0.0
@@ -38,7 +37,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  very_good_analysis: ^6.0.0
+  very_good_analysis: ^7.0.0
 
 flutter:
 
