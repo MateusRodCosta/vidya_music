@@ -65,6 +65,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
 
     final initialShuffle = state.isShuffle ?? true;
     await _player.setShuffleModeEnabled(initialShuffle);
+    // Skip first track on playlist load
+    // It's usually the "welcome" track ("You're listening to the VIP")
+    await _player.seekToNext();
     await _player.play();
 
     emit(state.copyWith(isShuffle: initialShuffle));
