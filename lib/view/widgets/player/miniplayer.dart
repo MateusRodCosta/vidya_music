@@ -18,6 +18,7 @@ class MiniPlayer extends StatelessWidget {
         showBottomSheet(
           context: context,
           builder: (context) => const BigPlayer(),
+          constraints: const BoxConstraints.expand(),
         );
       },
       child: Card.filled(
