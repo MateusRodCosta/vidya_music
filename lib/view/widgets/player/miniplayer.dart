@@ -73,6 +73,7 @@ class BigPlayer extends StatelessWidget {
     return Card.filled(
       color: Theme.of(context).colorScheme.secondaryContainer,
       margin: EdgeInsets.zero,
+      shape: LinearBorder.none,
       child: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
         child: Column(
