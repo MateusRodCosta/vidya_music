@@ -104,6 +104,11 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        dependenciesInfo {
+            // Disables dependency metadata when building APKs, for F-Droid.
+            // As instructed in https://github.com/MateusRodCosta/Share2Storage/issues/44
+            includeInApk = false
+        }
     }
 }
 
