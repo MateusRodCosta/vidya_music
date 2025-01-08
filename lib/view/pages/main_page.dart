@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/model/playlist.dart';
-import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/view/widgets/app_drawer.dart';
-import 'package:vidya_music/view/widgets/player/player.dart';
+import 'package:vidya_music/view/widgets/player/miniplayer.dart';
 import 'package:vidya_music/view/widgets/roster_list.dart';
 
 class MainPage extends StatelessWidget {
@@ -23,24 +22,21 @@ class MainPage extends StatelessWidget {
         Column(
           children: [
             _buildAppBar(isLargeScreen: isLarge),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom:
-                      MediaQuery.of(context).padding.bottom + playerMinHeight,
-                ),
-                child: const RosterList(),
-              ),
+            const Expanded(
+              child: RosterList(),
             ),
           ],
         ),
-        const AppMiniPlayer(),
+        Positioned.fill(
+          top: null,
+          bottom: MediaQuery.of(context).padding.bottom,
+          child: const MiniPlayer(),
+        ),
       ],
     );
 
     return Scaffold(
       endDrawer: !isLarge ? const AppDrawer() : null,
-      backgroundColor: Theme.of(context).colorScheme.surface,
       body: isLarge
           ? Row(
               children: [

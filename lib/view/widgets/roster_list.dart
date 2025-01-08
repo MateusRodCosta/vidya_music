@@ -6,6 +6,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
+import 'package:vidya_music/utils/measurements.dart';
 import 'package:vidya_music/view/widgets/track_item.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';
 
@@ -69,16 +70,24 @@ class _RosterListState extends State<RosterList> {
             child: ScrollConfiguration(
               behavior: _ScrollbarBehavior(),
               child: ScrollablePositionedList.separated(
+                padding: EdgeInsets.only(
+                  top: 8,
+                  bottom: MediaQuery.of(context).padding.bottom + playerHeight,
+                ),
                 itemCount: tracks.length,
                 itemBuilder: (context, i) {
                   return TrackItem(track: tracks[i], index: i);
                 },
-                separatorBuilder: (context, i) => Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  indent: 16,
-                  endIndent: 16,
+                separatorBuilder: (context, i) => SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                    indent: 16,
+                    endIndent: 16,
+                  ),
                 ),
                 itemScrollController: itemScrollController,
                 itemPositionsListener: itemPositionsListener,

@@ -43,26 +43,30 @@ class AppDrawer extends StatelessWidget {
                 if (state is PlaylistStateError) {
                   availablePlaylists = state.availablePlaylists;
                 }
-                return ListView(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom,
-                    right: MediaQuery.of(context).padding.right,
-                  ),
-                  children: [
-                    if (availablePlaylists != null) ...[
-                      ...availablePlaylists.map(
-                        (p) => _buildPlaylistTile(
-                          context,
-                          p,
-                          p == currentPlaylist,
+                return SafeArea(
+                  top: false,
+                  bottom: false,
+                  left: false,
+                  child: ListView(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom,
+                    ),
+                    children: [
+                      if (availablePlaylists != null) ...[
+                        ...availablePlaylists.map(
+                          (p) => _buildPlaylistTile(
+                            context,
+                            p,
+                            p == currentPlaylist,
+                          ),
                         ),
-                      ),
+                        _buildDivider(context),
+                      ],
                       _buildDivider(context),
+                      _buildSettingsTile(context),
+                      _buildAboutTile(context),
                     ],
-                    _buildDivider(context),
-                    _buildSettingsTile(context),
-                    _buildAboutTile(context),
-                  ],
+                  ),
                 );
               },
             ),
