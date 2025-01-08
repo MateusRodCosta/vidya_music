@@ -21,11 +21,11 @@ class MiniPlayer extends StatelessWidget {
           constraints: const BoxConstraints.expand(),
         );
       },
-      child: Card.filled(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        child: SafeArea(
-          top: false,
-          bottom: false,
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Card.filled(
+          color: Theme.of(context).colorScheme.secondaryContainer,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
