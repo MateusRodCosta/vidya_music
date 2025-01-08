@@ -52,7 +52,7 @@ class AppDrawer extends StatelessWidget {
                       bottom: MediaQuery.of(context).padding.bottom,
                     ),
                     children: [
-                      if (availablePlaylists != null) ...[
+                      if (availablePlaylists != null)
                         ...availablePlaylists.map(
                           (p) => _buildPlaylistTile(
                             context,
@@ -60,8 +60,6 @@ class AppDrawer extends StatelessWidget {
                             p == currentPlaylist,
                           ),
                         ),
-                        _buildDivider(context),
-                      ],
                       _buildDivider(context),
                       _buildSettingsTile(context),
                       _buildAboutTile(context),
