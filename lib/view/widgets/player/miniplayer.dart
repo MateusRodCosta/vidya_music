@@ -83,7 +83,14 @@ class BigPlayer extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    const Expanded(child: TrackInfo()),
+                    const Expanded(
+                      child: Column(
+                        children: [
+                          Spacer(),
+                          TrackInfo(),
+                        ],
+                      ),
+                    ),
                     AspectRatio(
                       aspectRatio: 1,
                       child: _buildAppIcon(context),
