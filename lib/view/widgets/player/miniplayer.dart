@@ -15,9 +15,10 @@ class MiniPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showBottomSheet(
+        showModalBottomSheet<dynamic>(
           context: context,
           builder: (context) => const BigPlayer(),
+          isScrollControlled: true,
           constraints: const BoxConstraints.expand(),
         );
       },
