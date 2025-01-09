@@ -79,19 +79,22 @@ class BigPlayer extends StatelessWidget {
         child: Column(
           children: [
             _buildBigPlayerTopBar(),
-            Expanded(
-              child: Expanded(
-                child: Image.asset(
-                  Theme.of(context).brightness == Brightness.light
-                      ? appIconPath
-                      : appIconMonochromePath,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : null,
+            if (MediaQuery.of(context).orientation == Orientation.landscape)
+              Expanded(
+                child: Row(
+                  children: [
+                    const Expanded(child: TrackInfo()),
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: _buildAppIcon(context),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            const TrackInfo(),
+              )
+            else ...[
+              Expanded(child: _buildAppIcon(context)),
+              const TrackInfo(),
+            ],
             const SizedBox(height: 16),
             const PlayerProgressBar(),
             _buildBigPlayerControls(),
@@ -152,6 +155,16 @@ class BigPlayer extends StatelessWidget {
         PlayerNextButton(),
         PlayerLoopButton(),
       ],
+    );
+  }
+
+  Widget _buildAppIcon(BuildContext context) {
+    return Image.asset(
+      Theme.of(context).brightness == Brightness.light
+          ? appIconPath
+          : appIconMonochromePath,
+      color:
+          Theme.of(context).brightness == Brightness.dark ? Colors.white : null,
     );
   }
 }
