@@ -32,7 +32,7 @@ class MiniPlayer extends StatelessWidget {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: MiniPlayerProgressBar(),
+                child: PlayerProgressBar(isMiniPlayer: true),
               ),
               Padding(
                 padding: const EdgeInsets.only(
