@@ -12,6 +12,7 @@ class PlayerProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final audioPlayerCubit = context.read<AudioPlayerCubit>();
     final baseColor = Theme.of(context).colorScheme.tertiary;
+    final secondaryColor = Theme.of(context).colorScheme.secondary;
 
     return BlocSelector<AudioPlayerCubit, AudioPlayerState,
         (Duration?, Duration?, Duration?)>(
@@ -26,7 +27,7 @@ class PlayerProgressBar extends StatelessWidget {
             total: trackDuration ?? Duration.zero,
             buffered: trackBuffered,
             onSeek: audioPlayerCubit.seek,
-            baseBarColor: baseColor.withOpacity(0.24),
+            baseBarColor: secondaryColor.withOpacity(0.1),
             progressBarColor: baseColor,
             bufferedBarColor: baseColor.withOpacity(0.24),
             thumbColor: baseColor,
