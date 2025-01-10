@@ -40,8 +40,10 @@ class SettingsPage extends StatelessWidget {
                         children: [
                           ...[ThemeMode.system, ThemeMode.light, ThemeMode.dark]
                               .map(
-                            (theme) => _buildThemeDialogTile(context,
-                                themeMode: theme),
+                            (theme) => _buildThemeDialogTile(
+                              context,
+                              themeMode: theme,
+                            ),
                           ),
                         ],
                       ),

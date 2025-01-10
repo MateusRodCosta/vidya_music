@@ -43,10 +43,13 @@ class PlaylistCubit extends Cubit<PlaylistState> {
 
       _selectedPlaylist = defaultPlaylist;
       await loadRoster();
-    } catch (e) {
+    } on Exception catch (e) {
       _availablePlaylists = [];
       _emitErrorState(
-          LocaleKeys.playlistConfigDecodingError, e, '_decodeConfig');
+        LocaleKeys.playlistConfigDecodingError,
+        e,
+        '_decodeConfig',
+      );
     }
   }
 
@@ -68,7 +71,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       emit(PlaylistStateSuccess(_availablePlaylists, selectedPlaylist, roster));
     } on SocketException catch (e) {
       _emitErrorState(LocaleKeys.rosterErrorCouldntFetch, e, 'loadRoster');
-    } catch (e) {
+    } on Exception catch (e) {
       _emitErrorState(LocaleKeys.genericError, e, 'loadRoster');
     }
   }
@@ -81,10 +84,12 @@ class PlaylistCubit extends Cubit<PlaylistState> {
   }
 
   void _emitErrorState(String errorMessage, Object error, String method) {
-    emit(PlaylistStateError(
-      errorMessage: errorMessage,
-      availablePlaylists: _availablePlaylists,
-    ));
+    emit(
+      PlaylistStateError(
+        errorMessage: errorMessage,
+        availablePlaylists: _availablePlaylists,
+      ),
+    );
     developer.log(error.toString(), name: method);
   }
 }
