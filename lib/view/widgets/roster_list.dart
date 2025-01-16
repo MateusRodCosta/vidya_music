@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +6,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/generated/locale_keys.g.dart';
-import 'package:vidya_music/view/track_item.dart';
+import 'package:vidya_music/utils/measurements.dart';
+import 'package:vidya_music/view/widgets/track_item.dart';
+import 'package:vs_scrollbar/vs_scrollbar.dart';
 
 class RosterList extends StatefulWidget {
   const RosterList({super.key});
@@ -52,7 +52,7 @@ class _RosterListState extends State<RosterList> {
                 ElevatedButton(
                   child: const Text(LocaleKeys.rosterRetry).tr(),
                   onPressed: () async =>
-                      context.read<PlaylistCubit>().fetchRoster(),
+                      context.read<PlaylistCubit>().loadRoster(),
                 ),
               ],
             ),
@@ -67,27 +67,27 @@ class _RosterListState extends State<RosterList> {
                 lastScrollPosition != current.currentTrackIndex,
             listener: (context, state) async =>
                 _scrollToTrack(state.currentTrackIndex),
-            child: SafeArea(
-              right: !Platform.isIOS,
-              top: false,
-              bottom: false,
+            child: ScrollConfiguration(
+              behavior: _ScrollbarBehavior(),
               child: ScrollablePositionedList.separated(
-                padding: context.watch<bool>()
-                    ? EdgeInsets.only(
-                        top: 8,
-                        bottom: MediaQuery.of(context).padding.bottom + 8,
-                      )
-                    : null,
+                padding: EdgeInsets.only(
+                  top: 8,
+                  bottom: MediaQuery.of(context).padding.bottom + playerHeight,
+                ),
                 itemCount: tracks.length,
                 itemBuilder: (context, i) {
                   return TrackItem(track: tracks[i], index: i);
                 },
-                separatorBuilder: (context, i) => Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  indent: 16,
-                  endIndent: 16,
+                separatorBuilder: (context, i) => SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                    indent: 16,
+                    endIndent: 16,
+                  ),
                 ),
                 itemScrollController: itemScrollController,
                 itemPositionsListener: itemPositionsListener,
@@ -107,6 +107,24 @@ class _RosterListState extends State<RosterList> {
               .setPlaylist((state.selectedPlaylist, state.roster));
         }
       },
+    );
+  }
+}
+
+class _ScrollbarBehavior extends ScrollBehavior {
+  @override
+  Widget buildScrollbar(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return VsScrollbar(
+      controller: details.controller,
+      isAlwaysShown: true,
+      style: VsScrollbarStyle(
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      child: child,
     );
   }
 }

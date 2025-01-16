@@ -6,7 +6,8 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/controller/cubit/theme_cubit.dart';
+import 'package:vidya_music/controller/providers/settings_provider.dart';
+import 'package:vidya_music/generated/codegen_loader.g.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/i18n.dart';
@@ -15,43 +16,40 @@ import 'package:vidya_music/view/pages/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await EasyLocalization.ensureInitialized();
+
   await JustAudioBackground.init(
     androidNotificationChannelId: justAudioNotificationChannelId,
     androidNotificationChannelName: justAudioNotificationChannelName,
     androidNotificationChannelDescription:
         justAudioNotificationChannelDescription,
     androidNotificationOngoing: true,
-    androidNotificationIcon: justAudiopNotificationIcon,
+    androidNotificationIcon: justAudioNotificationIcon,
   );
 
-  final enableEdgeToEdge = await supportsEdgeToEdge();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  if (enableEdgeToEdge) {
+  if (await isAndroidQOrHigher) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.transparent,
       ),
     );
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
   runApp(
-    Provider<bool>.value(
-      value: enableEdgeToEdge,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => PlaylistCubit()),
-          BlocProvider(create: (context) => AudioPlayerCubit()),
-          BlocProvider(create: (context) => ThemeCubit()),
-        ],
-        child: EasyLocalization(
-          supportedLocales: appSupportedLocales,
-          path: 'assets/i18n',
-          fallbackLocale: appDefaultLocale,
-          child: const MyApp(),
-        ),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        BlocProvider(create: (context) => PlaylistCubit()),
+        BlocProvider(create: (context) => AudioPlayerCubit()),
+      ],
+      child: EasyLocalization(
+        supportedLocales: appSupportedLocales,
+        path: 'assets/i18n',
+        fallbackLocale: appDefaultLocale,
+        assetLoader: const CodegenLoader(),
+        child: const MyApp(),
       ),
     ),
   );
@@ -90,25 +88,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(
-      builder: (context, state) {
-        return MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          title: appName,
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightColorScheme,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkColorScheme,
-          ),
-          themeMode: state.themeMode,
-          home: const MainPage(title: appName),
-        );
-      },
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: appName,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
+      ),
+      themeMode: context.watch<SettingsProvider>().themeMode,
+      home: const MainPage(title: appName),
     );
   }
 }

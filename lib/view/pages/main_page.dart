@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/model/playlist.dart';
-import 'package:vidya_music/view/app_drawer.dart';
-import 'package:vidya_music/view/player.dart';
-import 'package:vidya_music/view/roster_list.dart';
+import 'package:vidya_music/view/widgets/app_drawer.dart';
+import 'package:vidya_music/view/widgets/player/miniplayer.dart';
+import 'package:vidya_music/view/widgets/roster_list.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({required this.title, super.key});
@@ -16,29 +16,35 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLarge = MediaQuery.of(context).size.width >= 840;
 
-    const bodyContents = [
-      Player(),
-      Expanded(child: RosterList()),
-    ];
+    final body = Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Column(
+          children: [
+            _buildAppBar(isLargeScreen: isLarge),
+            const Expanded(
+              child: RosterList(),
+            ),
+          ],
+        ),
+        Positioned.fill(
+          top: null,
+          bottom: MediaQuery.of(context).padding.bottom,
+          child: const MiniPlayer(),
+        ),
+      ],
+    );
+
     return Scaffold(
-      appBar: !isLarge ? _buildAppBar() : null,
       endDrawer: !isLarge ? const AppDrawer() : null,
-      backgroundColor: Theme.of(context).colorScheme.background,
       body: isLarge
           ? Row(
               children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      _buildAppBar(isLargeScreen: true),
-                      ...bodyContents,
-                    ],
-                  ),
-                ),
+                Expanded(child: body),
                 AppDrawer(isLargeScreen: isLarge),
               ],
             )
-          : const Column(children: bodyContents),
+          : body,
     );
   }
 

@@ -1,0 +1,9 @@
+Versão 1.5.0:
+
+&bull; Flutter atualizado para 3.24.5 e dependências atualizadas
+&bull; Preferência de Tema movida para nova tela de Configurações
+&bull; Melhorias no suporte ao edge-to-edge
+&bull; Novo miniplayer inspirado pelo do Spotify
+&bull; Refatoração do código que lida com playlists e player de áudio
+&bull; Suporte inicial a barra de rolagem (um pouco instável)
+&bull; Melhorias no sistema de build e no APK resultante (e.g. uncompressed DEX)

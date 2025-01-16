@@ -10,7 +10,7 @@
 include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
-  exclude: [flutter-sdk/**]
+  exclude: [flutter-sdk/**, lib/generated/**]
 
 linter:
 
@@ -26,6 +26,7 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    document_ignores: false
     public_member_api_docs: false
     sort_pub_dependencies: false
 
