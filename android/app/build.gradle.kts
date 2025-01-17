@@ -135,9 +135,7 @@ androidComponents {
                     // As required by F-Droid, version code at beginning and abi code at the end
                     // If wanting to build a universal APK with similar naming scheme, do so manually
                     // via `--build-number` argument from `flutter build apk`
-                    baseAbiCode * 100 + output.versionCode.get()
-                    // Default split apk version code, api code at beginning and version code at the end
-                    //baseAbiVersionCode * 1000 + variant.versionCode
+                    output.versionCode.get() * 100 + baseAbiCode
                 )
             }
         }
