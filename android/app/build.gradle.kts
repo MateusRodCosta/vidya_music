@@ -37,7 +37,9 @@ android {
         //noinspection OldTargetApi
         targetSdk = 34
         versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        // Temporarily override versionName due to https://github.com/MateusRodCosta/vidya_music/issues/26
+        //versionName = flutter.versionName
+        versionName = "1.5.0b"
     }
 
     signingConfigs {
