@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="${appName}"
         android:localeConfig="@xml/locales_config"
-        tools:targetApi="34">
+        tools:targetApi="35">
         <activity
             android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
