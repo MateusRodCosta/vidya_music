@@ -39,9 +39,11 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
+        // libdatastore_shared_counter.so has been pulled in as a dependency
+        // however it tries to ship for x86, which Flutter doesn't support
+        // Therefore restrict native libs to only arches supported by Flutter
         ndk {
             abiFilters.addAll(arrayOf("armeabi-v7a", "arm64-v8a", "x86_64"))
-            debugSymbolLevel = "FULL"
         }
     }
 
@@ -67,6 +69,12 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
             manifestPlaceholders["appName"] = "Vidya Music"
+
+            ndk {
+                // Should solve the "native code but no debug symbols" message from Play Console
+                // This follows https://developer.android.com/build/shrink-code#android_gradle_plugin_version_41_or_later
+                debugSymbolLevel = "FULL"
+            }
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
