@@ -30,6 +30,7 @@ kotlin {
 android {
     namespace = "com.mateusrodcosta.apps.vidyamusic"
     compileSdk = 35
+    ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "com.mateusrodcosta.apps.vidyamusic"
