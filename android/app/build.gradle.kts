@@ -30,16 +30,21 @@ kotlin {
 android {
     namespace = "com.mateusrodcosta.apps.vidyamusic"
     compileSdk = 35
+    ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "com.mateusrodcosta.apps.vidyamusic"
-        minSdk = 26
-        //noinspection OldTargetApi
-        targetSdk = 34
+        minSdk = 28
+        targetSdk = 35
         versionCode = flutter.versionCode
-        // Temporarily override versionName due to https://github.com/MateusRodCosta/vidya_music/issues/26
-        //versionName = flutter.versionName
-        versionName = "1.5.0b"
+        versionName = flutter.versionName
+
+        // libdatastore_shared_counter.so has been pulled in as a dependency
+        // however it tries to ship for x86, which Flutter doesn't support
+        // Therefore restrict native libs to only arches supported by Flutter
+        ndk {
+            abiFilters.addAll(arrayOf("armeabi-v7a", "arm64-v8a", "x86_64"))
+        }
     }
 
     signingConfigs {
@@ -49,8 +54,8 @@ android {
             storeFile = file(keystoreProperties["storeFile"] as String)
             storePassword = keystoreProperties["storePassword"] as String
 
-            // Always enable v2 and v3 signing schemes, which will be used on modern Android OSes
-            enableV2Signing = true
+            // Force disable v2 signing and only enable v3 signing scheme
+            enableV2Signing = false
             enableV3Signing = true
         }
     }
@@ -64,6 +69,12 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
             manifestPlaceholders["appName"] = "Vidya Music"
+
+            ndk {
+                // Should solve the "native code but no debug symbols" message from Play Console
+                // This follows https://developer.android.com/build/shrink-code#android_gradle_plugin_version_41_or_later
+                debugSymbolLevel = "FULL"
+            }
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
@@ -95,14 +106,6 @@ android {
     }
 
     packaging {
-        // This is set to false starting with minSdk >= 28, but I want uncompressed DEX files with minSdk 26
-        // According to https://developer.android.com/build/releases/past-releases/agp-4-2-0-release-notes#dex-files-uncompressed-in-apks-when-minsdk-=-28-or-higher:
-        //
-        // > This causes an increase in APK size, but it results in a smaller installation size on the device, and the download size is roughly the same.
-        //
-        // Currently this makes the APK ~1.4MB heavier
-        //
-        dex.useLegacyPackaging = false
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
