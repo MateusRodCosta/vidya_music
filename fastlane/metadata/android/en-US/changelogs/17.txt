@@ -1,0 +1,3 @@
+Version 2.0.0 dropped support for Android O (8.x). Version 2.0.1 upgrade the Flutter SDK to 3.27.4.
+
+Users can still get access to older versions by downloading from GitHub: https://github.com/MateusRodCosta/vidya_music/releases/tag/v1.5.0b
