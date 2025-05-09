@@ -20,8 +20,8 @@ dependencies:
   equatable: ^2.0.7
   flutter_bloc: ^9.1.1
   http: ^1.4.0
-  just_audio: ^0.9.46
-  just_audio_background: ^0.0.1-beta.15
+  just_audio: ^0.10.2
+  just_audio_background: ^0.0.1-beta.16
   meta: ^1.15.0
   package_info_plus: ^8.3.0
   path_provider: ^2.1.5

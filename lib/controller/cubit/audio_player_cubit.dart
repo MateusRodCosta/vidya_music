@@ -56,12 +56,10 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> _loadTracksAndPlay() async {
     final tracks = _generateTrackList();
 
-    final playlist = ConcatenatingAudioSource(
+    await _player.setAudioSources(
+      tracks,
       shuffleOrder: DefaultShuffleOrder(),
-      children: tracks,
     );
-
-    await _player.setAudioSource(playlist);
 
     final initialShuffle = state.isShuffle ?? true;
     await _player.setShuffleModeEnabled(initialShuffle);
