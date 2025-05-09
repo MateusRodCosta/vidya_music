@@ -27,28 +27,25 @@ class MiniPlayer extends StatelessWidget {
         bottom: false,
         child: Card.filled(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: PlayerProgressBar(isMiniPlayer: true),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  left: 16,
-                  right: 8,
-                  bottom: 8,
-                ),
-                child: Row(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+              bottom: 8,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const PlayerProgressBar(isMiniPlayer: true),
+                const SizedBox(height: 8),
+                Row(
                   children: [
                     const Expanded(child: TrackInfo(isMiniPlayer: true)),
                     _buildSimpleControls(),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
