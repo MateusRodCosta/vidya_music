@@ -46,12 +46,9 @@ class PlaylistStateSuccess extends PlaylistState {
 }
 
 class PlaylistStateError extends PlaylistState {
-  PlaylistStateError({
-    this.errorMessage = LocaleKeys.genericError,
-    this.availablePlaylists,
-  });
+  PlaylistStateError({this.errorMessage, this.availablePlaylists});
 
-  final String errorMessage;
+  final String? errorMessage;
   final List<Playlist>? availablePlaylists;
 
   @override

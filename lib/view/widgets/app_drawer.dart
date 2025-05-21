@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,9 +5,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
-import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/branding.dart';
+import 'package:vidya_music/utils/l10n_ext.dart';
 import 'package:vidya_music/view/pages/settings_page.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -76,9 +75,7 @@ class AppDrawer extends StatelessWidget {
 
   DrawerHeader _buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-      ),
+      decoration: BoxDecoration(color: Theme.of(context).primaryColor),
       margin: EdgeInsets.zero,
       child: Stack(
         fit: StackFit.expand,
@@ -89,19 +86,17 @@ class AppDrawer extends StatelessWidget {
               Theme.of(context).brightness == Brightness.light
                   ? appIconPath
                   : appIconMonochromePath,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : null,
+              color:
+                  Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : null,
             ),
           ),
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
               appName,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 24),
             ),
           ),
         ],
@@ -141,12 +136,11 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.settings_outlined),
-      title: const Text(LocaleKeys.drawerSettingsTile).tr(),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (context) => const SettingsPage(),
-        ),
-      ),
+      title: Text(context.l10n.drawerSettingsTile),
+      onTap:
+          () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (context) => const SettingsPage()),
+          ),
     );
   }
 
@@ -154,7 +148,7 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       shape: _getDrawerListTileShape(),
       leading: const Icon(Icons.help_outline),
-      title: const Text(LocaleKeys.drawerAboutTile).tr(),
+      title: Text(context.l10n.drawerAboutTile),
       onTap: () async {
         final packageInfo = await PackageInfoSingleton.instance;
 
@@ -165,16 +159,16 @@ class AppDrawer extends StatelessWidget {
           context: context,
           applicationName: packageInfo.appName,
           applicationVersion: packageInfo.version,
-          applicationLegalese: LocaleKeys.aboutDialogLicense.tr(),
+          applicationLegalese: context.l10n.aboutDialogLicense,
           children: [
             const SizedBox(height: 8),
-            const Text(LocaleKeys.aboutDialogAppDescription).tr(),
+            Text(context.l10n.aboutDialogAppDescription),
             const SizedBox(height: 8),
             GestureDetector(
               child: Text(
-                LocaleKeys.aboutDialogVipCats777,
+                context.l10n.aboutDialogVipCats777,
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ).tr(),
+              ),
               onTap: () {
                 launchUrl(
                   Uri.parse('https://www.vipvgm.net/'),
@@ -183,13 +177,13 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
-            const Text(LocaleKeys.aboutDialogCopyrightNotice).tr(),
+            Text(context.l10n.aboutDialogCopyrightNotice),
             const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: LocaleKeys.aboutDialogSourceCode.tr(),
+                    text: context.l10n.aboutDialogSourceCode,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),
@@ -199,15 +193,16 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchUrl(
-                          Uri.parse(
-                            'https://github.com/MateusRodCosta/vidya_music',
-                          ),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
+                    recognizer:
+                        TapGestureRecognizer()
+                          ..onTap = () {
+                            launchUrl(
+                              Uri.parse(
+                                'https://github.com/MateusRodCosta/vidya_music',
+                              ),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
                   ),
                 ],
               ),
@@ -219,8 +214,6 @@ class AppDrawer extends StatelessWidget {
   }
 
   RoundedRectangleBorder _getDrawerListTileShape() {
-    return RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(32),
-    );
+    return RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
   }
 }

@@ -16,7 +16,6 @@ dependencies:
   audio_video_progress_bar: ^2.0.3
   bloc: ^9.0.0
   device_info_plus: ^11.4.0
-  easy_localization: ^3.0.7+1
   equatable: ^2.0.7
   flutter_bloc: ^9.1.1
   http: ^1.4.0
@@ -31,6 +30,9 @@ dependencies:
   text_scroll: ^0.2.0
   url_launcher: ^6.3.1
   vs_scrollbar: ^1.0.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 
 dev_dependencies:
@@ -42,6 +44,7 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  generate: true
 
   assets:
     - assets/config.json

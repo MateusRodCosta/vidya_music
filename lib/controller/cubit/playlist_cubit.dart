@@ -6,9 +6,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/model/config.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
@@ -17,10 +17,13 @@ import 'package:vidya_music/utils/branding.dart';
 part 'playlist_state.dart';
 
 class PlaylistCubit extends Cubit<PlaylistState> {
-  PlaylistCubit() : super(PlaylistStateInitial()) {
+  PlaylistCubit({required AppLocalizations l10n})
+    : _l10n = l10n,
+      super(PlaylistStateInitial()) {
     _decodeConfig();
   }
 
+  final AppLocalizations _l10n;
   late final List<Playlist> _availablePlaylists;
   Playlist? _selectedPlaylist;
 
@@ -30,10 +33,8 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       final decoded = json.decode(js) as Map<String, dynamic>;
       final config = Config.fromJson(decoded);
 
-      _availablePlaylists = config.playlists
-        ..sort(
-          (a, b) => a.order.compareTo(b.order),
-        );
+      _availablePlaylists =
+          config.playlists..sort((a, b) => a.order.compareTo(b.order));
       emit(PlaylistStateDecoded(_availablePlaylists));
 
       final defaultPlaylist = _availablePlaylists.singleWhere(
@@ -45,11 +46,7 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       await loadRoster();
     } on Exception catch (e) {
       _availablePlaylists = [];
-      _emitErrorState(
-        LocaleKeys.playlistConfigDecodingError,
-        e,
-        '_decodeConfig',
-      );
+      _emitErrorState(_l10n.playlistConfigDecodingError, e, '_decodeConfig');
     }
   }
 
@@ -66,13 +63,15 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       final selectedPlaylist = _selectedPlaylist!;
       final (url, isSource) = (selectedPlaylist.url, selectedPlaylist.isSource);
       emit(PlaylistStateLoading(_availablePlaylists, selectedPlaylist));
-      final roster =
-          await _fetchAndParseRoster(Uri.parse(url), isSource: isSource);
+      final roster = await _fetchAndParseRoster(
+        Uri.parse(url),
+        isSource: isSource,
+      );
       emit(PlaylistStateSuccess(_availablePlaylists, selectedPlaylist, roster));
     } on SocketException catch (e) {
-      _emitErrorState(LocaleKeys.rosterErrorCouldntFetch, e, 'loadRoster');
+      _emitErrorState(_l10n.rosterErrorCouldntFetch, e, 'loadRoster');
     } on Exception catch (e) {
-      _emitErrorState(LocaleKeys.genericError, e, 'loadRoster');
+      _emitErrorState(_l10n.genericError, e, 'loadRoster');
     }
   }
 

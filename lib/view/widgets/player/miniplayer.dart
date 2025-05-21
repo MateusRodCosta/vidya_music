@@ -1,9 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/utils/branding.dart';
+import 'package:vidya_music/utils/l10n_ext.dart';
 import 'package:vidya_music/view/widgets/player/player.dart';
 import 'package:vidya_music/view/widgets/player/player_controls.dart';
 import 'package:vidya_music/view/widgets/player/player_progress_bar.dart';
@@ -28,11 +27,7 @@ class MiniPlayer extends StatelessWidget {
         child: Card.filled(
           color: Theme.of(context).colorScheme.secondaryContainer,
           child: Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-              bottom: 8,
-            ),
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -82,17 +77,9 @@ class BigPlayer extends StatelessWidget {
                 child: Row(
                   children: [
                     const Expanded(
-                      child: Column(
-                        children: [
-                          Spacer(),
-                          TrackInfo(),
-                        ],
-                      ),
+                      child: Column(children: [Spacer(), TrackInfo()]),
                     ),
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: _buildAppIcon(context),
-                    ),
+                    AspectRatio(aspectRatio: 1, child: _buildAppIcon(context)),
                   ],
                 ),
               )
@@ -126,15 +113,14 @@ class BigPlayer extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      LocaleKeys.currentPlaylist.tr().toUpperCase(),
+                      context.l10n.currentPlaylist.toUpperCase(),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
                       state.selectedPlaylist.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -143,9 +129,7 @@ class BigPlayer extends StatelessWidget {
             ],
           );
         }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
