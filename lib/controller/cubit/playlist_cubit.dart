@@ -6,12 +6,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:vidya_music/model/config.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
+import 'package:vidya_music/src/generated/l10n/app_localizations.dart';
 import 'package:vidya_music/utils/branding.dart';
 
 part 'playlist_state.dart';

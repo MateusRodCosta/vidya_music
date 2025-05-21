@@ -49,4 +49,3 @@ flutter:
   assets:
     - assets/config.json
     - assets/icon/
-    - assets/i18n/
