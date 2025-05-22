@@ -1,19 +1,42 @@
+import 'dart:developer' as developer;
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show listEquals;
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 import 'package:vidya_music/utils/branding.dart';
 
-Future<Uri> getPlayerArtFileFromAssets() async {
-  final byteData = await rootBundle.load(appIconPath);
-  final buffer = byteData.buffer;
-  final tempDir = await getTemporaryDirectory();
-  final tempPath = tempDir.path;
-  final filePath = '$tempPath/player_artwork_generic.png';
-  return (await File(filePath).writeAsBytes(
-    buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
-  )).uri;
+Future<Uri?> getPlayerArtFromAssets() async {
+  try {
+    final byteData = await rootBundle.load(appIconPath);
+    final assetBytes = byteData.buffer.asUint8List(
+      byteData.offsetInBytes,
+      byteData.lengthInBytes,
+    );
+
+    final documentsDir = await getApplicationDocumentsDirectory();
+    final filePath = '${documentsDir.path}/generic_artwork.png';
+    final file = File(filePath);
+
+    var shouldWriteFile = true;
+
+    if (file.existsSync()) {
+      final existingFileBytes = await file.readAsBytes();
+      if (listEquals(assetBytes, existingFileBytes)) {
+        shouldWriteFile = false;
+      }
+    }
+
+    if (shouldWriteFile) {
+      await file.writeAsBytes(assetBytes);
+    }
+
+    return Uri.file(filePath);
+  } on Exception catch (e) {
+    developer.log(e.toString(), name: 'getPlayerArtFromAssets');
+    return null;
+  }
 }
 
 Future<int?> getAndroidSdk() async {

@@ -16,8 +16,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioPlayerCubit()
     : _player = AudioPlayerSingleton.instance,
       super(const AudioPlayerState()) {
-    _setupArt();
-    _setupStreamSubscriptions();
+    _initialize();
   }
 
   late final StreamSubscription<Duration?> onDurationSubscription;
@@ -32,8 +31,13 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late Playlist _currentPlaylist;
   late Roster _roster;
 
+  Future<void> _initialize() async {
+    await _setupArt();
+    _setupStreamSubscriptions();
+  }
+
   Future<void> _setupArt() async {
-    _playerArtUri = await getPlayerArtFileFromAssets();
+    _playerArtUri = await getPlayerArtFromAssets();
   }
 
   void _setupStreamSubscriptions() {
