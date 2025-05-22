@@ -33,8 +33,13 @@ Future<Uri?> getPlayerArtFromAssets() async {
     }
 
     return Uri.file(filePath);
-  } on Exception catch (e) {
-    developer.log(e.toString(), name: 'getPlayerArtFromAssets');
+  } catch (e, s) {
+    developer.log(
+      e.toString(),
+      name: 'getPlayerArtFromAssets',
+      error: e,
+      stackTrace: s,
+    );
     return null;
   }
 }

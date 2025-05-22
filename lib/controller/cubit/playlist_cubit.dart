@@ -41,12 +41,13 @@ class PlaylistCubit extends Cubit<PlaylistState> {
 
       _selectedPlaylist = defaultPlaylist;
       await loadRoster();
-    } on Exception catch (e) {
+    } on Exception catch (e, s) {
       _availablePlaylists = [];
       _emitErrorState(
-        CubitL10nKeys.playlistConfigDecodingError,
-        e,
-        '_decodeConfig',
+        errorMessage: CubitL10nKeys.playlistConfigDecodingError,
+        error: e,
+        method: '_decodeConfig',
+        stackTrace: s,
       );
     }
   }
@@ -69,10 +70,20 @@ class PlaylistCubit extends Cubit<PlaylistState> {
         isSource: isSource,
       );
       emit(PlaylistStateSuccess(_availablePlaylists, selectedPlaylist, roster));
-    } on SocketException catch (e) {
-      _emitErrorState(CubitL10nKeys.rosterErrorCouldntFetch, e, 'loadRoster');
-    } on Exception catch (e) {
-      _emitErrorState(CubitL10nKeys.genericError, e, 'loadRoster');
+    } on SocketException catch (e, s) {
+      _emitErrorState(
+        errorMessage: CubitL10nKeys.rosterErrorCouldntFetch,
+        error: e,
+        method: 'loadRoster',
+        stackTrace: s,
+      );
+    } on Exception catch (e, s) {
+      _emitErrorState(
+        errorMessage: CubitL10nKeys.genericError,
+        error: e,
+        method: 'loadRoster',
+        stackTrace: s,
+      );
     }
   }
 
@@ -83,17 +94,23 @@ class PlaylistCubit extends Cubit<PlaylistState> {
     return roster;
   }
 
-  void _emitErrorState(
-    CubitL10nKeys errorMessage,
-    Object error,
-    String method,
-  ) {
+  void _emitErrorState({
+    required CubitL10nKeys errorMessage,
+    required Object error,
+    required String method,
+    required StackTrace stackTrace,
+  }) {
     emit(
       PlaylistStateError(
         errorMessage: errorMessage,
         availablePlaylists: _availablePlaylists,
       ),
     );
-    developer.log(error.toString(), name: method);
+    developer.log(
+      error.toString(),
+      name: method,
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 }
