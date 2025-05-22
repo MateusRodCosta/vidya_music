@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/utils/branding.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 import 'package:vidya_music/view/widgets/player/player.dart';
 import 'package:vidya_music/view/widgets/player/player_controls.dart';
 import 'package:vidya_music/view/widgets/player/player_progress_bar.dart';

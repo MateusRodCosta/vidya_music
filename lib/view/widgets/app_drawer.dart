@@ -7,7 +7,7 @@ import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/services/package_info_singleton.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/branding.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 import 'package:vidya_music/view/pages/settings_page.dart';
 
 class AppDrawer extends StatelessWidget {

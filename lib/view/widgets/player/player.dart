@@ -4,7 +4,7 @@ import 'package:text_scroll/text_scroll.dart';
 
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/model/track.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 
 class TrackInfo extends StatelessWidget {
   const TrackInfo({super.key, this.isMiniPlayer = false});

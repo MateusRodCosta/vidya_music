@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' show IconData, Icons, ThemeMode;
 import 'package:flutter/widgets.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 
 extension ThemeModeTileExt on ThemeMode {
-  String tileLabelKey(BuildContext context) {
+  String l10n(BuildContext context) {
     switch (this) {
       case ThemeMode.system:
         return context.l10n.themeModeSystem;
@@ -14,7 +14,7 @@ extension ThemeModeTileExt on ThemeMode {
     }
   }
 
-  IconData get tileIcon {
+  IconData get icon {
     switch (this) {
       case ThemeMode.system:
         return Icons.brightness_auto;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/providers/settings_provider.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 import 'package:vidya_music/utils/theme_mode_tile_ext.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -33,7 +33,7 @@ class SettingsPage extends StatelessWidget {
                       (context, value, child) => ListTile(
                         leading: const Icon(Icons.brush_outlined),
                         title: Text(context.l10n.settingsAppearanceHeader),
-                        subtitle: Text(value.themeMode.tileLabelKey(context)),
+                        subtitle: Text(value.themeMode.l10n(context)),
                         onTap:
                             () => showAdaptiveDialog<void>(
                               context: context,
@@ -70,8 +70,8 @@ class SettingsPage extends StatelessWidget {
     required ThemeMode themeMode,
   }) {
     return ListTile(
-      leading: Icon(themeMode.tileIcon),
-      title: Text(themeMode.tileLabelKey(context)),
+      leading: Icon(themeMode.icon),
+      title: Text(themeMode.l10n(context)),
       onTap: () async {
         await context.read<SettingsProvider>().setThemeMode(themeMode);
 

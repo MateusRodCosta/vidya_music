@@ -4,7 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 import 'package:vidya_music/utils/measurements.dart';
 import 'package:vidya_music/view/widgets/track_item.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';

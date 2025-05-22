@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 
 enum CubitL10nKeys {
   genericError,
