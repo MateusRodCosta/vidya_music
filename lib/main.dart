@@ -1,12 +1,15 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vidya_music/src/generated/l10n/app_localizations.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/providers/settings_provider.dart';
+import 'package:vidya_music/src/generated/l10n/app_localizations.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/utils.dart';
@@ -15,15 +18,16 @@ import 'package:vidya_music/view/pages/main_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await JustAudioBackground.init(
-    androidNotificationChannelId: justAudioNotificationChannelId,
-    androidNotificationChannelName: justAudioNotificationChannelName,
-    androidNotificationChannelDescription:
-        justAudioNotificationChannelDescription,
-    androidNotificationOngoing: true,
-    androidNotificationIcon: justAudioNotificationIcon,
-  );
-
+  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    await JustAudioBackground.init(
+      androidNotificationChannelId: justAudioNotificationChannelId,
+      androidNotificationChannelName: justAudioNotificationChannelName,
+      androidNotificationChannelDescription:
+          justAudioNotificationChannelDescription,
+      androidNotificationOngoing: true,
+      androidNotificationIcon: justAudioNotificationIcon,
+    );
+  }
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   if (await isAndroidQOrHigher) {
