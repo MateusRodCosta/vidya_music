@@ -46,9 +46,12 @@ class PlaylistStateSuccess extends PlaylistState {
 }
 
 class PlaylistStateError extends PlaylistState {
-  PlaylistStateError({this.errorMessage, this.availablePlaylists});
+  PlaylistStateError({
+    this.errorMessage = CubitL10nKeys.genericError,
+    this.availablePlaylists,
+  });
 
-  final String? errorMessage;
+  final CubitL10nKeys errorMessage;
   final List<Playlist>? availablePlaylists;
 
   @override

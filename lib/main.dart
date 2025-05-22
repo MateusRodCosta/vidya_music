@@ -9,7 +9,6 @@ import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
 import 'package:vidya_music/controller/providers/settings_provider.dart';
 import 'package:vidya_music/theme/color_schemes.dart';
 import 'package:vidya_music/utils/branding.dart';
-import 'package:vidya_music/utils/l10n_ext.dart';
 import 'package:vidya_music/utils/utils.dart';
 import 'package:vidya_music/view/pages/main_page.dart';
 
@@ -36,8 +35,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        BlocProvider(create: (_) => AudioPlayerCubit()),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        BlocProvider(create: (context) => PlaylistCubit()),
+        BlocProvider(create: (context) => AudioPlayerCubit()),
       ],
       child: const MyApp(),
     ),
@@ -56,10 +56,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       themeMode: context.watch<SettingsProvider>().themeMode,
-      home: BlocProvider(
-        create: (context) => PlaylistCubit(l10n: context.l10n),
-        child: const MainPage(title: appName),
-      ),
+      home: const MainPage(title: appName),
     );
   }
 }

@@ -44,7 +44,7 @@ class _RosterListState extends State<RosterList> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  state.errorMessage!,
+                  state.errorMessage.l10n(context),
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 16),

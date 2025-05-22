@@ -11,19 +11,16 @@ import 'package:meta/meta.dart';
 import 'package:vidya_music/model/config.dart';
 import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/model/roster.dart';
-import 'package:vidya_music/src/generated/l10n/app_localizations.dart';
 import 'package:vidya_music/utils/branding.dart';
+import 'package:vidya_music/utils/cubit_l10n_keys.dart';
 
 part 'playlist_state.dart';
 
 class PlaylistCubit extends Cubit<PlaylistState> {
-  PlaylistCubit({required AppLocalizations l10n})
-    : _l10n = l10n,
-      super(PlaylistStateInitial()) {
+  PlaylistCubit() : super(PlaylistStateInitial()) {
     _decodeConfig();
   }
 
-  final AppLocalizations _l10n;
   late final List<Playlist> _availablePlaylists;
   Playlist? _selectedPlaylist;
 
@@ -46,7 +43,11 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       await loadRoster();
     } on Exception catch (e) {
       _availablePlaylists = [];
-      _emitErrorState(_l10n.playlistConfigDecodingError, e, '_decodeConfig');
+      _emitErrorState(
+        CubitL10nKeys.playlistConfigDecodingError,
+        e,
+        '_decodeConfig',
+      );
     }
   }
 
@@ -69,9 +70,9 @@ class PlaylistCubit extends Cubit<PlaylistState> {
       );
       emit(PlaylistStateSuccess(_availablePlaylists, selectedPlaylist, roster));
     } on SocketException catch (e) {
-      _emitErrorState(_l10n.rosterErrorCouldntFetch, e, 'loadRoster');
+      _emitErrorState(CubitL10nKeys.rosterErrorCouldntFetch, e, 'loadRoster');
     } on Exception catch (e) {
-      _emitErrorState(_l10n.genericError, e, 'loadRoster');
+      _emitErrorState(CubitL10nKeys.genericError, e, 'loadRoster');
     }
   }
 
@@ -82,7 +83,11 @@ class PlaylistCubit extends Cubit<PlaylistState> {
     return roster;
   }
 
-  void _emitErrorState(String errorMessage, Object error, String method) {
+  void _emitErrorState(
+    CubitL10nKeys errorMessage,
+    Object error,
+    String method,
+  ) {
     emit(
       PlaylistStateError(
         errorMessage: errorMessage,
