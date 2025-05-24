@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:vidya_music/utils/branding.dart';
 
@@ -16,7 +17,7 @@ Future<Uri?> getPlayerArtFromAssets() async {
     );
 
     final documentsDir = await getApplicationDocumentsDirectory();
-    final filePath = '${documentsDir.path}/generic_artwork.png';
+    final filePath = path.join(documentsDir.path, 'generic_artwork.png');
     final file = File(filePath);
 
     var shouldWriteFile = true;
