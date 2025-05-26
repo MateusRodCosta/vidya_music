@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/branding.dart';
 import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 import 'package:vidya_music/view/widgets/player/player.dart';
@@ -97,9 +98,14 @@ class BigPlayer extends StatelessWidget {
   }
 
   Widget _buildBigPlayerTopBar() {
-    return BlocBuilder<PlaylistCubit, PlaylistState>(
-      builder: (context, state) {
-        if (state is PlaylistStateSuccess) {
+    return BlocSelector<PlaylistCubit, PlaylistState, Playlist?>(
+      selector:
+          (state) => switch (state) {
+            final PlaylistStateSuccess s => s.selectedPlaylist,
+            _ => null,
+          },
+      builder: (context, selectedPlaylist) {
+        if (selectedPlaylist != null) {
           return Row(
             children: [
               IconButton(
@@ -117,7 +123,7 @@ class BigPlayer extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
-                      state.selectedPlaylist.name,
+                      selectedPlaylist.name,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
