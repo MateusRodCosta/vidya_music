@@ -27,9 +27,7 @@ class MainPage extends StatelessWidget {
           ],
         ),
         Positioned.fill(
-          left: null,
           top: null,
-          right: null,
           bottom: MediaQuery.of(context).padding.bottom,
           child: const MiniPlayer(),
         ),
