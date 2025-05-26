@@ -17,8 +17,7 @@ class TrackItem extends StatelessWidget {
         track.toFullTrackName,
         style: Theme.of(context).textTheme.bodyLarge,
       ),
-      onTap:
-          () async => context.read<AudioPlayerCubit>().playTrack(track, index),
+      onTap: () => context.read<AudioPlayerCubit>().playTrack(track, index),
       minTileHeight: minTrackItemHeight,
     );
   }

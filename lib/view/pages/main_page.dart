@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/measurements.dart';
 import 'package:vidya_music/view/widgets/app_drawer.dart';
 import 'package:vidya_music/view/widgets/player/miniplayer.dart';
@@ -51,14 +50,14 @@ class MainPage extends StatelessWidget {
 
   AppBar _buildAppBar({bool isLargeScreen = false}) {
     return AppBar(
-      title: BlocSelector<PlaylistCubit, PlaylistState, Playlist?>(
+      title: BlocSelector<PlaylistCubit, PlaylistState, String?>(
         selector:
             (state) => switch (state) {
-              final PlaylistStateLoading s => s.selectedPlaylist,
-              final PlaylistStateSuccess s => s.selectedPlaylist,
+              final PlaylistStateLoading s => s.selectedPlaylist.name,
+              final PlaylistStateSuccess s => s.selectedPlaylist.name,
               _ => null,
             },
-        builder: (context, currentPlaylist) {
+        builder: (context, currentPlaylistName) {
           return InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap:
@@ -69,8 +68,8 @@ class MainPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  currentPlaylist != null
-                      ? '$title - ${currentPlaylist.name}'
+                  currentPlaylistName != null
+                      ? '$title - $currentPlaylistName'
                       : title,
                 ),
                 if (!isLargeScreen) const Icon(Icons.arrow_drop_down),
