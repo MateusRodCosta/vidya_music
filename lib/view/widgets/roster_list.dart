@@ -63,37 +63,46 @@ class _RosterListState extends State<RosterList> {
           return BlocListener<AudioPlayerCubit, AudioPlayerState>(
             listenWhen:
                 (previous, current) =>
-                    lastScrollPosition == null ||
-                    lastScrollPosition != current.currentTrackIndex,
+                    previous.currentTrackIndex != current.currentTrackIndex,
             listener:
                 (context, state) async =>
                     _scrollToTrack(state.currentTrackIndex),
-            child: ScrollConfiguration(
-              behavior: _ScrollbarBehavior(),
-              child: ScrollablePositionedList.separated(
-                padding: EdgeInsets.only(
-                  top: 8,
-                  bottom: MediaQuery.of(context).padding.bottom + playerHeight,
-                ),
-                itemCount: tracks.length,
-                itemBuilder: (context, i) {
-                  return TrackItem(track: tracks[i], index: i);
-                },
-                separatorBuilder:
-                    (context, i) => SafeArea(
-                      top: false,
-                      bottom: false,
-                      child: Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: Theme.of(context).colorScheme.outlineVariant,
-                        indent: 16,
-                        endIndent: 16,
-                      ),
+            child: BlocSelector<AudioPlayerCubit, AudioPlayerState, int?>(
+              selector: (state) => state.currentTrackIndex,
+              builder: (context, currentTrackIndex) {
+                return ScrollConfiguration(
+                  behavior: _ScrollbarBehavior(),
+                  child: ScrollablePositionedList.separated(
+                    padding: EdgeInsets.only(
+                      top: 8,
+                      bottom:
+                          MediaQuery.of(context).padding.bottom + playerHeight,
                     ),
-                itemScrollController: itemScrollController,
-                itemPositionsListener: itemPositionsListener,
-              ),
+                    itemCount: tracks.length,
+                    itemBuilder: (context, i) {
+                      return TrackItem(
+                        track: tracks[i],
+                        index: i,
+                        isCurrent: currentTrackIndex == i,
+                      );
+                    },
+                    separatorBuilder:
+                        (context, i) => SafeArea(
+                          top: false,
+                          bottom: false,
+                          child: Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: Theme.of(context).colorScheme.outlineVariant,
+                            indent: 16,
+                            endIndent: 16,
+                          ),
+                        ),
+                    itemScrollController: itemScrollController,
+                    itemPositionsListener: itemPositionsListener,
+                  ),
+                );
+              },
             ),
           );
         }
