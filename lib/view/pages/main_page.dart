@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
+import 'package:vidya_music/model/playlist.dart';
 import 'package:vidya_music/utils/measurements.dart';
 import 'package:vidya_music/view/widgets/app_drawer.dart';
 import 'package:vidya_music/view/widgets/player/miniplayer.dart';
@@ -52,14 +53,14 @@ class MainPage extends StatelessWidget {
 
   AppBar _buildAppBar({bool isLargeScreen = false}) {
     return AppBar(
-      title: BlocBuilder<PlaylistCubit, PlaylistState>(
-        builder: (context, state) {
-          final currentPlaylist = switch (state) {
-            final PlaylistStateLoading s => s.selectedPlaylist,
-            final PlaylistStateSuccess s => s.selectedPlaylist,
-            _ => null,
-          };
-
+      title: BlocSelector<PlaylistCubit, PlaylistState, Playlist?>(
+        selector:
+            (state) => switch (state) {
+              final PlaylistStateLoading s => s.selectedPlaylist,
+              final PlaylistStateSuccess s => s.selectedPlaylist,
+              _ => null,
+            },
+        builder: (context, currentPlaylist) {
           return InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap:
