@@ -34,7 +34,6 @@ class MainPage extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: Theme.of(context).cardColor,
       endDrawer: !isLarge ? const AppDrawer() : null,
       body:
           isLarge
