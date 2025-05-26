@@ -35,6 +35,9 @@ class Track extends Equatable {
   final bool hasSource;
   final bool isSrcTrack;
 
+  String get toFullTrackName =>
+      arr != null ? '$game - $arr - $title' : '$game - $title';
+
   @override
   List<Object?> get props => [
     id,

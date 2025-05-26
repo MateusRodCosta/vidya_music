@@ -17,8 +17,9 @@ class TrackItem extends StatelessWidget {
       shape: const Border(),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () async =>
-            context.read<AudioPlayerCubit>().playTrack(track, index),
+        onTap:
+            () async =>
+                context.read<AudioPlayerCubit>().playTrack(track, index),
         child: SafeArea(
           top: false,
           bottom: false,
@@ -27,8 +28,7 @@ class TrackItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             alignment: Alignment.centerLeft,
             child: Text(
-              '${track.game} - ${track.arr != null ? '${track.arr} - ' : ''}'
-              '${track.title}',
+              track.toFullTrackName,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
