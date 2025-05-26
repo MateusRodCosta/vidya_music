@@ -58,7 +58,6 @@ class SettingsPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                            barrierDismissible: true,
                           ),
                     ),
               ),
