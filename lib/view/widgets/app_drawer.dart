@@ -25,23 +25,23 @@ class AppDrawer extends StatelessWidget {
           Expanded(
             child: BlocBuilder<PlaylistCubit, PlaylistState>(
               builder: (context, state) {
-                Playlist? currentPlaylist;
-                List<Playlist>? availablePlaylists;
+                final (
+                  Playlist? currentPlaylist,
+                  List<Playlist>? availablePlaylists,
+                ) = switch (state) {
+                  PlaylistStateDecoded s => (null, s.availablePlaylists),
+                  PlaylistStateLoading s => (
+                    s.selectedPlaylist,
+                    s.availablePlaylists,
+                  ),
+                  PlaylistStateSuccess s => (
+                    s.selectedPlaylist,
+                    s.availablePlaylists,
+                  ),
+                  PlaylistStateError s => (null, s.availablePlaylists),
+                  _ => (null, null),
+                };
 
-                if (state is PlaylistStateDecoded) {
-                  availablePlaylists = state.availablePlaylists;
-                }
-                if (state is PlaylistStateLoading) {
-                  currentPlaylist = state.selectedPlaylist;
-                  availablePlaylists = state.availablePlaylists;
-                }
-                if (state is PlaylistStateSuccess) {
-                  currentPlaylist = state.selectedPlaylist;
-                  availablePlaylists = state.availablePlaylists;
-                }
-                if (state is PlaylistStateError) {
-                  availablePlaylists = state.availablePlaylists;
-                }
                 return SafeArea(
                   top: false,
                   bottom: false,
@@ -107,7 +107,7 @@ class AppDrawer extends StatelessWidget {
   Divider _buildDivider(BuildContext context) {
     return Divider(
       height: 1,
-      thickness: 0,
+      thickness: 1,
       color: Theme.of(context).dividerColor,
       indent: 16,
       endIndent: 16,
