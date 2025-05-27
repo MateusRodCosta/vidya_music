@@ -1,14 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesSingleton {
-  static SharedPreferences? _sharedPreferences;
+  SharedPreferencesSingleton._internal();
 
-  static Future<SharedPreferences> get instance async {
-    if (_sharedPreferences != null) {
-      return _sharedPreferences!;
-    } else {
-      _sharedPreferences = await SharedPreferences.getInstance();
-      return _sharedPreferences!;
-    }
+  static Future<SharedPreferences>? _sharedPreferencesFuture;
+
+  static Future<SharedPreferences> get instance {
+    _sharedPreferencesFuture ??= SharedPreferences.getInstance();
+    return _sharedPreferencesFuture!;
   }
 }

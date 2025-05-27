@@ -14,10 +14,17 @@ class PlayerProgressBar extends StatelessWidget {
     final baseColor = Theme.of(context).colorScheme.tertiary;
     final secondaryColor = Theme.of(context).colorScheme.secondary;
 
-    return BlocSelector<AudioPlayerCubit, AudioPlayerState,
-        (Duration?, Duration?, Duration?)>(
-      selector: (state) =>
-          (state.trackPosition, state.trackDuration, state.trackBuffered),
+    return BlocSelector<
+      AudioPlayerCubit,
+      AudioPlayerState,
+      (Duration?, Duration?, Duration?)
+    >(
+      selector:
+          (state) => (
+            state.trackPosition,
+            state.trackDuration,
+            state.trackBuffered,
+          ),
       builder: (context, filteredValues) {
         final (trackPosition, trackDuration, trackBuffered) = filteredValues;
         return AbsorbPointer(
@@ -27,9 +34,9 @@ class PlayerProgressBar extends StatelessWidget {
             total: trackDuration ?? Duration.zero,
             buffered: trackBuffered,
             onSeek: audioPlayerCubit.seek,
-            baseBarColor: secondaryColor.withOpacity(0.1),
+            baseBarColor: secondaryColor.withValues(alpha: 0.1),
             progressBarColor: baseColor,
-            bufferedBarColor: baseColor.withOpacity(0.24),
+            bufferedBarColor: baseColor.withValues(alpha: 0.24),
             thumbColor: baseColor,
             timeLabelLocation: isMiniPlayer ? TimeLabelLocation.none : null,
             thumbRadius: isMiniPlayer ? 2.0 : 10.0,

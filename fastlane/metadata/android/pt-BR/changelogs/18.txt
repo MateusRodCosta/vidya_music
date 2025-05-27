@@ -1,0 +1,6 @@
+• Flutter atualizado para versão 3.29.3
+• Dependências atualizadas
+• Sistema de tradução refeito
+• Várias melhorias por debaixo dos panos
+• Melhorias de UI
+• Negritar faixa atual na lista

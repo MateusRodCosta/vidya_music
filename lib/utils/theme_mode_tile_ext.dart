@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart' show IconData, Icons, ThemeMode;
-import 'package:vidya_music/generated/locale_keys.g.dart';
+import 'package:flutter/widgets.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 
 extension ThemeModeTileExt on ThemeMode {
-  String get tileLabelKey {
+  String l10n(BuildContext context) {
     switch (this) {
       case ThemeMode.system:
-        return LocaleKeys.themeModeSystem;
+        return context.l10n.themeModeSystem;
       case ThemeMode.light:
-        return LocaleKeys.themeModeLight;
+        return context.l10n.themeModeLight;
       case ThemeMode.dark:
-        return LocaleKeys.themeModeDark;
+        return context.l10n.themeModeDark;
     }
   }
 
-  IconData get tileIcon {
+  IconData get icon {
     switch (this) {
       case ThemeMode.system:
         return Icons.brightness_auto;

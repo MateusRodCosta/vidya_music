@@ -1,0 +1,6 @@
+• Upgrade Flutter to 3.29.3
+• Upgrade dependencies
+• Reworked translation system
+• Many under-the-hood improvements
+• UI tweaks
+• Bold current track on Roster list

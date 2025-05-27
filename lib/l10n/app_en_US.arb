@@ -6,8 +6,8 @@
     "rosterErrorCouldntFetch": "Couldn't fetch tracks...",
     "rosterRetry": "Retry",
     "playerNoTrack": "No track",
-    "playerArranger": "{} (Arranger)",
-    "playerComposer": "{} (Composer)",
+    "playerArranger": "{arranger} (Arranger)",
+    "playerComposer": "{composer} (Composer)",
     "themeModeHeader": "Theme",
     "themeModeSystem": "System Theme",
     "themeModeLight": "Light Theme",
@@ -21,4 +21,4 @@
     "aboutDialogSourceCode": "Source code is available at ",
     "settingsPageTitle": "Settings",
     "settingsAppearanceHeader": "Appearance"
- }
+}

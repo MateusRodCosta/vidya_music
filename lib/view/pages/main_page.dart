@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/model/playlist.dart';
+import 'package:vidya_music/utils/measurements.dart';
 import 'package:vidya_music/view/widgets/app_drawer.dart';
 import 'package:vidya_music/view/widgets/player/miniplayer.dart';
 import 'package:vidya_music/view/widgets/roster_list.dart';
@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLarge = MediaQuery.of(context).size.width >= 840;
+    final isLarge = MediaQuery.of(context).size.width >= largeScreenBreakpoint;
 
     final body = Stack(
       alignment: Alignment.bottomCenter,
@@ -22,9 +22,7 @@ class MainPage extends StatelessWidget {
         Column(
           children: [
             _buildAppBar(isLargeScreen: isLarge),
-            const Expanded(
-              child: RosterList(),
-            ),
+            const Expanded(child: RosterList()),
           ],
         ),
         Positioned.fill(
@@ -37,44 +35,43 @@ class MainPage extends StatelessWidget {
 
     return Scaffold(
       endDrawer: !isLarge ? const AppDrawer() : null,
-      body: isLarge
-          ? Row(
-              children: [
-                Expanded(child: body),
-                AppDrawer(isLargeScreen: isLarge),
-              ],
-            )
-          : body,
+      body:
+          isLarge
+              ? Row(
+                children: [
+                  Expanded(child: body),
+                  AppDrawer(isLargeScreen: isLarge),
+                ],
+              )
+              : body,
     );
   }
 
   AppBar _buildAppBar({bool isLargeScreen = false}) {
-    Playlist? currentPlaylist;
-
     return AppBar(
-      title: BlocBuilder<PlaylistCubit, PlaylistState>(
-        builder: (context, rs) {
-          if (rs is PlaylistStateLoading) {
-            currentPlaylist = rs.selectedPlaylist;
-          }
-          if (rs is PlaylistStateSuccess) {
-            currentPlaylist = rs.selectedPlaylist;
-          }
+      title: BlocSelector<PlaylistCubit, PlaylistState, String?>(
+        selector:
+            (state) => switch (state) {
+              final PlaylistStateLoading s => s.selectedPlaylist.name,
+              final PlaylistStateSuccess s => s.selectedPlaylist.name,
+              _ => null,
+            },
+        builder: (context, currentPlaylistName) {
           return InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: !isLargeScreen
-                ? () => Scaffold.of(context).openEndDrawer()
-                : null,
+            onTap:
+                !isLargeScreen
+                    ? () => Scaffold.of(context).openEndDrawer()
+                    : null,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  title +
-                      (currentPlaylist != null
-                          ? ' - ${currentPlaylist!.name}'
-                          : ''),
+                  currentPlaylistName != null
+                      ? '$title - $currentPlaylistName'
+                      : title,
                 ),
-                const Icon(Icons.arrow_drop_down),
+                if (!isLargeScreen) const Icon(Icons.arrow_drop_down),
               ],
             ),
           );

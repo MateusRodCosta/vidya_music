@@ -14,10 +14,9 @@ part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioPlayerCubit()
-      : _player = AudioPlayerSingleton.instance,
-        super(const AudioPlayerState()) {
-    _setupArt();
-    _setupStreamSubscriptions();
+    : _player = AudioPlayerSingleton.instance,
+      super(const AudioPlayerState()) {
+    _initialize();
   }
 
   late final StreamSubscription<Duration?> onDurationSubscription;
@@ -27,23 +26,30 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   late final StreamSubscription<int?> onCurrentIndexSubscription;
 
   final AudioPlayer _player;
-  late final Uri _playerArtUri;
+  Uri? _playerArtUri;
 
   late Playlist _currentPlaylist;
   late Roster _roster;
 
+  Future<void> _initialize() async {
+    await _setupArt();
+    _setupStreamSubscriptions();
+  }
+
   Future<void> _setupArt() async {
-    _playerArtUri = await getPlayerArtFileFromAssets();
+    _playerArtUri = await getPlayerArtFromAssets();
   }
 
   void _setupStreamSubscriptions() {
     onDurationSubscription = _player.durationStream.listen(_onDurationChanged);
     onPositionSubscription = _player.positionStream.listen(_onPositionChanged);
-    onBufferedPositionSubscription =
-        _player.bufferedPositionStream.listen(_onBufferedPositionChanged);
+    onBufferedPositionSubscription = _player.bufferedPositionStream.listen(
+      _onBufferedPositionChanged,
+    );
     onPlayingSubscription = _player.playingStream.listen(_onPlayingChanged);
-    onCurrentIndexSubscription =
-        _player.currentIndexStream.listen(_onCurrentIndex);
+    onCurrentIndexSubscription = _player.currentIndexStream.listen(
+      _onCurrentIndex,
+    );
   }
 
   Future<void> setPlaylist((Playlist, Roster) newPlaylistPair) async {
@@ -56,12 +62,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> _loadTracksAndPlay() async {
     final tracks = _generateTrackList();
 
-    final playlist = ConcatenatingAudioSource(
-      shuffleOrder: DefaultShuffleOrder(),
-      children: tracks,
-    );
-
-    await _player.setAudioSource(playlist);
+    await _player.setAudioSources(tracks, shuffleOrder: DefaultShuffleOrder());
 
     final initialShuffle = state.isShuffle ?? true;
     await _player.setShuffleModeEnabled(initialShuffle);

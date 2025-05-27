@@ -1,9 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/generated/locale_keys.g.dart';
 import 'package:vidya_music/utils/branding.dart';
+import 'package:vidya_music/utils/build_context_l10n_ext.dart';
 import 'package:vidya_music/view/widgets/player/player.dart';
 import 'package:vidya_music/view/widgets/player/player_controls.dart';
 import 'package:vidya_music/view/widgets/player/player_progress_bar.dart';
@@ -27,28 +26,21 @@ class MiniPlayer extends StatelessWidget {
         bottom: false,
         child: Card.filled(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: PlayerProgressBar(isMiniPlayer: true),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  left: 16,
-                  right: 8,
-                  bottom: 8,
-                ),
-                child: Row(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const PlayerProgressBar(isMiniPlayer: true),
+                const SizedBox(height: 8),
+                Row(
                   children: [
                     const Expanded(child: TrackInfo(isMiniPlayer: true)),
                     _buildSimpleControls(),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -85,17 +77,9 @@ class BigPlayer extends StatelessWidget {
                 child: Row(
                   children: [
                     const Expanded(
-                      child: Column(
-                        children: [
-                          Spacer(),
-                          TrackInfo(),
-                        ],
-                      ),
+                      child: Column(children: [Spacer(), TrackInfo()]),
                     ),
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: _buildAppIcon(context),
-                    ),
+                    AspectRatio(aspectRatio: 1, child: _buildAppIcon(context)),
                   ],
                 ),
               )
@@ -113,9 +97,15 @@ class BigPlayer extends StatelessWidget {
   }
 
   Widget _buildBigPlayerTopBar() {
-    return BlocBuilder<PlaylistCubit, PlaylistState>(
-      builder: (context, state) {
-        if (state is PlaylistStateSuccess) {
+    return BlocSelector<PlaylistCubit, PlaylistState, String?>(
+      selector:
+          (state) => switch (state) {
+            final PlaylistStateLoading s => s.selectedPlaylist.name,
+            final PlaylistStateSuccess s => s.selectedPlaylist.name,
+            _ => null,
+          },
+      builder: (context, selectedPlaylistName) {
+        if (selectedPlaylistName != null) {
           return Row(
             children: [
               IconButton(
@@ -129,15 +119,14 @@ class BigPlayer extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      LocaleKeys.currentPlaylist.tr().toUpperCase(),
+                      context.l10n.currentPlaylist.toUpperCase(),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
-                      state.selectedPlaylist.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      selectedPlaylistName,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -146,9 +135,7 @@ class BigPlayer extends StatelessWidget {
             ],
           );
         }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
