@@ -3,7 +3,7 @@ description: A player for the Vidya Intarweb Playlist (aka VIP Aersia)
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.0.1+17
+version: 2.1.0+18
 
 environment:
   sdk: ^3.7.0
