@@ -20,21 +20,15 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
-kotlin {
-    jvmToolchain(21)
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_21
-    }
-}
-
 android {
     namespace = "com.mateusrodcosta.apps.vidyamusic"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "com.mateusrodcosta.apps.vidyamusic"
         minSdk = 28
+        //noinspection OldTargetApi
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -114,10 +108,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_21.toString()
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -127,6 +117,13 @@ android {
             // As instructed in https://github.com/MateusRodCosta/Share2Storage/issues/44
             includeInApk = false
         }
+    }
+}
+
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
     }
 }
 
