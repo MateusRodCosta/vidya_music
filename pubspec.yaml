@@ -1,9 +1,9 @@
 name: vidya_music
 description: A player for the Vidya Intarweb Playlist (aka VIP Aersia)
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
-version: 2.1.0+18
+version: 2.1.1+19
 
 environment:
   sdk: ^3.7.0
