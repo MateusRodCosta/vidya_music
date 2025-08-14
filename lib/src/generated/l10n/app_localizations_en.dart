@@ -58,16 +58,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawerAboutTile => 'About';
 
   @override
-  String get aboutDialogLicense => 'Licensed under AGPLv3+, developed by MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licensed under AGPLv3+, developed by MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist by Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'All Tracks © & ℗ Their Respective Owners';
+  String get aboutDialogCopyrightNotice =>
+      'All Tracks © & ℗ Their Respective Owners';
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
@@ -81,7 +84,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
 /// The translations for English, as used in the United States (`en_US`).
 class AppLocalizationsEnUs extends AppLocalizationsEn {
-  AppLocalizationsEnUs(): super('en_US');
+  AppLocalizationsEnUs() : super('en_US');
 
   @override
   String get currentPlaylist => 'Current Playlist';
@@ -133,16 +136,19 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   String get drawerAboutTile => 'About';
 
   @override
-  String get aboutDialogLicense => 'Licensed under AGPLv3+, developed by MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licensed under AGPLv3+, developed by MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist by Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'All Tracks © & ℗ Their Respective Owners';
+  String get aboutDialogCopyrightNotice =>
+      'All Tracks © & ℗ Their Respective Owners';
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';

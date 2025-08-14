@@ -58,16 +58,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get drawerAboutTile => 'About';
 
   @override
-  String get aboutDialogLicense => 'Licensed under AGPLv3+, developed by MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licensed under AGPLv3+, developed by MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist by Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'All Tracks © & ℗ Their Respective Owners';
+  String get aboutDialogCopyrightNotice =>
+      'All Tracks © & ℗ Their Respective Owners';
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
@@ -81,13 +84,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
 class AppLocalizationsPtBr extends AppLocalizationsPt {
-  AppLocalizationsPtBr(): super('pt_BR');
+  AppLocalizationsPtBr() : super('pt_BR');
 
   @override
   String get currentPlaylist => 'Playlist Atual';
 
   @override
-  String get playlistConfigDecodingError => 'Erro ao decodificar configuração de playlist';
+  String get playlistConfigDecodingError =>
+      'Erro ao decodificar configuração de playlist';
 
   @override
   String get genericError => 'Ocorreu um erro.';
@@ -133,16 +137,19 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get drawerAboutTile => 'Sobre';
 
   @override
-  String get aboutDialogLicense => 'Licenciado sob a AGPLv3+, desenvolvido por MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licenciado sob a AGPLv3+, desenvolvido por MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'Um player para a Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'Um player para a Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist por Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'Todas as Faixas © & ℗ Seus Respectivos Donos';
+  String get aboutDialogCopyrightNotice =>
+      'Todas as Faixas © & ℗ Seus Respectivos Donos';
 
   @override
   String get aboutDialogSourceCode => 'O código fonte está disponível em ';

@@ -76,7 +76,8 @@ android {
             manifestPlaceholders["appName"] = "Vidya Music (Debug)"
         }
         getByName("profile") {
-            applicationIdSuffix = ".profile"
+            // Commented out due to https://github.com/flutter/flutter/issues/169215
+            // applicationIdSuffix = ".profile"
             versionNameSuffix = "-profile"
             manifestPlaceholders["appName"] = "Vidya Music (Profile)"
         }
