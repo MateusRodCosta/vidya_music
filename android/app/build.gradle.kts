@@ -73,6 +73,12 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             manifestPlaceholders["appName"] = "Vidya Music (Debug)"
+
+            signingConfig = signingConfigs.getByName("debug").apply {
+                // Force v3-only signing on debug builds
+                enableV2Signing = false
+                enableV3Signing = true
+            }
         }
         getByName("profile") {
             // Commented out due to https://github.com/flutter/flutter/issues/169215
