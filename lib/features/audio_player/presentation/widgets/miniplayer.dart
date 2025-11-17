@@ -26,7 +26,7 @@ class MiniPlayer extends StatelessWidget {
         bottom: false,
         child: Card.filled(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(horizontal: 8),
+          margin: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
           child: Padding(
             padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
             child: Column(
