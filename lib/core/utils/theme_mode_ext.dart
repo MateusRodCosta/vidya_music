@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' show IconData, Icons, ThemeMode;
 import 'package:flutter/widgets.dart';
 import 'package:vidya_music/core/utils/build_context_l10n_ext.dart';
 
-extension ThemeModeTileExt on ThemeMode {
+extension ThemeModeExt on ThemeMode {
   String l10n(BuildContext context) {
     switch (this) {
       case ThemeMode.system:
@@ -23,5 +23,20 @@ extension ThemeModeTileExt on ThemeMode {
       case ThemeMode.dark:
         return Icons.dark_mode;
     }
+  }
+
+  Brightness get themeBrightness {
+    switch (this) {
+      case ThemeMode.dark:
+        return Brightness.dark;
+      case ThemeMode.light:
+      case ThemeMode.system:
+        return Brightness.light;
+    }
+  }
+
+  Brightness get sysUiIconBrightness {
+    if (themeBrightness == Brightness.dark) return Brightness.light;
+    return Brightness.dark;
   }
 }
