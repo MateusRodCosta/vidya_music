@@ -6,14 +6,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
-import 'package:vidya_music/controller/cubit/audio_player_cubit.dart';
-import 'package:vidya_music/controller/cubit/playlist_cubit.dart';
-import 'package:vidya_music/controller/providers/settings_provider.dart';
+import 'package:vidya_music/core/theme/app_theme.dart';
+import 'package:vidya_music/core/utils/branding.dart';
+import 'package:vidya_music/core/utils/utils.dart';
+import 'package:vidya_music/features/audio_player/data/datasources/audio_player_service.dart';
+import 'package:vidya_music/features/audio_player/presentation/bloc/audio_player_cubit.dart';
+import 'package:vidya_music/features/playlist/data/repositories/config_repostiory_impl.dart';
+import 'package:vidya_music/features/playlist/data/repositories/roster_repostiory_impl.dart';
+import 'package:vidya_music/features/playlist/domain/repositories/config_repository.dart';
+import 'package:vidya_music/features/playlist/domain/repositories/roster_repository.dart';
+import 'package:vidya_music/features/playlist/domain/usecases/get_config_and_load_roster_usecase.dart';
+import 'package:vidya_music/features/playlist/domain/usecases/load_roster_usecase.dart';
+import 'package:vidya_music/features/playlist/presentation/bloc/playlist_cubit.dart';
+import 'package:vidya_music/features/settings/presentation/provider/settings_provider.dart';
+import 'package:vidya_music/shared/presentation/pages/main_page.dart';
 import 'package:vidya_music/src/generated/l10n/app_localizations.dart';
-import 'package:vidya_music/theme/color_schemes.dart';
-import 'package:vidya_music/utils/branding.dart';
-import 'package:vidya_music/utils/utils.dart';
-import 'package:vidya_music/view/pages/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,13 +44,43 @@ Future<void> main() async {
   }
 
   runApp(
-    MultiProvider(
+    MultiRepositoryProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SettingsProvider()),
-        BlocProvider(create: (context) => PlaylistCubit()),
-        BlocProvider(create: (context) => AudioPlayerCubit()),
+        RepositoryProvider<ConfigRepository>(
+          create: (context) => ConfigRepositoryImpl(),
+        ),
+        RepositoryProvider<RosterRepository>(
+          create: (context) => RosterRepositoryImpl(),
+        ),
+        RepositoryProvider<AudioPlayerService>(
+          create: (context) => AudioPlayerService(),
+        ),
       ],
-      child: const MyApp(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => PlaylistCubit(
+              GetConfigAndLoadRosterUseCase(
+                context.read<ConfigRepository>(),
+                context.read<RosterRepository>(),
+              ),
+              LoadRosterUseCase(
+                context.read<RosterRepository>(),
+              ),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => AudioPlayerCubit(
+              audioPlayerService: context.read<AudioPlayerService>(),
+              playlistCubit: context.read<PlaylistCubit>(),
+            ),
+          ),
+        ],
+        child: ChangeNotifierProvider(
+          create: (context) => SettingsProvider(),
+          child: const MyApp(),
+        ),
+      ),
     ),
   );
 }
