@@ -70,10 +70,8 @@ class _RosterListState extends State<RosterList> {
                 return ScrollConfiguration(
                   behavior: _ScrollbarBehavior(),
                   child: ScrollablePositionedList.separated(
-                    padding: EdgeInsets.only(
-                      top: 8,
-                      bottom:
-                          MediaQuery.of(context).padding.bottom + playerHeight,
+                    padding: const EdgeInsets.only(
+                      bottom: playerHeight,
                     ),
                     itemCount: tracks.length,
                     itemBuilder: (context, i) {

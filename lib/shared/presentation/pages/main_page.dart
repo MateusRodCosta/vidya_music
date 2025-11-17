@@ -15,33 +15,41 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLarge = MediaQuery.of(context).size.width >= largeScreenBreakpoint;
 
-    final body = Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Column(
-          children: [
-            _buildAppBar(isLargeScreen: isLarge),
-            const Expanded(child: RosterList()),
-          ],
-        ),
-        Positioned.fill(
-          top: null,
-          bottom: MediaQuery.of(context).padding.bottom,
-          child: const MiniPlayer(),
-        ),
-      ],
-    );
+    final body = _buildBody(isLargeScreen: isLarge);
 
     return Scaffold(
       endDrawer: !isLarge ? const AppDrawer() : null,
       body: isLarge
           ? Row(
               children: [
-                Expanded(child: body),
+                body,
                 AppDrawer(isLargeScreen: isLarge),
               ],
             )
           : body,
+    );
+  }
+
+  Widget _buildBody({bool isLargeScreen = false}) {
+    return SafeArea(
+      top: false,
+      left: false,
+      right: false,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Column(
+            children: [
+              _buildAppBar(isLargeScreen: isLargeScreen),
+              const Expanded(child: RosterList()),
+            ],
+          ),
+          const Positioned.fill(
+            top: null,
+            child: MiniPlayer(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -53,7 +61,7 @@ class MainPage extends StatelessWidget {
           final PlaylistStateSuccess s => s.selectedPlaylist.name,
           _ => null,
         },
-        builder: (context, currentPlaylistName) {
+        builder: (context, playlistName) {
           return InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: !isLargeScreen
@@ -63,9 +71,7 @@ class MainPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  currentPlaylistName != null
-                      ? '$title - $currentPlaylistName'
-                      : title,
+                  '$title${playlistName != null ? ' - $playlistName' : ''}',
                 ),
                 if (!isLargeScreen) const Icon(Icons.arrow_drop_down),
               ],

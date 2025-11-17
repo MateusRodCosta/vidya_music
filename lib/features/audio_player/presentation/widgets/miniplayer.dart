@@ -13,8 +13,8 @@ class MiniPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showModalBottomSheet<dynamic>(
+      onTap: () async {
+        await showModalBottomSheet<dynamic>(
           context: context,
           builder: (context) => const BigPlayer(),
           isScrollControlled: true,
@@ -26,8 +26,9 @@ class MiniPlayer extends StatelessWidget {
         bottom: false,
         child: Card.filled(
           color: Theme.of(context).colorScheme.secondaryContainer,
+          margin: const EdgeInsets.symmetric(horizontal: 8),
           child: Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
