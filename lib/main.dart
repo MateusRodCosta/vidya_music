@@ -35,19 +35,15 @@ Future<void> main() async {
       androidNotificationIcon: justAudioNotificationIcon,
     );
   }
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  if (await isAndroidQOrHigher) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarContrastEnforced: false,
-        statusBarColor: Colors.transparent,
-        systemStatusBarContrastEnforced: false,
-      ),
-    );
-  }
+  final isAndroidQ = await isAndroidQOrHigher;
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      statusBarColor: Colors.transparent,
+    ),
+  );
 
   runApp(
     MultiRepositoryProvider(
@@ -84,7 +80,7 @@ Future<void> main() async {
         ],
         child: ChangeNotifierProvider(
           create: (context) => SettingsProvider(),
-          child: const MyApp(),
+          child: MyApp(isAndroidQ: isAndroidQ),
         ),
       ),
     ),
@@ -92,18 +88,44 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, this.isAndroidQ = false});
+
+  final bool isAndroidQ;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      title: appName,
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-      themeMode: context.watch<SettingsProvider>().themeMode,
-      home: const MainPage(title: appName),
+    final settingsProvider = context.watch<SettingsProvider>();
+
+    final platformBrightness = MediaQuery.of(context).platformBrightness;
+    final isDarkMode =
+        settingsProvider.themeMode == ThemeMode.dark ||
+        (settingsProvider.themeMode == ThemeMode.system &&
+            platformBrightness == Brightness.dark);
+
+    final overlayStyle = SystemUiOverlayStyle(
+      systemNavigationBarColor: isAndroidQ
+          ? Colors.transparent
+          : (isDarkMode ? Colors.black : Colors.white),
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: isDarkMode
+          ? Brightness.light
+          : Brightness.dark,
+      systemNavigationBarContrastEnforced: false,
+      statusBarColor: Colors.transparent,
+      systemStatusBarContrastEnforced: false,
+    );
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        title: appName,
+        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        themeMode: context.watch<SettingsProvider>().themeMode,
+        home: const MainPage(title: appName),
+      ),
     );
   }
 }

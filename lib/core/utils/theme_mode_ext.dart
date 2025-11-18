@@ -24,19 +24,4 @@ extension ThemeModeExt on ThemeMode {
         return Icons.dark_mode;
     }
   }
-
-  Brightness get themeBrightness {
-    switch (this) {
-      case ThemeMode.dark:
-        return Brightness.dark;
-      case ThemeMode.light:
-      case ThemeMode.system:
-        return Brightness.light;
-    }
-  }
-
-  Brightness get sysUiIconBrightness {
-    if (themeBrightness == Brightness.dark) return Brightness.light;
-    return Brightness.dark;
-  }
 }

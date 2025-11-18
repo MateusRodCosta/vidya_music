@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show ThemeMode;
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidya_music/core/singletons/shared_preferences_singleton.dart';
-import 'package:vidya_music/core/utils/theme_mode_ext.dart';
-import 'package:vidya_music/core/utils/utils.dart';
 
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
@@ -25,7 +22,6 @@ class SettingsProvider extends ChangeNotifier {
 
   Future<void> _loadSettings() async {
     _themeMode = _getThemeMode();
-    await _setupSysUi(_themeMode);
     notifyListeners();
   }
 
@@ -39,18 +35,7 @@ class SettingsProvider extends ChangeNotifier {
   Future<void> setThemeMode(ThemeMode themeMode) async {
     if (await _prefs.setString(themeKey, themeMode.name)) {
       _themeMode = themeMode;
-      await _setupSysUi(themeMode);
       notifyListeners();
-    }
-  }
-
-  Future<void> _setupSysUi(ThemeMode themeMode) async {
-    if (await isAndroidQOrHigher) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          systemNavigationBarIconBrightness: themeMode.sysUiIconBrightness,
-        ),
-      );
     }
   }
 }
