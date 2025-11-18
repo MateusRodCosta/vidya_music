@@ -39,9 +39,14 @@ Future<void> main() async {
   final isAndroidQ = await isAndroidQOrHigher;
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: isAndroidQ ? Colors.transparent : Colors.black,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarContrastEnforced: false,
       statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemStatusBarContrastEnforced: false,
     ),
   );
 
@@ -123,7 +128,7 @@ class MyApp extends StatelessWidget {
         title: appName,
         theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
         darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        themeMode: context.watch<SettingsProvider>().themeMode,
+        themeMode: settingsProvider.themeMode,
         home: const MainPage(title: appName),
       ),
     );
