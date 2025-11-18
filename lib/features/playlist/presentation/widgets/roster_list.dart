@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:vidya_music/core/utils/build_context_l10n_ext.dart';
+import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/core/utils/measurements.dart';
 import 'package:vidya_music/features/audio_player/presentation/bloc/audio_player_cubit.dart';
 import 'package:vidya_music/features/playlist/presentation/bloc/playlist_cubit.dart';

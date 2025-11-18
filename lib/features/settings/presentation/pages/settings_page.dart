@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:vidya_music/core/utils/build_context_l10n_ext.dart';
-import 'package:vidya_music/core/utils/theme_mode_ext.dart';
+import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
+import 'package:vidya_music/core/utils/extensions/theme_mode_ext.dart';
 import 'package:vidya_music/features/settings/presentation/provider/settings_provider.dart';
 
 class SettingsPage extends StatelessWidget {

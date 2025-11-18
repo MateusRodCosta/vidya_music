@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vidya_music/core/singletons/package_info_singleton.dart';
 import 'package:vidya_music/core/utils/branding.dart';
-import 'package:vidya_music/core/utils/build_context_l10n_ext.dart';
+import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/features/playlist/domain/entities/playlist.dart';
 import 'package:vidya_music/features/playlist/presentation/bloc/playlist_cubit.dart';
 import 'package:vidya_music/features/settings/presentation/pages/settings_page.dart';

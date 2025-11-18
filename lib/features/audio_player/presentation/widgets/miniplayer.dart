@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vidya_music/core/utils/branding.dart';
-import 'package:vidya_music/core/utils/build_context_l10n_ext.dart';
+import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/features/audio_player/presentation/widgets/player.dart';
 import 'package:vidya_music/features/audio_player/presentation/widgets/player_controls.dart';
 import 'package:vidya_music/features/audio_player/presentation/widgets/player_progress_bar.dart';
