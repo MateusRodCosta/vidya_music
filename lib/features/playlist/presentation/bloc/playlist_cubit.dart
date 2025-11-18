@@ -16,6 +16,7 @@ part 'playlist_state.dart';
 class PlaylistCubit extends Cubit<PlaylistState> {
   PlaylistCubit(this._getConfigAndLoadRosterUseCase, this._loadRosterUseCase)
     : super(PlaylistStateInitial()) {
+    // ignore: discarded_futures
     _decodeConfig();
   }
 

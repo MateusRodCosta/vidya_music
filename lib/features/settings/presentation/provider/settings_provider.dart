@@ -5,6 +5,7 @@ import 'package:vidya_music/core/singletons/shared_preferences_singleton.dart';
 
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
+    // ignore: discarded_futures
     _init();
   }
 

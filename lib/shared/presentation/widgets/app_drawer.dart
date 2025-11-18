@@ -149,7 +149,6 @@ class AppDrawer extends StatelessWidget {
       onTap: () async {
         final packageInfo = await PackageInfoSingleton.instance;
 
-        // ignore: use_build_context_synchronously
         if (!context.mounted) return;
 
         showAboutDialog(
@@ -166,8 +165,8 @@ class AppDrawer extends StatelessWidget {
                 context.l10n.aboutDialogVipCats777,
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
-              onTap: () {
-                launchUrl(
+              onTap: () async {
+                await launchUrl(
                   Uri.parse('https://www.vipvgm.net/'),
                   mode: LaunchMode.externalApplication,
                 );
@@ -191,8 +190,8 @@ class AppDrawer extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchUrl(
+                      ..onTap = () async {
+                        await launchUrl(
                           Uri.parse(
                             'https://github.com/MateusRodCosta/vidya_music',
                           ),

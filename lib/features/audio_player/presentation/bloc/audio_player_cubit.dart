@@ -18,7 +18,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
        super(const AudioPlayerState()) {
     _playlistSubscription = _playlistCubit.stream.listen((playlistState) {
       if (playlistState is PlaylistStateSuccess) {
+        // ignore: discarded_futures
         _audioPlayerService.setPlaylist(playlistState.roster.tracks);
+        // ignore: discarded_futures
         play();
       }
     });

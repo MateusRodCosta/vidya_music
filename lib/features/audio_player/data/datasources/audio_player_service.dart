@@ -5,6 +5,7 @@ import 'package:vidya_music/features/playlist/domain/entities/track.dart';
 
 class AudioPlayerService {
   AudioPlayerService() {
+    // ignore: discarded_futures
     _init();
   }
 
@@ -71,6 +72,7 @@ class AudioPlayerService {
   }
 
   void dispose() {
+    // ignore: discarded_futures
     _audioPlayer.dispose();
   }
 }
