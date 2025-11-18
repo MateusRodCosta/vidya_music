@@ -23,9 +23,12 @@ Future<Uri?> getPlayerArtFromAssets() async {
     var shouldWriteFile = true;
 
     if (file.existsSync()) {
-      final existingFileBytes = await file.readAsBytes();
-      if (listEquals(assetBytes, existingFileBytes)) {
-        shouldWriteFile = false;
+      // Only check content if sizes match
+      if (await file.length() == assetBytes.length) {
+        final existingFileBytes = await file.readAsBytes();
+        if (listEquals(assetBytes, existingFileBytes)) {
+          shouldWriteFile = false;
+        }
       }
     }
 
@@ -34,9 +37,17 @@ Future<Uri?> getPlayerArtFromAssets() async {
     }
 
     return Uri.file(filePath);
-  } catch (e, s) {
+  } on Exception catch (e, s) {
     developer.log(
       e.toString(),
+      name: 'getPlayerArtFromAssets',
+      error: e,
+      stackTrace: s,
+    );
+    return null;
+  } on Object catch (e, s) {
+    developer.log(
+      'Failed to load asset art',
       name: 'getPlayerArtFromAssets',
       error: e,
       stackTrace: s,
