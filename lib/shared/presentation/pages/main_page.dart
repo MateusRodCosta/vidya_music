@@ -22,7 +22,7 @@ class MainPage extends StatelessWidget {
       body: isLarge
           ? Row(
               children: [
-                body,
+                Expanded(child: body),
                 AppDrawer(isLargeScreen: isLarge),
               ],
             )
