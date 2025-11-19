@@ -1,8 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:vidya_music/core/singletons/package_info_singleton.dart';
 import 'package:vidya_music/core/utils/branding.dart';
 import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/features/playlist/domain/entities/playlist.dart';
@@ -60,7 +57,6 @@ class AppDrawer extends StatelessWidget {
                         ),
                       _buildDivider(context),
                       _buildSettingsTile(context),
-                      _buildAboutTile(context),
                     ],
                   ),
                 );
@@ -138,73 +134,6 @@ class AppDrawer extends StatelessWidget {
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute<void>(builder: (context) => const SettingsPage()),
       ),
-    );
-  }
-
-  ListTile _buildAboutTile(BuildContext context) {
-    return ListTile(
-      shape: _getDrawerListTileShape(),
-      leading: const Icon(Icons.help_outline),
-      title: Text(context.l10n.drawerAboutTile),
-      onTap: () async {
-        final packageInfo = await PackageInfoSingleton.instance;
-
-        if (!context.mounted) return;
-
-        showAboutDialog(
-          context: context,
-          applicationName: packageInfo.appName,
-          applicationVersion: packageInfo.version,
-          applicationLegalese: context.l10n.aboutDialogLicense,
-          children: [
-            const SizedBox(height: 8),
-            Text(context.l10n.aboutDialogAppDescription),
-            const SizedBox(height: 8),
-            GestureDetector(
-              child: Text(
-                context.l10n.aboutDialogVipCats777,
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-              onTap: () async {
-                await launchUrl(
-                  Uri.parse('https://www.vipvgm.net/'),
-                  mode: LaunchMode.externalApplication,
-                );
-              },
-            ),
-            const SizedBox(height: 8),
-            Text(context.l10n.aboutDialogCopyrightNotice),
-            const SizedBox(height: 8),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: context.l10n.aboutDialogSourceCode,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyMedium?.color,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'https://github.com/MateusRodCosta/vidya_music',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () async {
-                        await launchUrl(
-                          Uri.parse(
-                            'https://github.com/MateusRodCosta/vidya_music',
-                          ),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 

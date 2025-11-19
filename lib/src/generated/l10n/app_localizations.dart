@@ -154,6 +154,24 @@ abstract class AppLocalizations {
   /// **'{composer} (Composer)'**
   String playerComposer(Object composer);
 
+  /// No description provided for @drawerSettingsTile.
+  ///
+  /// In en_US, this message translates to:
+  /// **'Settings'**
+  String get drawerSettingsTile;
+
+  /// No description provided for @settingsPageTitle.
+  ///
+  /// In en_US, this message translates to:
+  /// **'Settings'**
+  String get settingsPageTitle;
+
+  /// No description provided for @settingsAppearanceHeader.
+  ///
+  /// In en_US, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearanceHeader;
+
   /// No description provided for @themeModeHeader.
   ///
   /// In en_US, this message translates to:
@@ -178,17 +196,17 @@ abstract class AppLocalizations {
   /// **'Dark Theme'**
   String get themeModeDark;
 
-  /// No description provided for @drawerSettingsTile.
-  ///
-  /// In en_US, this message translates to:
-  /// **'Settings'**
-  String get drawerSettingsTile;
-
-  /// No description provided for @drawerAboutTile.
+  /// No description provided for @settingsAboutHeader.
   ///
   /// In en_US, this message translates to:
   /// **'About'**
-  String get drawerAboutTile;
+  String get settingsAboutHeader;
+
+  /// No description provided for @aboutTile.
+  ///
+  /// In en_US, this message translates to:
+  /// **'About'**
+  String get aboutTile;
 
   /// No description provided for @aboutDialogLicense.
   ///
@@ -219,18 +237,6 @@ abstract class AppLocalizations {
   /// In en_US, this message translates to:
   /// **'Source code is available at '**
   String get aboutDialogSourceCode;
-
-  /// No description provided for @settingsPageTitle.
-  ///
-  /// In en_US, this message translates to:
-  /// **'Settings'**
-  String get settingsPageTitle;
-
-  /// No description provided for @settingsAppearanceHeader.
-  ///
-  /// In en_US, this message translates to:
-  /// **'Appearance'**
-  String get settingsAppearanceHeader;
 }
 
 class _AppLocalizationsDelegate

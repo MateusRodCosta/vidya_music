@@ -40,6 +40,15 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get drawerSettingsTile => 'Settings';
+
+  @override
+  String get settingsPageTitle => 'Settings';
+
+  @override
+  String get settingsAppearanceHeader => 'Appearance';
+
+  @override
   String get themeModeHeader => 'Theme';
 
   @override
@@ -52,10 +61,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeModeDark => 'Dark Theme';
 
   @override
-  String get drawerSettingsTile => 'Settings';
+  String get settingsAboutHeader => 'About';
 
   @override
-  String get drawerAboutTile => 'About';
+  String get aboutTile => 'About';
 
   @override
   String get aboutDialogLicense =>
@@ -74,12 +83,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
-
-  @override
-  String get settingsPageTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceHeader => 'Appearance';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -119,6 +122,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
+  String get drawerSettingsTile => 'Configurações';
+
+  @override
+  String get settingsPageTitle => 'Configurações';
+
+  @override
+  String get settingsAppearanceHeader => 'Aparência';
+
+  @override
   String get themeModeHeader => 'Tema';
 
   @override
@@ -131,10 +143,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get themeModeDark => 'Tema Escuro';
 
   @override
-  String get drawerSettingsTile => 'Configurações';
+  String get settingsAboutHeader => 'Sobre';
 
   @override
-  String get drawerAboutTile => 'Sobre';
+  String get aboutTile => 'Sobre';
 
   @override
   String get aboutDialogLicense =>
@@ -153,10 +165,4 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get aboutDialogSourceCode => 'O código fonte está disponível em ';
-
-  @override
-  String get settingsPageTitle => 'Configurações';
-
-  @override
-  String get settingsAppearanceHeader => 'Aparência';
 }

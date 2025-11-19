@@ -40,6 +40,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get drawerSettingsTile => 'Settings';
+
+  @override
+  String get settingsPageTitle => 'Settings';
+
+  @override
+  String get settingsAppearanceHeader => 'Appearance';
+
+  @override
   String get themeModeHeader => 'Theme';
 
   @override
@@ -52,10 +61,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get themeModeDark => 'Dark Theme';
 
   @override
-  String get drawerSettingsTile => 'Settings';
+  String get settingsAboutHeader => 'About';
 
   @override
-  String get drawerAboutTile => 'About';
+  String get aboutTile => 'About';
 
   @override
   String get aboutDialogLicense =>
@@ -74,12 +83,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
-
-  @override
-  String get settingsPageTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceHeader => 'Appearance';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -118,6 +121,15 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   }
 
   @override
+  String get drawerSettingsTile => 'Settings';
+
+  @override
+  String get settingsPageTitle => 'Settings';
+
+  @override
+  String get settingsAppearanceHeader => 'Appearance';
+
+  @override
   String get themeModeHeader => 'Theme';
 
   @override
@@ -130,10 +142,10 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   String get themeModeDark => 'Dark Theme';
 
   @override
-  String get drawerSettingsTile => 'Settings';
+  String get settingsAboutHeader => 'About';
 
   @override
-  String get drawerAboutTile => 'About';
+  String get aboutTile => 'About';
 
   @override
   String get aboutDialogLicense =>
@@ -152,10 +164,4 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
-
-  @override
-  String get settingsPageTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceHeader => 'Appearance';
 }
