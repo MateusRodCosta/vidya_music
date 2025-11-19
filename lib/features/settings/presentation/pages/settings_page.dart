@@ -17,6 +17,10 @@ class SettingsPage extends StatelessWidget {
     ThemeMode.dark,
   ];
 
+  RoundedRectangleBorder _getListTileShape() {
+    return RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +62,7 @@ class SettingsPage extends StatelessWidget {
     required ThemeMode themeMode,
   }) {
     return ListTile(
+      shape: _getListTileShape(),
       leading: Icon(themeMode.icon),
       title: Text(themeMode.l10n(context)),
       onTap: () async {
@@ -71,6 +76,7 @@ class SettingsPage extends StatelessWidget {
   Widget _buildThemeSelectorTile() {
     return Consumer<SettingsProvider>(
       builder: (context, value, child) => ListTile(
+        shape: _getListTileShape(),
         leading: const Icon(Icons.brush_outlined),
         title: Text(context.l10n.themeModeHeader),
         subtitle: Text(value.themeMode.l10n(context)),
@@ -104,6 +110,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildAboutTile(BuildContext context) {
     return ListTile(
+      shape: _getListTileShape(),
       leading: const Icon(Icons.help_outline),
       title: Text(context.l10n.aboutTile),
       onTap: () async {
