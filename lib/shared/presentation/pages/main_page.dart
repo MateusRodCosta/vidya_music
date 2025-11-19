@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vidya_music/core/utils/measurements.dart';
+import 'package:vidya_music/core/theme/measurements.dart';
 import 'package:vidya_music/features/audio_player/presentation/widgets/miniplayer.dart';
 import 'package:vidya_music/features/playlist/presentation/bloc/playlist_cubit.dart';
 import 'package:vidya_music/features/playlist/presentation/widgets/roster_list.dart';
