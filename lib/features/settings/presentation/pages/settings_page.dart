@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vidya_music/core/singletons/package_info_singleton.dart';
-
+import 'package:vidya_music/core/theme/app_theme.dart';
 import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/core/utils/extensions/theme_mode_ext.dart';
 import 'package:vidya_music/features/settings/presentation/provider/settings_provider.dart';
@@ -16,10 +16,6 @@ class SettingsPage extends StatelessWidget {
     ThemeMode.light,
     ThemeMode.dark,
   ];
-
-  RoundedRectangleBorder _getListTileShape() {
-    return RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +58,7 @@ class SettingsPage extends StatelessWidget {
     required ThemeMode themeMode,
   }) {
     return ListTile(
-      shape: _getListTileShape(),
+      shape: listTileShape,
       leading: Icon(themeMode.icon),
       title: Text(themeMode.l10n(context)),
       onTap: () async {
@@ -76,7 +72,7 @@ class SettingsPage extends StatelessWidget {
   Widget _buildThemeSelectorTile() {
     return Consumer<SettingsProvider>(
       builder: (context, value, child) => ListTile(
-        shape: _getListTileShape(),
+        shape: listTileShape,
         leading: const Icon(Icons.brush_outlined),
         title: Text(context.l10n.themeModeHeader),
         subtitle: Text(value.themeMode.l10n(context)),
@@ -110,7 +106,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildAboutTile(BuildContext context) {
     return ListTile(
-      shape: _getListTileShape(),
+      shape: listTileShape,
       leading: const Icon(Icons.help_outline),
       title: Text(context.l10n.aboutTile),
       onTap: () async {

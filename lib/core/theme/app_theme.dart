@@ -7,7 +7,10 @@ ColorScheme get lightColorScheme =>
     ColorScheme.fromSeed(seedColor: seedColor, tertiary: tertiaryColor);
 
 ColorScheme get darkColorScheme => ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.dark,
-      tertiary: tertiaryColor,
-    );
+  seedColor: seedColor,
+  brightness: Brightness.dark,
+  tertiary: tertiaryColor,
+);
+
+RoundedRectangleBorder get listTileShape =>
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));

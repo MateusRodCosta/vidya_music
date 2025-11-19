@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vidya_music/core/theme/app_theme.dart';
 import 'package:vidya_music/core/utils/branding.dart';
 import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/features/playlist/domain/entities/playlist.dart';
@@ -114,7 +115,7 @@ class AppDrawer extends StatelessWidget {
     bool isSelected,
   ) {
     return ListTile(
-      shape: _getDrawerListTileShape(),
+      shape: listTileShape,
       leading: const Icon(Icons.music_note),
       title: Text(playlist.name),
       subtitle: Text(playlist.description),
@@ -128,16 +129,12 @@ class AppDrawer extends StatelessWidget {
 
   ListTile _buildSettingsTile(BuildContext context) {
     return ListTile(
-      shape: _getDrawerListTileShape(),
+      shape: listTileShape,
       leading: const Icon(Icons.settings_outlined),
       title: Text(context.l10n.drawerSettingsTile),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute<void>(builder: (context) => const SettingsPage()),
       ),
     );
-  }
-
-  RoundedRectangleBorder _getDrawerListTileShape() {
-    return RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
   }
 }
