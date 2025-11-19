@@ -1,0 +1,6 @@
+• Ported to Clean Architecture
+• Upgraded Flutter to 3.35.7
+• Upgraded dependencies and tooling
+• Edge-to-edge improvements
+• Support Android 16
+• Many minor UI improvements and under-the-hood changes
