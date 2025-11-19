@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vidya_music/config/branding.dart';
 import 'package:vidya_music/core/theme/app_theme.dart';
-import 'package:vidya_music/core/utils/branding.dart';
 import 'package:vidya_music/core/utils/extensions/build_context_l10n_ext.dart';
 import 'package:vidya_music/features/playlist/domain/entities/playlist.dart';
 import 'package:vidya_music/features/playlist/presentation/bloc/playlist_cubit.dart';

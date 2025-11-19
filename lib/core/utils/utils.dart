@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:vidya_music/core/utils/branding.dart';
+import 'package:vidya_music/config/branding.dart';
 
 Future<Uri?> getPlayerArtFromAssets() async {
   try {

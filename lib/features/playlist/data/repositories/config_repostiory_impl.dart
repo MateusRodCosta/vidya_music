@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:vidya_music/core/utils/branding.dart';
+import 'package:vidya_music/config/branding.dart';
 import 'package:vidya_music/features/playlist/domain/entities/config.dart';
 import 'package:vidya_music/features/playlist/domain/repositories/config_repository.dart';
 
