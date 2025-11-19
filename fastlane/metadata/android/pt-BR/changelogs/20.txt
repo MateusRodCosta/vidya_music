@@ -1,0 +1,6 @@
+• Port para Clean Architecture
+• Flutter atualizado para 3.35.7
+• Atualizações de dependências e tooling
+• Melhorias de edge-to-edge
+• Suporte ao Android 16
+• Várias pequenas melhorias de UI e mudanças por debaixo dos panos

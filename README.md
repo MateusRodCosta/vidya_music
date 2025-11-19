@@ -17,7 +17,7 @@ Or download the latest APK from the [Releases Section](https://github.com/Mateus
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/MateusRodCosta/vidya_music/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="540">
-<img src="https://raw.githubusercontent.com/MateusRodCosta/vidya_music/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="540">
-<img src="https://raw.githubusercontent.com/MateusRodCosta/vidya_music/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="540">
-<img src="https://raw.githubusercontent.com/MateusRodCosta/vidya_music/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="540">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="540">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="540">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="540">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="540">

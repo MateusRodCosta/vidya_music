@@ -23,13 +23,12 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "com.mateusrodcosta.apps.vidyamusic"
     compileSdk = 36
-    ndkVersion = "27.2.12479018"
+    ndkVersion = "27.3.13750724"
 
     defaultConfig {
         applicationId = "com.mateusrodcosta.apps.vidyamusic"
         minSdk = 28
-        //noinspection OldTargetApi
-        targetSdk = 35
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
@@ -74,9 +73,16 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             manifestPlaceholders["appName"] = "Vidya Music (Debug)"
+
+            signingConfig = signingConfigs.getByName("debug").apply {
+                // Force v3-only signing on debug builds
+                enableV2Signing = false
+                enableV3Signing = true
+            }
         }
         getByName("profile") {
-            applicationIdSuffix = ".profile"
+            // Commented out due to https://github.com/flutter/flutter/issues/169215
+            // applicationIdSuffix = ".profile"
             versionNameSuffix = "-profile"
             manifestPlaceholders["appName"] = "Vidya Music (Profile)"
         }
@@ -132,7 +138,7 @@ flutter {
 }
 
 dependencies {
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.core:core-splashscreen:1.2.0")
 }
 
 val abiCodes = mapOf("armeabi-v7a" to 1, "arm64-v8a" to 2, "x86_64" to 4)

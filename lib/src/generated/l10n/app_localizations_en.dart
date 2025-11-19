@@ -40,6 +40,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get drawerSettingsTile => 'Settings';
+
+  @override
+  String get settingsPageTitle => 'Settings';
+
+  @override
+  String get settingsAppearanceHeader => 'Appearance';
+
+  @override
   String get themeModeHeader => 'Theme';
 
   @override
@@ -52,36 +61,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get themeModeDark => 'Dark Theme';
 
   @override
-  String get drawerSettingsTile => 'Settings';
+  String get settingsAboutHeader => 'About';
 
   @override
-  String get drawerAboutTile => 'About';
+  String get aboutTile => 'About';
 
   @override
-  String get aboutDialogLicense => 'Licensed under AGPLv3+, developed by MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licensed under AGPLv3+, developed by MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist by Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'All Tracks © & ℗ Their Respective Owners';
+  String get aboutDialogCopyrightNotice =>
+      'All Tracks © & ℗ Their Respective Owners';
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
-
-  @override
-  String get settingsPageTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceHeader => 'Appearance';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
 class AppLocalizationsEnUs extends AppLocalizationsEn {
-  AppLocalizationsEnUs(): super('en_US');
+  AppLocalizationsEnUs() : super('en_US');
 
   @override
   String get currentPlaylist => 'Current Playlist';
@@ -115,6 +121,15 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   }
 
   @override
+  String get drawerSettingsTile => 'Settings';
+
+  @override
+  String get settingsPageTitle => 'Settings';
+
+  @override
+  String get settingsAppearanceHeader => 'Appearance';
+
+  @override
   String get themeModeHeader => 'Theme';
 
   @override
@@ -127,29 +142,26 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   String get themeModeDark => 'Dark Theme';
 
   @override
-  String get drawerSettingsTile => 'Settings';
+  String get settingsAboutHeader => 'About';
 
   @override
-  String get drawerAboutTile => 'About';
+  String get aboutTile => 'About';
 
   @override
-  String get aboutDialogLicense => 'Licensed under AGPLv3+, developed by MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licensed under AGPLv3+, developed by MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist by Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'All Tracks © & ℗ Their Respective Owners';
+  String get aboutDialogCopyrightNotice =>
+      'All Tracks © & ℗ Their Respective Owners';
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
-
-  @override
-  String get settingsPageTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceHeader => 'Appearance';
 }

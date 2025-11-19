@@ -40,6 +40,15 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get drawerSettingsTile => 'Settings';
+
+  @override
+  String get settingsPageTitle => 'Settings';
+
+  @override
+  String get settingsAppearanceHeader => 'Appearance';
+
+  @override
   String get themeModeHeader => 'Theme';
 
   @override
@@ -52,42 +61,40 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeModeDark => 'Dark Theme';
 
   @override
-  String get drawerSettingsTile => 'Settings';
+  String get settingsAboutHeader => 'About';
 
   @override
-  String get drawerAboutTile => 'About';
+  String get aboutTile => 'About';
 
   @override
-  String get aboutDialogLicense => 'Licensed under AGPLv3+, developed by MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licensed under AGPLv3+, developed by MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'A player for the Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist by Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'All Tracks © & ℗ Their Respective Owners';
+  String get aboutDialogCopyrightNotice =>
+      'All Tracks © & ℗ Their Respective Owners';
 
   @override
   String get aboutDialogSourceCode => 'Source code is available at ';
-
-  @override
-  String get settingsPageTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceHeader => 'Appearance';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
 class AppLocalizationsPtBr extends AppLocalizationsPt {
-  AppLocalizationsPtBr(): super('pt_BR');
+  AppLocalizationsPtBr() : super('pt_BR');
 
   @override
   String get currentPlaylist => 'Playlist Atual';
 
   @override
-  String get playlistConfigDecodingError => 'Erro ao decodificar configuração de playlist';
+  String get playlistConfigDecodingError =>
+      'Erro ao decodificar configuração de playlist';
 
   @override
   String get genericError => 'Ocorreu um erro.';
@@ -115,6 +122,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
+  String get drawerSettingsTile => 'Configurações';
+
+  @override
+  String get settingsPageTitle => 'Configurações';
+
+  @override
+  String get settingsAppearanceHeader => 'Aparência';
+
+  @override
   String get themeModeHeader => 'Tema';
 
   @override
@@ -127,29 +143,26 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get themeModeDark => 'Tema Escuro';
 
   @override
-  String get drawerSettingsTile => 'Configurações';
+  String get settingsAboutHeader => 'Sobre';
 
   @override
-  String get drawerAboutTile => 'Sobre';
+  String get aboutTile => 'Sobre';
 
   @override
-  String get aboutDialogLicense => 'Licenciado sob a AGPLv3+, desenvolvido por MateusRodCosta';
+  String get aboutDialogLicense =>
+      'Licenciado sob a AGPLv3+, desenvolvido por MateusRodCosta';
 
   @override
-  String get aboutDialogAppDescription => 'Um player para a Vidya Intarweb Playlist (aka VIP Aersia)';
+  String get aboutDialogAppDescription =>
+      'Um player para a Vidya Intarweb Playlist (aka VIP Aersia)';
 
   @override
   String get aboutDialogVipCats777 => 'Vidya Intarweb Playlist por Cats777';
 
   @override
-  String get aboutDialogCopyrightNotice => 'Todas as Faixas © & ℗ Seus Respectivos Donos';
+  String get aboutDialogCopyrightNotice =>
+      'Todas as Faixas © & ℗ Seus Respectivos Donos';
 
   @override
   String get aboutDialogSourceCode => 'O código fonte está disponível em ';
-
-  @override
-  String get settingsPageTitle => 'Configurações';
-
-  @override
-  String get settingsAppearanceHeader => 'Aparência';
 }
