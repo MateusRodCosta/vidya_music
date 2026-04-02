@@ -1,5 +1,7 @@
 # Vidya Music
 
+> **DEPRECATION NOTICE**: This version was replaced by the Jetpack Compose rewrite. See [here](https://github.com/MateusRodCosta/VidyaMusic) for the newer verison. 
+
 [![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 
 A Flutter player for the [Vidya Intarweb Playlist](https://www.vipvgm.net/) (aka VIP Aersia).
